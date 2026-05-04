@@ -14,8 +14,10 @@ role ENUM('Volunteer', 'Admin', 'Event Manager') DEFAULT 'Volunteer')
 
 CREATE TABLE IF NOT EXISTS Availability(
     log_id INT AUTO_INCREMENT PRIMARY KEY,
-    uid INT FOREIGN KEY,
-    week 
+    uid INT FOREIGN KEY NULL,
+    log_year YEAR NOT NULL
+    week_number TINYINT NOT NULL,
+    available_hours DECIMAL(4,2)
 
 )
 
