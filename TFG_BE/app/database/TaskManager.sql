@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS Availability(
     week_number TINYINT NOT NULL,
     available_hours DECIMAL(4,2),
     FOREIGN KEY(uid) REFERENCES Users(uid)
+    CONSTRAINT unique_user_week UNIQUE (uid, timelog_year, week_number)
 );
 
 CREATE TABLE IF NOT EXISTS Projects(
