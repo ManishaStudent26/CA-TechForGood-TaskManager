@@ -3,5 +3,3 @@ def setAvailability(uid,week,hours):
 
 
 def getAvailability():
-
-

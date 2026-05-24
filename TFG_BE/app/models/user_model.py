@@ -17,7 +17,7 @@ class User:
             return cls(row['uid'], row['email'], row['password_hash'], row['name'], row['role'])
         return None
 
-       """def getUserByID(cls):
+        """def getUserByID(cls):
         
         def createUser(cls):"""
     
