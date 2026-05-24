@@ -3,6 +3,9 @@ Udate 23/05/26
 Fix 1: Foreign key at end of table definition instead of middle due to error.
 Fix found based on gemini input but manually editted.
 Fix 2: adjust minor structural details to fix logic of data structure.
+Feat: set constrained on Availability table
+Update 24/05/26
+Fix: Was missing a comma
 */
 CREATE DATABASE IF NOT EXISTS TaskManager_DB
 CHARACTER SET utf8mb4
@@ -25,7 +28,7 @@ CREATE TABLE IF NOT EXISTS Availability(
     timelog_year YEAR NOT NULL,
     week_number TINYINT NOT NULL,
     available_hours DECIMAL(4,2),
-    FOREIGN KEY(uid) REFERENCES Users(uid)
+    FOREIGN KEY(uid) REFERENCES Users(uid),
     CONSTRAINT unique_user_week UNIQUE (uid, timelog_year, week_number)
 );
 
