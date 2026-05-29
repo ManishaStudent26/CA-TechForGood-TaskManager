@@ -1,7 +1,7 @@
 INSERT INTO Users (uid, email, password_hash, name, phonenumber, role) VALUES
-(1, 'admin.sarah@email.com', 'scrypt:32768:8:1$uH9x1a...', 'Sarah Jenkins', '0871112222', 'Admin'),
-(2, 'manager.alex@email.com', 'scrypt:32768:8:1$uH9x1a...', 'Alex Rivera', '0873334444', 'Event Manager'),
-(3, 'volunteer.dan@email.com', 'scrypt:32768:8:1$uH9x1a...', 'Dan Robinson', '0875556666', 'Volunteer');
+(1, 'admin.sarah@email.com', 'scrypt:32768:8:1$tTtj9ZP12ExhvFZF$d444eb21733cc836e3039a6f51b6e435db5743346361bc5b385f450f102b23cd400717c3bd7033850af0414caee62a3b29773644541a2b8a781e64c1e9ec44ed', 'Sarah Jenkins', '0871112222', 'Admin'),
+(2, 'manager.alex@email.com', 'scrypt:32768:8:1$tTtj9ZP12ExhvFZF$d444eb21733cc836e3039a6f51b6e435db5743346361bc5b385f450f102b23cd400717c3bd7033850af0414caee62a3b29773644541a2b8a781e64c1e9ec44ed', 'Alex Rivera', '0873334444', 'Event Manager'),
+(3, 'volunteer.dan@email.com', 'scrypt:32768:8:1$tTtj9ZP12ExhvFZF$d444eb21733cc836e3039a6f51b6e435db5743346361bc5b385f450f102b23cd400717c3bd7033850af0414caee62a3b29773644541a2b8a781e64c1e9ec44ed', 'Dan Robinson', '0875556666', 'Volunteer');
 
 
 INSERT INTO Availability (uid, timelog_year, week_number, available_hours) 
