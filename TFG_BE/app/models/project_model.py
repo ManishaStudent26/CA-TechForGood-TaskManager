@@ -3,10 +3,10 @@ class Project:
 
 
 @classmethod
-def getProject:
+def getProjectbyUID:
 
 @classmethod
-def setProject:
+def createProject:
 
 @classmethod
 def deleteProject:
