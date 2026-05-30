@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext'; // Path to where your hook lives
+import { useAuth } from '../auth/AuthContext';
+import { Container, Paper, Typography, Alert, Stack, TextField, Button } from '@mui/material';
 
 export default function LoginPage() {
   const { login, role } = useAuth();
