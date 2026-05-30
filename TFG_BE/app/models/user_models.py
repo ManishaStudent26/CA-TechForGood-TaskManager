@@ -1,5 +1,4 @@
 from config.db import get_db_connection
-from werkzeug.security import check_password_hash
 
 class User:
     def __init__(self, uid, email, password_hash, name, role):
@@ -19,10 +18,5 @@ class User:
         if row:
             return cls(row['uid'], row['email'], row['password_hash'], row['name'], row['role'])
         return None
-
-        """def getUserByID(cls):
-        
-        def createUser(cls):"""
-    
 
         
