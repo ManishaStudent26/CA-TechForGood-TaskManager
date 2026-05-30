@@ -8,3 +8,12 @@ env/
 Thumbs.db
 .vscode/
 .env
+.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+node_modules/
+dist/
+dist-ssr/
+*.local
+.vscode/
