@@ -35,23 +35,36 @@ def getProjectbyManager(cls,user_uid):
     connection= get_db_connection()
     cursor=connection.cursor(dictionary=True)
     try:
-        query = "SELECT  a.*, b.COUNT(Task_ID) AS opentasks FROM Projects a JOIN WHERE a.project_id=b.project_id AND a.project_owner = %s AND b.status NOT IN 'Completed' "
-        cursor.execute(query, (user_uid,))
-        rows = cursor.fetchall()
-        projects = []
-        for row in rows:
-            projects.append(cls(
-                pid=row['project_id'],
-                project_name=row['project_name'],
-                project_start=row['project_start'],
-                project_end=row['project_end'],
-                opentasks=row('opentasks')
-            ))
-        return projects
-    finally:
-        cursor.close()
-        connection.close()
-
+            query = """
+                SELECT 
+                    p.project_id, 
+                    p.project_owner, 
+                    p.project_name, 
+                    p.project_start, 
+                    p.project_end, 
+                    COUNT(t.Task_ID) AS opentasks 
+                FROM Projects p 
+                LEFT JOIN Tasks t ON p.project_id = t.project_id AND t.status != 'Completed'
+                WHERE p.project_owner = %s 
+                GROUP BY p.project_id
+            """
+            cursor.execute(query, (user_uid,))
+            rows = cursor.fetchall()
+            
+            projects = []
+            for row in rows:
+                projects.append(cls(
+                    pid=row['project_id'],
+                    project_owner=row['project_owner'],
+                    project_name=row['project_name'],
+                    project_start=row['project_start'],
+                    project_end=row['project_end'],
+                    opentasks=row['opentasks']
+                ))
+            return projects
+        finally:
+            cursor.close()
+            connection.close()
 @classmethod
 def createProject:
 
