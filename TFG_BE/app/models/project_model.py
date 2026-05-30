@@ -62,9 +62,9 @@ def getProjectbyManager(cls,user_uid):
                     opentasks=row['opentasks']
                 ))
             return projects
-        finally:
-            cursor.close()
-            connection.close()
+    finally:
+        cursor.close()
+        connection.close()
 @classmethod
 def createProject:
 

@@ -1,11 +1,13 @@
 from flask import Flask
 from routes.user_routes import user_bp 
 from routes.auth_routes import auth_bp
+from routes.project_routes import projects_bp
 
 app = Flask(__name__)
 
 app.register_blueprint(user_bp)
 app.register_blueprint(auth_bp)
+app.register_blueprint(projects_bp)
 
 
 if __name__ == '__main__':
