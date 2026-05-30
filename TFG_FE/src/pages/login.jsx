@@ -11,18 +11,15 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const [loading, setLoading] = useState(false);
-const [error, setError] = useState("");
 async function onSubmit(e) {
 e.preventDefault();
 setError("");
 setLoading(true);
 try {
 await login(email, password);
-// Role-based redirect ADJUST BASED ON current
-if (role === "") nav("/lecturer");
-else nav("/student/checkin");
-} catch (err) {
+nav("/Dashboard");
+}
+catch (err) {
 setError(err.message);
 } finally {
 setLoading(false);
@@ -33,7 +30,7 @@ return (
 <Paper sx={{ p: 3 }}>
 <Typography variant="h4" gutterBottom>Login</Typography>
 <Typography variant="body2" sx={{ mb: 2 }}>
-Sign in to access the lecturer dashboard or student check-in.
+Sign in to access the Task Manager
 </Typography>
 {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 <Stack component="form" spacing={2} onSubmit={onSubmit}>
