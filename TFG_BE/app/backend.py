@@ -1,9 +1,11 @@
 from flask import Flask
+from flask_cors import CORS
 from routes.user_routes import user_bp 
 from routes.auth_routes import auth_bp
 from routes.project_routes import projects_bp
 
 app = Flask(__name__)
+CORS(app)
 
 app.register_blueprint(user_bp)
 app.register_blueprint(auth_bp)
