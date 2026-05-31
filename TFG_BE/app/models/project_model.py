@@ -78,11 +78,9 @@ def createProject(cls, project_owner, project_name, project_start, project_end):
             VALUES (%s, %s, %s, %s)
             """
             cursor.execute(query, (project_owner, project_name, project_start, project_end))
-            connection.commit() # 🔥 CRITICAL: Saves the changes to MySQL
+            connection.commit()
             
-            new_id = cursor.lastrowid # Grabs the Auto-Incremented ID
-            
-            # Return an instance of the newly created Project
+            new_id = cursor.lastrowid
             return cls(
                 pid=new_id,
                 project_owner=project_owner,
@@ -107,9 +105,7 @@ def editProject(cls, pid, project_name, project_start, project_end):
             WHERE project_id = %s
             """
             cursor.execute(query, (project_name, project_start, project_end, pid))
-            connection.commit() # 🔥 Save updates
-            
-            # Returns True if a row was updated, False if ID wasn't found
+            connection.commit()
             return cursor.rowcount > 0 
         finally:
             cursor.close()
