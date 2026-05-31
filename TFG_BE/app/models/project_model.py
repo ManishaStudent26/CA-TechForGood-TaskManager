@@ -68,8 +68,62 @@ class Project:
         finally:
             cursor.close()
             connection.close()
-"""@classmethod
-def createProject:
+@classmethod
+def createProject(cls, project_owner, project_name, project_start, project_end):
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        try:
+            query = """
+            INSERT INTO Projects (project_owner, project_name, project_start, project_end)
+            VALUES (%s, %s, %s, %s)
+            """
+            cursor.execute(query, (project_owner, project_name, project_start, project_end))
+            connection.commit() # 🔥 CRITICAL: Saves the changes to MySQL
+            
+            new_id = cursor.lastrowid # Grabs the Auto-Incremented ID
+            
+            # Return an instance of the newly created Project
+            return cls(
+                pid=new_id,
+                project_owner=project_owner,
+                project_name=project_name,
+                project_start=project_start,
+                project_end=project_end,
+                project_status=None,
+                opentasks=0
+            )
+        finally:
+            cursor.close()
+            connection.close()
 
 @classmethod
-def deleteProject:"""
+def editProject(cls, pid, project_name, project_start, project_end):
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        try:
+            query = """
+            UPDATE Projects 
+            SET project_name = %s, project_start = %s, project_end = %s 
+            WHERE project_id = %s
+            """
+            cursor.execute(query, (project_name, project_start, project_end, pid))
+            connection.commit() # 🔥 Save updates
+            
+            # Returns True if a row was updated, False if ID wasn't found
+            return cursor.rowcount > 0 
+        finally:
+            cursor.close()
+            connection.close()
+
+@classmethod
+def deleteProject(cls, pid):
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        try:
+            query = "DELETE FROM Projects WHERE project_id = %s"
+            cursor.execute(query, (pid,))
+            connection.commit()          
+            return cursor.rowcount > 0
+        finally:
+            cursor.close()
+            connection.close()
