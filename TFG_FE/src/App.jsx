@@ -2,7 +2,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import React from 'react';
 import { AuthProvider } from './auth/AuthContext';
 import LoginPage from './pages/login'; 
-import DashboardPage from './pages/Dashboard';
+import ProjectDashboard from './pages/ProjectDashboard';
+import ProjectsDashboard from './pages/ProjectDashboard';
 
 export default function App() {
   return (
@@ -13,8 +14,8 @@ export default function App() {
           <Route path="/" element={<Navigate to="/login" replace />} />
           
           {/* Main Application Routes */}
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/Dashboard" element={<DashboardPage />} />
+          <Route path="/login" element={<LoginPage/>} />
+          <Route path="/Dashboard" element={<ProjectsDashboard/>} />
           
           {/* Fallback redirect for broken or mismatched URLs */}
           <Route path="*" element={<Navigate to="/login" replace />} />
