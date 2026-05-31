@@ -38,7 +38,41 @@ class Contributor:
             connection.close()
 
     @classmethod
-    def addContributortoProject():
+    def addContributortoProject(cls, pid, uid):
+        connection = get_db_connection()
+        cursor = connection.cursor(dictionary=True)
+        try:
+            role_query = "SELECT name, role FROM Users WHERE uid = %s"
+            cursor.execute(role_query, (uid,))
+            user_row = cursor.fetchone()
+            
+            if not user_row:
+                raise ValueError("User does not exist.")
+                
+            if user_row['role'] != 'Volunteer':
+                raise ValueError("Only users with the role 'Volunteer' can be added as contributors.")
+
+            duplicate_query = "SELECT contributor_id FROM ProjectsUsers WHERE project_id = %s AND uid = %s"
+            cursor.execute(duplicate_query, (pid, uid))
+            if cursor.fetchone():
+                raise ValueError("This user is already a contributor to this project.")
+
+            insert_query = """
+            INSERT INTO ProjectsUsers (project_id, uid)
+            VALUES (%s, %s)
+            """
+            cursor.execute(insert_query, (pid, uid))
+            connection.commit()
+            
+            return cls(
+                cid=cursor.lastrowid,
+                pid=pid,
+                uid=uid,
+                name=user_row['name']
+            )
+        finally:
+            cursor.close()
+            connection.close()
 
     @classmethod
     def removeContributorfromProject():
