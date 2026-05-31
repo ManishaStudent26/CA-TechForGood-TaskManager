@@ -75,4 +75,18 @@ class Contributor:
             connection.close()
 
     @classmethod
-    def removeContributorfromProject():
+    def removeContributorfromProject(cls, cid):
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        try:
+            query = """
+            DELETE FROM ProjectsUsers 
+            WHERE contributor_id = %s
+            """
+            cursor.execute(query, (cid,))
+            connection.commit()
+            
+            return cursor.rowcount > 0
+        finally:
+            cursor.close()
+            connection.close()
