@@ -1,7 +1,7 @@
 from config.db import get_db_connection
 from datetime import date
 class Task:
-    def __init__(self, taskid, taskname, taskowner, pid, startdate, targetdate, taskpri, weight, progress, status, overdue):
+    def __init__(self, taskid, taskname, taskowner, project_name, startdate, targetdate, taskpri, weight, progress, status, overdue):
      self.taskid=taskid
      self.taskname=taskname
      self.taskowner=taskowner
