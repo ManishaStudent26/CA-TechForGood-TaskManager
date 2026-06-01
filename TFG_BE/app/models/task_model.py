@@ -23,10 +23,16 @@ class Task:
           return True
         else:
           return False
-
+    
        
     @classmethod
-    def getTaskbyProject:
+    def getTaskbyProject(cls, pid):
+      connection= get_db_connection()
+      cursor=connection.cursor(dictionary=True)
+      cursor.execute("SELECT * FROM Tasks WHERE project_id=%s",pid)
+      rows = cursor.fetchall()
+      if row:
+        return cls
 
 
 def createTask
