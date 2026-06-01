@@ -161,7 +161,7 @@ class Task:
 
 
     @classmethod
-    def delTask(cls, taskid)
+    def delTask(cls, taskid):
       connection = get_db_connection()
       cursor = connection.cursor()
       try:
