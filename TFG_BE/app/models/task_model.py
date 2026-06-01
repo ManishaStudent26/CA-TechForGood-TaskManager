@@ -153,10 +153,22 @@ class Task:
       finally:
         cursor.close()
         connection.close()
+    
+    @classmethod
+    def editTask(cls, taskname, taskowner,startdate, targetdate, taskpri, weight, progress, status):
+      connection = get_db_connection()
+      cursor = connection.cursor()
 
-       
 
-def editTask
-
-def delTask"""
-
+    @classmethod
+    def delTask(cls, taskid)
+      connection = get_db_connection()
+      cursor = connection.cursor()
+      try:
+        query = "DELETE FROM Tasks WHERE task_id = %s"
+        cursor.execute(query, (taskid,))
+        connection.commit()          
+        return cursor.rowcount > 0
+      finally:
+        cursor.close()
+        connection.close()
