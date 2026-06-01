@@ -33,6 +33,17 @@ class User:
         finally:
             cursor.close()
             connection.close()
-    
+    @classmethod
+    def DelUser(uid):
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        try:
+            query = "DELETE FROM Users WHERE uid = %s"
+            cursor.execute(query, (uid,))
+            connection.commit()          
+            return cursor.rowcount > 0
+        finally:
+            cursor.close()
+            connection.close()
 
         
