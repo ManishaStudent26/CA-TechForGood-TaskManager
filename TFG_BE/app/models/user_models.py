@@ -45,5 +45,20 @@ class User:
         finally:
             cursor.close()
             connection.close()
+    @classmethod
+    def changePassword(uid, password_hash):
+        connection= get_db_connection
+        cursor= connection.cursor()
+        try:
+            query= """UPDATE Users,
+            SET password_hash = %s
+            WHERE uid=%s
+            """
+            cursor.execute(query,(password_hash, uid))
+            connection.commit()
+            return cursor.rowcount > 0
+        finally:
+            cursor.close
+            connection.close()
 
         
