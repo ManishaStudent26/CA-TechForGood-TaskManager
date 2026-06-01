@@ -48,7 +48,7 @@ class Task:
           query = """
             SELECT a.task_id,
             a.task_name,
-            b.contributor_id as taskowner,
+            a.contributor_id as taskowner,
             c.project_name,
             a.start_date,
             a.target_date,
@@ -56,7 +56,6 @@ class Task:
             a.weight
             a.progress
             FROM Tasks a
-            LEFT JOIN ProjectUsers b on a.contributor_id=b.contributor_id
             LEFT JOIN Projects c on a.project_id=c.project_id
             WHERE a.project_id= %s
             """
@@ -78,8 +77,12 @@ class Task:
             overdue=None
             ))
             return tasks
+      finally:
+          cursor.close()
+          connection.close()
+
     @classmethod
-    def createTask(cls, taskname, taskowner, projectname, pid, startdate, targetdate, taskpri, weight, progress, status):
+    def createTask(cls, taskname, taskowner, pid, startdate, targetdate, taskpri, weight, progress, status):
         connection =get_db_connection()
         cursor=connection.cursor()
         try:
@@ -99,7 +102,7 @@ class Task:
              taskid=new_id,
              taskname=taskname,
              taskowner=taskowner,
-             projectname=projectname,
+             projectname=actualprojectname,
              startdate=startdate,
              targetdate=targetdate,
              taskpri=taskpri,
@@ -112,7 +115,46 @@ class Task:
           cursor.close()
           connection.close()
 
-def getTaskbyContributor(cls, taskowner):
+    @classmethod
+    def getTaskbyContributor(cls, taskowner):
+      connection=get_db_connection()
+      cursor=connection.cursor()
+      try:
+        query="""SELECT a.task_id,
+            a.task_name,
+            a.contributor_id as taskowner,
+            c.project_name,
+            a.start_date,
+            a.target_date,
+            a.task_priority
+            a.weight
+            a.progress
+            FROM Tasks a
+            LEFT JOIN Projects c on a.project_id=c.project_id
+            WHERE contributor_id=%s"""
+        cursor.excute(query,(taskowner,))
+        rows =cursor.fetchall()
+
+        tasks=[]
+        for row in rows:
+            tasks.append(cls(
+            taskid=row['task_id'],
+            taskname=row['task_name'],
+            taskowner=row['taskowner'],
+            startdate=row['start_date'],
+            targetdate=row['target_date'],
+            taskpri=row['task_priority'],
+            weight=row['weight'],
+            progress=row['progress'],
+            status=row['status'],
+            overdue=None
+            ))
+            return tasks
+      finally:
+        cursor.close()
+        connection.close()
+
+       
 
 def editTask
 
