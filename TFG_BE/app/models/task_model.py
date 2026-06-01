@@ -23,6 +23,21 @@ class Task:
           return True
         else:
           return False
+    def to_dict(self):
+        return {
+            "taskid": self.taskid,
+            "taskname": self.taskname,
+            "taskowner": self.taskowner,
+            "projectname": self.projectname,
+            # Keeps the API safe from JSON serialization errors by converting to string
+            "startdate": str(self.startdate) if self.startdate else None,
+            "targetdate": str(self.targetdate) if self.targetdate else None,
+            "taskpri": self.taskpri,
+            "weight": float(self.weight) if self.weight else 0.0, # DECIMAL converts best to float for JSON
+            "progress": float(self.progress) if self.progress else 0.0,
+            "status": self.status,
+            "overdue": self.overdue
+        }
     
        
     @classmethod
@@ -96,7 +111,7 @@ class Task:
           cursor.close()
           connection.close()
 
-def getTaskbyContributor
+def getTaskbyContributor(cls, taskowner):
 
 def editTask
 
