@@ -28,7 +28,7 @@ class Project:
             "project_name": self.project_name,
             "project_start": self.project_start.isoformat() if self.project_start else None,
             "project_end": self.project_end.isoformat() if self.project_end else None,
-            "project_status": self.project_status, # Evaluatethe property dynamically
+            "project_status": self.project_status,
             "opentasks": self.opentasks
             }
 
@@ -46,7 +46,7 @@ class Project:
                 p.project_end, 
                 COUNT(t.Task_ID) AS opentasks 
                 FROM Projects p 
-                LEFT JOIN Tasks t ON p.project_id = t.project_id AND t.task_status != 'Completed'
+                LEFT JOIN Tasks t ON p.project_id = t.project_id
                 WHERE p.project_owner = %s 
                 GROUP BY p.project_id
                 """

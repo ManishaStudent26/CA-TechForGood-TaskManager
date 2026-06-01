@@ -29,11 +29,39 @@ class Task:
     def getTaskbyProject(cls, pid):
       connection= get_db_connection()
       cursor=connection.cursor(dictionary=True)
-      cursor.execute("SELECT * FROM Tasks WHERE project_id=%s",pid)
-      rows = cursor.fetchall()
-      if row:
-        return cls
-
+      try:
+          query = """
+            SELECT a.task_id,
+            a.task_name,
+            b.contributor_id as taskowner,
+            c.project_name,
+            a.start_date,
+            a.target_date,
+            a.task_priority
+            a.weight
+            a.progress
+            FROM Tasks a
+            LEFT JOIN ProjectUsers b on a.contributor_id=b.contributor_id
+            LEFT JOIN Projects c on a.project_id=c.project_id
+            WHERE a.project_id= %s
+            """
+          cursor.excutue(query,(pid,))
+          rows =cursor.fetchall()
+          tasks=[]
+          for row in rows:
+            tasks.append((
+            taskid=row['task_id'],
+            taskname=row['task_name'],
+            taskowner=row['taskowner'],
+            startdate=row['start_date'],
+            targetdate=row['target_date'],
+            taskpri=row['task_priority'],
+            weight=row['weight'],
+            progress=row['progress'],
+            status=row['status'],
+            overdue=None
+            ))
+            return tasks
 
 def createTask
 
