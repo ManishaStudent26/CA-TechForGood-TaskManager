@@ -62,9 +62,10 @@ class Task:
             """
           cursor.excutue(query,(pid,))
           rows =cursor.fetchall()
+
           tasks=[]
           for row in rows:
-            tasks.append((
+            tasks.append(cls(
             taskid=row['task_id'],
             taskname=row['task_name'],
             taskowner=row['taskowner'],
