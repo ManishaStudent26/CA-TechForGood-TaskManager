@@ -13,5 +13,12 @@ def getAvailability(uid):
     cursor.execute("SELECT * FROM Availability WHERE email=%s", (uid,))
     rows =cursor.fetchall()
     for row in rows:
-        return cls(row['uid'], row['ema'], row['password_hash'], row['name'], row['role'])
+        return cls(row['uid'], row['week'], row['hour'])
     return None
+
+@classmethod
+def setAvailability(uid, week, hours):
+    connection=get_db_connection
+    cursor=connection.cursor
+    try:
+    query="""INSERT INTO Availability uid"""
