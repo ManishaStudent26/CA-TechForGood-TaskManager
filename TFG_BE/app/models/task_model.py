@@ -62,12 +62,43 @@ class Task:
             overdue=None
             ))
             return tasks
+    @classmethod
+    def createTask(cls, taskname, taskowner, projectname, pid, startdate, targetdate, taskpri, weight, progress, status):
+        connection =get_db_connection()
+        cursor=connection.cursor()
+        try:
+          query = """
+          INSERT INTO Tasks(task_name, contributor_id, project_id, start_date, target_date, task_priority, weight, progress, status)
+          VALUE(%s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+          cursor.execute(query,(taskname, taskowner, pid, startdate, targetdate, taskpri, weight, progress, status))
+          connection.commit()
 
-def createTask
+          new_id = cursor.lastrowid
+          name_query = "SELECT project_name FROM Projects WHERE project_id = %s"
+          cursor.execute(name_query, (pid,))
+          project_row = cursor.fetchone()
+          actualprojectname=project_row['project_name']
+
+          return cls(
+             taskid=new_id,
+             taskname=taskname,
+             taskowner=taskowner,
+             projectname=projectname,
+             startdate=startdate,
+             targetdate=targetdate,
+             taskpri=taskpri,
+             weight=weight,
+             progress=progress,
+             status=status,
+             overdue=None
+          )
+        finally:
+          cursor.close()
+          connection.close()
 
 def getTaskbyContributor
 
-def setTask
+def editTask
 
 def delTask"""
 
