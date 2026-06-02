@@ -30,9 +30,15 @@ def create_user():
     email=data.get('email')
     password_hash=data.get('password_hash')
     name=data.get('name')
-    role=data.get('role')
-    if not email or not password_hash or not name or not role:
+    if not email or not password_hash or not name
         return jsonify({"error": "Missing fields for update"}), 400
     try:
-        new_user = User.createU
+        new_user = User.createUser(
+            email=email,
+            password_hash=password_hash
+            name=name
+        )
+        return jsonify(new_user.to.dict()), 201
+    except Exception as e:
+        return jsonify({"error":"Failed to create project", "details": str(e)}), 500
     
