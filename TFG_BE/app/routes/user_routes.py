@@ -30,7 +30,7 @@ def create_user():
     email=data.get('email')
     password_hash=data.get('password_hash')
     name=data.get('name')
-    if not email or not password_hash or not name
+    if not email or not password_hash or not name:
         return jsonify({"error": "Missing fields for update"}), 400
     try:
         new_user = User.createUser(
