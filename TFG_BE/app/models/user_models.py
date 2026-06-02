@@ -60,5 +60,24 @@ class User:
         finally:
             cursor.close
             connection.close()
+    @classmethod
+    def createUser(cls, email, password_hash, name):
+        connection=get_db_connection
+        cursor=connection.cursor()
+        try:
+            query="""INSERT INTO Users(email, password_hash, name)
+            VALUES(%s, %s, %s)"""
+            cursor.execute(query,email, password_hash, name)
+            connection.commit()
+            new_id = cursor.lastrowid
+            return cls(
+                user_id=new_id,
+                email=email,
+                name=name,
+                role='Volunteer'
+            )
+        finally:
+            cursor.close
+            connection.close
 
         
