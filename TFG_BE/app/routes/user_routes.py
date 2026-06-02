@@ -35,9 +35,9 @@ def create_user():
     try:
         new_user = User.createUser(
             email=email,
-            password_hash=password_hash
+            password_hash=password_hash,
             name=name
-        )
+            )
         return jsonify(new_user.to.dict()), 201
     except Exception as e:
         return jsonify({"error":"Failed to create project", "details": str(e)}), 500
