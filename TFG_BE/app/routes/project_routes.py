@@ -1,6 +1,4 @@
-import jwt
 from flask import Blueprint, jsonify, request, g
-from config.settings import Config
 from models.project_model import Project
 from utils.middleware import token_required
 
