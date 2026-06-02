@@ -5,8 +5,8 @@ class ValidationError(Exception):
         super().__init__(message)
         self.message = message
 
-class ResourceNotFoundError(Exception):
-    def __init__(self, message="The requested resource was not found or access is denied."):
+class FailedToCreate(Exception):
+    def __init__(self, message="Failed to create the new record"):
         super().__init__(message)
         self.message = message
 
