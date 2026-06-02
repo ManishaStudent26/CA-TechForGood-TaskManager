@@ -21,4 +21,25 @@ def setAvailability(uid, week, hours):
     connection=get_db_connection
     cursor=connection.cursor
     try:
-    query="""INSERT INTO Availability uid"""
+        query="""INSERT INTO Availability (uid, week, hours),
+        VALUES (%s, %s, %s)"""
+        cursor.execute(query, (uid, week, hours))
+        connection.commit()
+    finally:
+        cursor.close()
+        connection.close()
+
+@classmethod
+def updateAvailability(uid,week, hours):
+    connection=get_db_connection
+    cursor=connection.cursor
+    try:
+        query="""UPDATE Availability
+        SET hours=%s
+        WHERE uid=%s
+        AND week=%s"""
+        cursor.execute(query,hours, uid, week)
+        connection.commit
+    finally:
+        cursor.close()
+        connection.close()
