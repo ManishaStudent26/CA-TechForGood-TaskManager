@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request, g
 from models.project_model import Project
 from utils.middleware import token_required
+from utils.errorHandling import ValidationError, ResourceNotFoundError
 
 projects_bp = Blueprint('projects', __name__)
 
@@ -21,7 +22,7 @@ def create_new_project():
     project_end = data.get('project_end')
     
     if not project_name or not project_start or not project_end:
-        return jsonify({"error": "Missing required fields: project_name, project_start, or project_end"}), 400
+        raise ValidationError()
         
     try:
         new_project = Project.createProject(
