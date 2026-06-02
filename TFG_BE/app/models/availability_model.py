@@ -1,4 +1,4 @@
-from config.database import get_db_connection
+from config.db import get_db_connection
 
 class Availability:
     def __init__(self,uid,week,hours):
