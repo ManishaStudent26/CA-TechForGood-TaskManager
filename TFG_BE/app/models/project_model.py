@@ -33,7 +33,7 @@ class Project:
             }
 
     @classmethod
-    def getProjectbyManager(cls,user_uid):
+    def getProjectbyManager(cls,uid):
         connection= get_db_connection()
         cursor=connection.cursor(dictionary=True)
         try:
@@ -50,7 +50,7 @@ class Project:
                 WHERE p.project_owner = %s 
                 GROUP BY p.project_id
                 """
-            cursor.execute(query, (user_uid,))
+            cursor.execute(query, (uid,))
             rows = cursor.fetchall()
             
             projects = [] 
