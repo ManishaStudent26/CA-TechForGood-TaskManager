@@ -37,7 +37,7 @@ class Availability:
     @classmethod
     def setAvailability(cls,uid, week, year, hours):
         connection=get_db_connection()
-        cursor=connection.cursor
+        cursor=connection.cursor()
         try:
             query="""INSERT INTO Availability (uid, week, year, hours)
             VALUES (%s, %s, %s, %s)"""
