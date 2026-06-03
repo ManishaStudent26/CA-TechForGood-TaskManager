@@ -1,6 +1,7 @@
 from config.db import get_db_connection
 from datetime import date
 from availability_model import getAvailability
+from utils.errorHandling import ValidationError
 class Task:
     def __init__(self, taskid, taskname, taskowner, projectname, startdate, targetdate, taskpri, weight, progress, status, overdue):
      self.taskid=taskid
@@ -208,7 +209,10 @@ class Task:
           connection.close()       
     @classmethod
     def assignTaskOwner(cls,uid,taskid):
-       currenttask= cls.getTaskbyID(taskid)
-       if: currenttask.startdate or c
-       availabilitycheck=getAvailability(uid)
-       taskownerd=cls.getTaskbyContributor(uid)
+      currenttask = cls.getTaskbyID(taskid)
+      if not currenttask.startdate or currenttask.targetdate:
+       raise ValidationError({})
+      else:
+        currenttask.startdate
+        availabilitycheck=getAvailability(uid)
+        taskownerd=cls.getTaskbyContributor(uid)
