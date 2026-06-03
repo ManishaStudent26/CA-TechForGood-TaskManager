@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, g, request
 from models.task_model import Task
 from utils.middleware import token_required
-from utils.errorHandling import ValidationError
+from utils.errorHandling import ValidationError, FailedToCreate
 
 task_bp=Blueprint(Task,__name__)
 
@@ -69,5 +69,29 @@ def updatetask(uid):
             status=status)
         return jsonify({update_task.to_dict()}), 201
     except Exception as e:
-        return jsonify({"error": "Failed to create project", "details": str(e)}), 500
+        raise FailedToCreate({})
     
+@task_bp.route('api/tasks', method=['DEL'])
+@token_required
+def deltask(taskid):
+    data=request.get_json()
+    taskid=data.get('taskid')
+    success = Task.delTask(taskid)
+    if success:
+        return jsonify({"message": f"Task {taskid} successfully deleted."}), 200
+    else:
+        return jsonify({"error": "Task not found or unauthorized access."}), 404
+
+
+@task_bp.route('api/setOwner',method=['PUT'])
+@token_required
+def assignowner():
+    data=request.get_json()
+    taskid=data.get('taskid')
+    cid=data.get('cid')
+    uid=data.get('uid')
+    success= Task.assignTaskOwner(uid, taskid,cid)
+    if success:
+        return jsonify({"message:""Processed"})
+    else:
+        raise FailedToCreate({})
