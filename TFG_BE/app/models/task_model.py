@@ -79,7 +79,7 @@ class Task:
             status=row['status'],
             overdue=None
             ))
-            return tasks
+          return tasks
       finally:
           cursor.close()
           connection.close()
@@ -152,7 +152,7 @@ class Task:
             status=row['status'],
             overdue=None
             ))
-            return tasks
+        return tasks
       finally:
         cursor.close()
         connection.close()
@@ -254,8 +254,6 @@ class Task:
               if avail['week_number'] == task_week and avail['year'] == task_year:
                 max_allowed_hours += avail['hours']
                 break
-
-
           startingdate += timedelta(days=7)
 
       if not confirmhours > max_allowed_hours:
