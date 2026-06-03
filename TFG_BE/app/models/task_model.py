@@ -228,9 +228,9 @@ class Task:
     def assignTaskOwner(cls,uid,taskid,cid):
       currenttask = cls.getTaskbyID(taskid)
       if not currenttask.startdate or not currenttask.targetdate or not currenttask.weight:
-       raise ValidationError({})
-      elif cid == currenttask.cid:
-        raise jsonify({"error:this is already the taskowner"})
+       raise ValidationError({"The task is missing dates or weight of the task in hours"})
+      elif cid == currenttask.taskowner:
+        raise ValidationError({"this is already the taskowner"})
         
       else:
        startingdate=currenttask.startdate
@@ -260,7 +260,7 @@ class Task:
           startingdate += timedelta(days=7)
 
       if confirmhours > max_allowed_hours:
-        raise jsonify({"error: volunteer is not available"})
+        raise ValidationError({"error": "volunteer is not available"})
       else:
         connection=get_db_connection()
         cursor=connection.cursor()
