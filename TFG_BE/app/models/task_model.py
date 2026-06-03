@@ -91,7 +91,7 @@ class Task:
         try:
           query = """
           INSERT INTO Tasks(task_name, contributor_id, project_id, start_date, target_date, task_priority, weight, progress, status)
-          VALUE(%s, %s, %s, %s, %s, %s, %s, %s)"""
+          VALUES(%s, %s, %s, %s, %s, %s, %s, %s)"""
           cursor.execute(query,(taskname, pid, startdate, targetdate, taskpri, weight, progress, status))
           connection.commit()
           new_id = cursor.lastrowid
