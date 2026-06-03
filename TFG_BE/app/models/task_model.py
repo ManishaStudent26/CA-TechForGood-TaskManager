@@ -219,11 +219,17 @@ class Task:
       else:
        startingdate=currenttask.startdate
        enddate=currenttask.targetdate
-       confirmhours=currenttask.weight
+      
 
        taskownertask=cls.getTaskbyContributor(uid)
        availabilitycheck=Availability.getAvailability(uid)
-       while startingdate >= enddate:
+       while startingdate <= enddate:
+        task_year, task_week, _ = startingdate.isocalendar()
+        confirmhours=currenttask.weight
+        
+        for task in taskownertask:
+            if task.startdate <= startingdate <= task.targetdate:
+                confirmhours += task.weight
         #check if volunteer has other tasks
         confirmhours=confirmhours+taskownertask.weight-availabilitycheck.hours
       if confirmhours>0:
