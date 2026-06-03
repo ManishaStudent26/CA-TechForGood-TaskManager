@@ -32,15 +32,15 @@ class Contributor:
             cursor.execute(query, (pid,))
             rows = cursor.fetchall()
             
-            contributor = []
+            contributors = []
             for row in rows:
-                contributor.append(cls(
+                contributors.append(cls(
                 cid=row['contributor_id'],
                 pid=row['project_id'],
                 uid=row['uid'],
                 name=row['name'],
                 ))
-            return projects
+            return contributors
         finally:
             cursor.close()
             connection.close()
