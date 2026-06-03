@@ -30,7 +30,6 @@ class Task:
             "taskname": self.taskname,
             "taskowner": self.taskowner,
             "projectname": self.projectname,
-            # Keeps the API safe from JSON serialization errors by converting to string
             "startdate": str(self.startdate) if self.startdate else None,
             "targetdate": str(self.targetdate) if self.targetdate else None,
             "taskpri": self.taskpri,
@@ -181,8 +180,35 @@ class Task:
       finally:
         cursor.close()
         connection.close()
+    
     @classmethod
-    def assignTaskOwner(uid,taskid, weight):
-       connection= get_db_connection
+    def getTaskbyID(cls,taskid):
+        connection = get_db_connection()
+        cursor=connection.cursor(dictionary=True)
+        try:
+          query = """
+          SELECT a.task_id,
+          a.task_name,
+          a.contributor_id as taskowner,
+          c.project_name,
+          a.start_date,
+          a.target_date,
+          a.task_priority
+          a.weight
+          a.progress
+          FROM Tasks a
+          LEFT JOIN Projects c on a.project_id=c.project_id
+          WHERE a.task_id= %s"""
+          cursor.excutue(query,(taskid,))
+          row =cursor.fetchone()
+          if row:
+            return cls(row['task_id'], row['task_name'], row['start_date'], row['target_date'],row['taskpri'],row['weight'], row['progess'], row['status'])
+        finally:
+          cursor.close()
+          connection.close()       
+    @classmethod
+    def assignTaskOwner(cls,uid,taskid):
+       currenttask= cls.getTaskbyID(taskid)
+       if: currenttask.startdate or c
        availabilitycheck=getAvailability(uid)
-       taskcheck=
+       taskownerd=cls.getTaskbyContributor(uid)
