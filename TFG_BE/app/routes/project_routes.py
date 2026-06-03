@@ -22,7 +22,7 @@ def create_new_project():
     project_end = data.get('project_end')
     
     if not project_name or not project_start or not project_end:
-        raise ValidationError()
+        raise ValidationError({"Missing required fields: project_name, project_start, or project_end"})
         
     try:
         new_project = Project.createProject(

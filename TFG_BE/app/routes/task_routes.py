@@ -24,17 +24,18 @@ def createprojecttask():
     weight=data.get('weight')
     status=data.get('status')
 
-    if not taskname or not startdate or not taskpri or not status
+    if not taskname or not startdate or not taskpri or not status:
         raise ValidationError({})
     try:
-        new_task=Task.createTask(
+        new_task = Task.createTask(
             taskname=taskname,
             pid=g.pid,
             startdate=startdate,
             targetdate=targetdate,
             taskpri=taskpri,
-            weight=weight
-            status=status)
+            weight=weight,
+            status=status
+        )
         return jsonify(new_task.to_dict()), 201
     except Exception as e:
         return jsonify({"error": "Failed to create task", "details": str(e)}), 500
@@ -46,3 +47,27 @@ def getusertasks(uid):
     usertasks= Task.getTaskbyContributor(uid)
     serialized_tasks=[usertask.to_dic() for usertask in usertasks]
     return jsonify(serialized_tasks), 200
+
+@task_bp.route('api/tasks', method=['PUT'])
+@token_required
+def updatetask(uid):
+    data=request.get_json()
+    taskname=data.get('taskname')
+    startdate=data.get('startdate')
+    targetdate=data.get('targetdate')
+    taskpri=data.get('taskpri')
+    weight=data.get('weight')
+    status=data.get('status')
+    if not taskname or not startdate or not taskpri or not status:
+        raise ValidationError({})
+    try:
+        update_task=Task.editTask(taskname=taskname,
+            startdate=startdate,
+            targetdate=targetdate,
+            taskpri=taskpri,
+            weight=weight,
+            status=status)
+        return jsonify({update_task.to_dict()}), 201
+    except Exception as e:
+        return jsonify({"error": "Failed to create project", "details": str(e)}), 500
+    
