@@ -70,6 +70,7 @@ class Task:
             taskid=row['task_id'],
             taskname=row['task_name'],
             taskowner=row['taskowner'],
+            projectname=row['project_name'],
             startdate=row['start_date'],
             targetdate=row['target_date'],
             taskpri=row['task_priority'],
@@ -142,6 +143,7 @@ class Task:
             taskid=row['task_id'],
             taskname=row['task_name'],
             taskowner=row['taskowner'],
+            projectname=row['project_name'],
             startdate=row['start_date'],
             targetdate=row['target_date'],
             taskpri=row['task_priority'],
@@ -204,7 +206,18 @@ class Task:
           cursor.excutue(query,(taskid,))
           row =cursor.fetchone()
           if row:
-            return cls(row['task_id'], row['task_name'], row['start_date'], row['target_date'],row['taskpri'],row['weight'], row['progess'], row['status'])
+            return cls(
+              taskid=row['task_id'],
+              taskname=row['task_name'],
+              taskowner=row['taskowner'],
+              projectname=row['project_name'],
+              startdate=row['start_date'],
+              targetdate=row['target_date'],
+              taskpri=row['task_priority'],
+              weight=row['weight'],
+              progress=row['progress'],
+              status=row['status'],
+              overdue=None)
         finally:
           cursor.close()
           connection.close()       
