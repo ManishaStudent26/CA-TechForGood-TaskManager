@@ -5,19 +5,17 @@ from utils.errorHandling import ValidationError, ResourceNotFoundError, FailedTo
 
 availability_bp=Blueprint('availability',__name__)
 
-@availability_bp.route('/api/availability/<int:uid>', method=['GET'])
+@availability_bp.route('/api/availability/<int:uid/>', method=['GET'])
 @token_required
-def getAvailabilitybyUID():
-    data = request.get_json
-    uid=data.get('uid')
+def getAvailabilitybyUID(uid):
     get_availability = Availability.getAvailability(uid)
     volunteer_availability=[availability.to_dict() for availability in get_availability]
     return jsonify(volunteer_availability),200
 
-@availability_bp.route('/api/availabiliy/<int:uid>', method=['POST'])
+@availability_bp.route('/api/availabiliy/<int:uid/>', method=['POST'])
 @token_required
-def create_new_availability():
-    data = request.get_json
+def create_new_availability(uid):
+    data = request.get_json()
     uid=data.get('uid')
     year=data.get('year')
     week=data.get('week')
@@ -36,10 +34,10 @@ def create_new_availability():
     except: ValueError
     raise FailedToCreate()
 
-@availability_bp.route('api/availability/<int:uid>', method=['POST'])
+@availability_bp.route('api/availability/<int:uid>', method=['PUT'])
 @token_required
 def update_availability():
-    data =request.get_json
+    data =request.get_json()
     uid=data.get('uid')
     year=data.get('year')
     week=data.get('week')
