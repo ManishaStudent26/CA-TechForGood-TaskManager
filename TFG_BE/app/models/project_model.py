@@ -64,7 +64,7 @@ class Project:
                 project_status= None,
                 opentasks=row['opentasks']
                 ))
-                return projects
+            return projects
         finally:
             cursor.close()
             connection.close()
