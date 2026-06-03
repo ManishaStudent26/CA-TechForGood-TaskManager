@@ -32,9 +32,10 @@ class Contributor:
             cursor.execute(query, (pid,))
             rows = cursor.fetchall()
             
-            projects = []
+            contributor = []
             for row in rows:
-                projects.append(cls(
+                contributor.append(cls(
+                cid=row['contributor_id'],
                 pid=row['project_id'],
                 uid=row['uid'],
                 name=row['name'],
