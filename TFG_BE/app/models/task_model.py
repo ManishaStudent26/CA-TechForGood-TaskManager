@@ -1,5 +1,6 @@
 from config.db import get_db_connection
 from datetime import date
+from availability_model import getAvailability
 class Task:
     def __init__(self, taskid, taskname, taskowner, projectname, startdate, targetdate, taskpri, weight, progress, status, overdue):
      self.taskid=taskid
@@ -115,7 +116,7 @@ class Task:
           connection.close()
 
     @classmethod
-    def getTaskbyContributor(cls, taskowner):
+    def getTaskbyContributor(uid):
       connection=get_db_connection()
       cursor=connection.cursor()
       try:
@@ -129,9 +130,9 @@ class Task:
             a.weight
             a.progress
             FROM Tasks a
-            LEFT JOIN Projects c on a.project_id=c.project_id
-            WHERE contributor_id=%s"""
-        cursor.excute(query,(taskowner,))
+            LEFT JOIN Contributors c on a.uid=c.uid
+            WHERE c.uid=%s"""
+        cursor.excute(query,(uid,))
         rows =cursor.fetchall()
 
         tasks=[]
@@ -180,3 +181,8 @@ class Task:
       finally:
         cursor.close()
         connection.close()
+    @classmethod
+    def assignTaskOwner(uid,taskid, weight):
+       connection= get_db_connection
+       availabilitycheck=getAvailability(uid)
+       taskcheck=
