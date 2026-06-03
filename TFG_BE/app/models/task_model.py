@@ -1,6 +1,6 @@
 from config.db import get_db_connection
 from flask import jsonify
-from datetime import timedelta
+from datetime import timedelta,date
 from availability_model import Availability
 from utils.errorHandling import ValidationError
 class Task:
@@ -219,19 +219,32 @@ class Task:
       else:
        startingdate=currenttask.startdate
        enddate=currenttask.targetdate
+       checked_final_week = False
       
 
        taskownertask=cls.getTaskbyContributor(uid)
        availabilitycheck=Availability.getAvailability(uid)
-       while startingdate <= enddate:
-        task_year, task_week, _ = startingdate.isocalendar()
-        confirmhours=currenttask.weight
+       target_year, target_week, _ = enddate.isocalendar()
+       while checked_final_week==False:
+         task_year, task_week, _ = startingdate.isocalendar()
+        if task_week == target_week and task_year == target_year:
+          checked_final_week = True
         
         for task in taskownertask:
             if task.startdate <= startingdate <= task.targetdate:
                 confirmhours += task.weight
         #check if volunteer has other tasks
-        confirmhours=confirmhours+taskownertask.weight-availabilitycheck.hours
+
+        max_allowed_hours = 0
+        week_found = False
+        for avail in availabilitycheck:
+            if avail['week_number'] == task_week and avail['year'] == task_year:
+                max_allowed_hours = avail['hours']
+                week_found = True
+                break
+                
+        if not week_found or confirmhours > max_allowed_hours:
+            raise ValidationError()
       if confirmhours>0:
         raise jsonify({"error: volunteer is not available"})
       else:
