@@ -74,6 +74,7 @@ class User:
                 uid=new_id,
                 email=email,
                 name=name,
+                password_hash=password_hash,
                 role='Volunteer'
             )
         finally:
