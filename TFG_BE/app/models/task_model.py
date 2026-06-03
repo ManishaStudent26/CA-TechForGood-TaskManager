@@ -117,7 +117,7 @@ class Task:
           connection.close()
 
     @classmethod
-    def getTaskbyContributor(uid):
+    def getTaskbyContributor(cls,uid):
       connection=get_db_connection()
       cursor=connection.cursor()
       try:
