@@ -38,3 +38,11 @@ def createprojecttask():
         return jsonify(new_task.to_dict()), 201
     except Exception as e:
         return jsonify({"error": "Failed to create task", "details": str(e)}), 500
+    
+@task_bp.route('api/task<int:uid>', method(['GET']))
+@token_required
+def getusertasks(uid):
+    uid=g.uid
+    usertasks= Task.getTaskbyContributor(uid)
+    serialized_tasks=[usertask.to_dic() for usertask in usertasks]
+    return jsonify(serialized_tasks), 200
