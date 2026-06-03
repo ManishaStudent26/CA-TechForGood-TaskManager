@@ -61,7 +61,7 @@ class Task:
             LEFT JOIN Projects c on a.project_id=c.project_id
             WHERE a.project_id= %s
             """
-          cursor.excutue(query,(pid,))
+          cursor.execute(query,(pid,))
           rows =cursor.fetchall()
 
           tasks=[]
@@ -128,8 +128,8 @@ class Task:
             c.project_name,
             a.start_date,
             a.target_date,
-            a.task_priority
-            a.weight
+            a.task_priority,
+            a.weight,
             a.progress
             FROM Tasks a
             LEFT JOIN Contributors c on a.uid=c.uid
@@ -197,9 +197,9 @@ class Task:
           c.project_name,
           a.start_date,
           a.target_date,
-          a.task_priority
-          a.weight
-          a.progress
+          a.task_priority,
+          a.weight,
+          a.progress,
           FROM Tasks a
           LEFT JOIN Projects c on a.project_id=c.project_id
           WHERE a.task_id= %s"""
