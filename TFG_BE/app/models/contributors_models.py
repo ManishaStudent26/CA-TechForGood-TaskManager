@@ -6,6 +6,13 @@ class Contributor:
         self.pid=pid
         self.uid=uid
         self.name=name
+    def to_dict(self):
+        return {
+            "contributor_id": self.cid,
+            "project_id": self.pid,
+            "uid": self.uid,
+            "name": self.name
+        }
 
     @classmethod
     def getContributorbyProject(cls,pid):
