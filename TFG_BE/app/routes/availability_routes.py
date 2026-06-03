@@ -16,7 +16,7 @@ def getAvailabilitybyUID():
 
 @availability_bp.route('/api/availabiliy/<int:uid>', method=['POST'])
 @token_required
-def create_new_project():
+def create_new_availability():
     data = request.get_json
     uid=data.get('uid')
     year=data.get('year')
@@ -35,4 +35,26 @@ def create_new_project():
         return jsonify(new_availability.to_dict()),201
     except: ValueError
     raise FailedToCreate()
-@
+
+@availability_bp.route('api/availability/<int:uid>', method=['POST'])
+@token_required
+def update_availability():
+    data =request.get_json
+    uid=data.get('uid')
+    year=data.get('year')
+    week=data.get('week')
+    hours=data.get('hours')
+    if not uid or not year or not week or not hours:
+        raise ValidationError()
+    updated_avail=Availability.updateAvailability(
+        uid=uid,
+        year=year,
+        week=week,
+        hours=hours,
+    )
+    if updated_avail:
+        return jsonify({"Update succesful"}),200
+    else:
+        raise jsonify({"error: This user might not exist or you do not have access to update the record"})
+    
+    
