@@ -56,7 +56,8 @@ class Task:
             a.target_date,
             a.task_priority,
             a.weight,
-            a.progress
+            a.progress,
+            a.status
             FROM Tasks a
             LEFT JOIN Projects c on a.project_id=c.project_id
             WHERE a.project_id= %s
@@ -130,7 +131,8 @@ class Task:
             a.target_date,
             a.task_priority,
             a.weight,
-            a.progress
+            a.progress,
+            a.status
             FROM Tasks a
             LEFT JOIN Contributors c on a.uid=c.uid
             WHERE c.uid=%s"""
@@ -200,6 +202,7 @@ class Task:
           a.task_priority,
           a.weight,
           a.progress,
+          a.status
           FROM Tasks a
           LEFT JOIN Projects c on a.project_id=c.project_id
           WHERE a.task_id= %s"""
