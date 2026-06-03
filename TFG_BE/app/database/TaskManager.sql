@@ -38,14 +38,14 @@ CREATE TABLE IF NOT EXISTS Projects(
     project_name VARCHAR(255) NOT NULL,
     project_start DATE NOT NULL,
     project_end DATE,
-    FOREIGN KEY(project_owner) REFERENCES Users(uid)
+    FOREIGN KEY(project_owner) REFERENCES Users(uid) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS ProjectUsers(
     contributor_id INT AUTO_INCREMENT PRIMARY KEY,
     project_id INT NOT NULL,
     uid INT NOT NULL,
     FOREIGN KEY(project_id) REFERENCES Projects(project_id),
-    FOREIGN KEY(uid) REFERENCES Users(UID)
+    FOREIGN KEY(uid) REFERENCES Users(UID) ON DELETE CASCADE
 );
 
 
@@ -60,5 +60,5 @@ CREATE TABLE IF NOT EXISTS Tasks(
     weight DECIMAL(4,2),
     progress DECIMAL(5,2),
     task_status ENUM('Planned', 'Ongoing', 'Completed'),
-    FOREIGN KEY(contributor_id) REFERENCES ProjectUsers(contributor_id),
-    FOREIGN KEY(project_id) REFERENCES Projects(project_id));
+    FOREIGN KEY(contributor_id) REFERENCES ProjectUsers(contributor_id) ON DELETE SET NULL,
+    FOREIGN KEY(project_id) REFERENCES Projects(project_id) ON DELETE CASCADE);
