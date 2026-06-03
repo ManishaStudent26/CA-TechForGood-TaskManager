@@ -213,6 +213,9 @@ class Task:
       if not currenttask.startdate or currenttask.targetdate:
        raise ValidationError({})
       else:
-        currenttask.startdate
+        startyear=currenttask.startdate.year
+        startweek=currenttask.startdate.week
+        targetyear=currenttask.targetdate.year
+        targetweek=currenttask.targetdate.week
         availabilitycheck=getAvailability(uid)
         taskownerd=cls.getTaskbyContributor(uid)
