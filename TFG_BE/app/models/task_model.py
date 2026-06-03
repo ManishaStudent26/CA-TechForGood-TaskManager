@@ -256,7 +256,7 @@ class Task:
                 break
           startingdate += timedelta(days=7)
 
-      if not confirmhours > max_allowed_hours:
+      if confirmhours > max_allowed_hours:
         raise jsonify({"error: volunteer is not available"})
       else:
         connection=get_db_connection()
