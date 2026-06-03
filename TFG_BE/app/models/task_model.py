@@ -255,7 +255,7 @@ class Task:
                   confirmhours += task.weight
 
           for avail in availabilitycheck:
-              if avail['week_number'] == task_week and avail['year'] == task_year:
+              if avail['week'] == task_week and avail['year'] == task_year:
                 max_allowed_hours += avail['hours']
                 break
           startingdate += timedelta(days=7)
