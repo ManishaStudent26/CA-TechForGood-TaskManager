@@ -35,7 +35,7 @@ def getAvailability(cls,uid):
         connection.close()
 
 @classmethod
-def setAvailability(uid, week, year, hours):
+def setAvailability(cls,uid, week, year, hours):
     connection=get_db_connection()
     cursor=connection.cursor
     try:
@@ -48,7 +48,7 @@ def setAvailability(uid, week, year, hours):
         connection.close()
 
 @classmethod
-def updateAvailability(uid,week, year, hours):
+def updateAvailability(cls,uid,week, year, hours):
     connection=get_db_connection()
     cursor=connection.cursor
     try:
