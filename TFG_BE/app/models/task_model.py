@@ -214,7 +214,7 @@ class Task:
       if not currenttask.startdate or not currenttask.targetdate or not currenttask.weight:
        raise ValidationError({})
       elif cid == currenttask.cid:
-        raise jsonify({"this is already the task owner"})
+        raise jsonify({"error:this is already the taskowner"})
         
       else:
        startingdate=currenttask.startdate

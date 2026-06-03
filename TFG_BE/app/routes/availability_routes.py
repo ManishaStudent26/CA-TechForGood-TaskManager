@@ -28,8 +28,8 @@ def create_new_availability():
     try:
         new_availability= Availability.setAvailability(
             uid=uid,
-            year=year
-            week=week
+            year=year,
+            week=week,
             hours=hours
         )
         return jsonify(new_availability.to_dict()),201
