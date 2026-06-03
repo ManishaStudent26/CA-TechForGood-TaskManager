@@ -1,4 +1,5 @@
 from config.db import get_db_connection
+from flask import jsonify
 from datetime import timedelta
 from availability_model import Availability
 from utils.errorHandling import ValidationError
@@ -213,21 +214,31 @@ class Task:
       if not currenttask.startdate or not currenttask.targetdate or not currenttask.weight:
        raise ValidationError({})
       elif cid == currenttask.cid:
-        return jsonify({"this is already the task owner"})
+        raise jsonify({"this is already the task owner"})
         
       else:
        startingdate=currenttask.startdate
        enddate=currenttask.targetdate
-       hoursneeded=currenttask.weight
-       hoursavailable=0.0
-       taskhours=0.0
-       confirmavailability=0.0
+       confirmhours=currenttask.weight
 
-       #check if volunteer has other tasks
        taskownertask=cls.getTaskbyContributor(uid)
-       if task
-
-       while startingdate => enddate:
-        
-        availabilitycheck=Availability.getAvailability(uid)
-    
+       availabilitycheck=Availability.getAvailability(uid)
+       while startingdate >= enddate:
+        #check if volunteer has other tasks
+        confirmhours=confirmhours+taskownertask.weight-availabilitycheck.hours
+      if confirmhours>0:
+        raise jsonify({"error: volunteer is not available"})
+      else:
+        connection=get_db_connection()
+        cursor=connection.cursor
+        try:
+         query="""
+          UPDATE Tasks
+          SET contributor_id=%s
+          WHERE task_id=%s"""
+         cursor.execute(query,(cid, taskid))
+         connection.commit()
+         return cursor.rowcount>0
+        finally:
+          cursor.close()
+          connection.close()
