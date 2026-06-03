@@ -154,14 +154,14 @@ class Task:
         connection.close()
     
     @classmethod
-    def editTask(cls, taskname, taskowner,startdate, targetdate, taskpri, weight, progress, status, taskid):
+    def editTask(cls, taskname,startdate, targetdate, taskpri, weight, progress, status, taskid):
       connection = get_db_connection()
       cursor = connection.cursor()
       try:
         query ="""UPDATE Tasks
-        SET task_name=%s, task_owner=%s, start_date=%s, target_date=%s, task_priority=%s, weight=%s, progress=%s, status=%s
+        SET task_name=%s, start_date=%s, target_date=%s, task_priority=%s, weight=%s, progress=%s, status=%s
         WHERE task_id=%s"""
-        cursor.execute(query,(taskname, taskowner,startdate, targetdate, taskpri, weight, progress, status, taskid,))
+        cursor.execute(query,(taskname,startdate, targetdate, taskpri, weight, progress, status, taskid,))
         return cursor.rowcount > 0 
       finally:
           cursor.close()
