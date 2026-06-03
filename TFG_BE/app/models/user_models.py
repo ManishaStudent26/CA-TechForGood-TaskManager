@@ -50,7 +50,7 @@ class User:
         connection= get_db_connection()
         cursor= connection.cursor()
         try:
-            query= """UPDATE Users,
+            query= """UPDATE Users
             SET password_hash = %s
             WHERE uid=%s
             """
