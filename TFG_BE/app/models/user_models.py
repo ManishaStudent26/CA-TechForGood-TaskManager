@@ -67,7 +67,7 @@ class User:
         try:
             query="""INSERT INTO Users(email, password_hash, name)
             VALUES(%s, %s, %s)"""
-            cursor.execute(query,email, password_hash, name)
+            cursor.execute(query,(email, password_hash, name))
             connection.commit()
             new_id = cursor.lastrowid
             return cls(
