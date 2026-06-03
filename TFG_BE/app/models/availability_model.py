@@ -43,6 +43,7 @@ class Availability:
             VALUES (%s, %s, %s, %s)"""
             cursor.execute(query, (uid, week, year,hours))
             connection.commit()
+            return cursor.rowcount > 0
         finally:
             cursor.close()
             connection.close()
@@ -59,6 +60,7 @@ class Availability:
             AND year=%s"""
             cursor.execute(query,(hours, uid, week, year))
             connection.commit()
+            return cursor.rowcount > 0
         finally:
             cursor.close()
             connection.close()
