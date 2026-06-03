@@ -36,9 +36,8 @@ def create_new_availability(uid):
 
 @availability_bp.route('api/availability/<int:uid>/', method=['PUT'])
 @token_required
-def update_availability():
+def update_availability(uid):
     data =request.get_json()
-    uid=data.get('uid')
     year=data.get('year')
     week=data.get('week')
     hours=data.get('hours')
