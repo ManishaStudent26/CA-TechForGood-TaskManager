@@ -1,5 +1,4 @@
 from config.db import get_db_connection
-import datetime as dt
 
 class Availability:
     def __init__(self,uid,year,week,hours):
@@ -21,11 +20,19 @@ class Availability:
 def getAvailability(cls,uid):
     connection=get_db_connection()
     cursor=connection.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM Availability WHERE uid=%s", (uid,))
-    rows =cursor.fetchall()
-    for row in rows:
-        return cls(row['uid'], row['year'],row['week'], row['hour'])
-    return None
+    try:
+        cursor.execute("SELECT * FROM Availability WHERE uid=%s", (uid,))
+        rows=cursor.fetchall()
+        availabilities = []
+        for row in rows: availabilities.append({
+            'uid':row['uid'],
+            'year':row['year'],
+            'week':row['week'],
+            'hours':row['hours']})
+        return availabilities
+    finally:
+        cursor.close()
+        connection.close()
 
 @classmethod
 def setAvailability(uid, week, year, hours):
