@@ -54,8 +54,8 @@ class Task:
             c.project_name,
             a.start_date,
             a.target_date,
-            a.task_priority
-            a.weight
+            a.task_priority,
+            a.weight,
             a.progress
             FROM Tasks a
             LEFT JOIN Projects c on a.project_id=c.project_id
