@@ -6,6 +6,7 @@ sys.path.append(parent_dir)
 from flask import Blueprint, jsonify, request
 from models.user_models import User
 from utils.middleware import token_required
+from utils.errorHandling import ValidationError
 
 user_bp = Blueprint('user_bp',__name__)
 
@@ -55,3 +56,24 @@ def getUserbyID():
             "name": userinfo.name,
             "role": userinfo.role
         })
+@user_bp.route('/user/<int:uid>', method=['PUT'])
+@token_required
+def UpdateUser(uid):
+    data = request.get_json()
+
+    email = data.get('email')
+    name = data.get('name')
+    role = data.get('role')
+
+    if not email or not name or not role:
+        raise ValidationError()
+
+    user_update = User.editUser(
+    uid=uid,
+    email=email,
+    name=name,
+    role=role
+)
+    
+    if user_update:
+        return jsonify({"message": f"User {uid} successfully updated."}), 200
