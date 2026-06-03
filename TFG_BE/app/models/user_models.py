@@ -89,8 +89,12 @@ class User:
     def getUserbyID(cls,uid):
         connection= get_db_connection()
         cursor=connection.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM USERS WHERE uid=%s", (uid,))
-        row =cursor.fetchone()
-        if row:
-            return cls(row['uid'], row['email'], row['password_hash'], row['name'], row['role'])
-        return None
+        try:
+            cursor.execute("SELECT * FROM USERS WHERE uid=%s", (uid,))
+            row =cursor.fetchone()
+            if row:
+                return cls(row['uid'], row['email'], row['password_hash'], row['name'], row['role'])
+            return None
+        finally:
+            cursor.close()
+            connection.close()
