@@ -82,16 +82,15 @@ class Task:
           connection.close()
 
     @classmethod
-    def createTask(cls, taskname, taskowner, pid, startdate, targetdate, taskpri, weight, progress, status):
+    def createTask(cls, taskname, pid, startdate, targetdate, taskpri, weight, progress, status):
         connection =get_db_connection()
         cursor=connection.cursor()
         try:
           query = """
           INSERT INTO Tasks(task_name, contributor_id, project_id, start_date, target_date, task_priority, weight, progress, status)
-          VALUE(%s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-          cursor.execute(query,(taskname, taskowner, pid, startdate, targetdate, taskpri, weight, progress, status))
+          VALUE(%s, %s, %s, %s, %s, %s, %s, %s)"""
+          cursor.execute(query,(taskname, pid, startdate, targetdate, taskpri, weight, progress, status))
           connection.commit()
-
           new_id = cursor.lastrowid
           name_query = "SELECT project_name FROM Projects WHERE project_id = %s"
           cursor.execute(name_query, (pid,))
@@ -101,7 +100,7 @@ class Task:
           return cls(
              taskid=new_id,
              taskname=taskname,
-             taskowner=taskowner,
+             taskowner=None,
              projectname=actualprojectname,
              startdate=startdate,
              targetdate=targetdate,
