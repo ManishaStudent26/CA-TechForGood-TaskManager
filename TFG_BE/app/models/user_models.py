@@ -13,11 +13,16 @@ class User:
 
         connection= get_db_connection()
         cursor=connection.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM USERS WHERE email=%s", (email,))
-        row =cursor.fetchone()
-        if row:
-            return cls(row['uid'], row['email'], row['password_hash'], row['name'], row['role'])
-        return None
+        try:
+            cursor.execute("SELECT * FROM USERS WHERE email=%s", (email,))
+            row =cursor.fetchone()
+            if row:
+                return cls(row['uid'], row['email'], row['password_hash'], row['name'], row['role'])
+            return None
+        finally:
+            cursor.close()
+            connection.close()
+    
     @classmethod
     def EditUser(cls,uid, email, name, role):
         connection= get_db_connection()
@@ -58,7 +63,7 @@ class User:
             connection.commit()
             return cursor.rowcount > 0
         finally:
-            cursor.close
+            cursor.close()
             connection.close()
     @classmethod
     def createUser(cls, email, password_hash, name):
