@@ -19,7 +19,7 @@ class User:
             return cls(row['uid'], row['email'], row['password_hash'], row['name'], row['role'])
         return None
     @classmethod
-    def EditUser(uid, email, name, role):
+    def EditUser(cls,uid, email, name, role):
         connection= get_db_connection()
         cursor=connection.cursor
         try:
@@ -34,7 +34,7 @@ class User:
             cursor.close()
             connection.close()
     @classmethod
-    def DelUser(uid):
+    def DelUser(cls,uid):
         connection = get_db_connection()
         cursor = connection.cursor()
         try:
@@ -46,7 +46,7 @@ class User:
             cursor.close()
             connection.close()
     @classmethod
-    def changePassword(uid, password_hash):
+    def changePassword(cls,uid, password_hash):
         connection= get_db_connection
         cursor= connection.cursor()
         try:
