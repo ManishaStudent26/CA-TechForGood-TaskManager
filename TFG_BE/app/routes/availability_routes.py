@@ -11,7 +11,7 @@ def getAvailabilitybyUID():
     data = request.get_json
     uid=data.get('uid')
     get_availability = Availability.getAvailability(uid)
-    volunteer_availability=[availabilty.to_dict() for availability in get_availability]
+    volunteer_availability=[availability.to_dict() for availability in get_availability]
     return jsonify(volunteer_availability),200
 
 @availability_bp.route('/api/availabiliy/<int:uid>', method=['POST'])
