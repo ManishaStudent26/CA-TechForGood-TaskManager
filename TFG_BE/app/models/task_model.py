@@ -240,13 +240,15 @@ class Task:
        target_year, target_week, _ = enddate.isocalendar()
        while checked_final_week==False:
          task_year, task_week, _ = startingdate.isocalendar()
+         confirmhours=0.0
+
+         #check if volunteer has other tasks
          if task_week == target_week and task_year == target_year:
           checked_final_week = True
           for task in taskownertask:
             if task.startdate <= startingdate <= task.targetdate:
                 confirmhours += task.weight
-        #check if volunteer has other tasks
-
+        
           max_allowed_hours = 0
           week_found = False
           for avail in availabilitycheck:
@@ -254,6 +256,7 @@ class Task:
                 max_allowed_hours = avail['hours']
                 week_found = True
                 break
+          startingdate += timedelta(days=7)
             
       if not week_found or confirmhours > max_allowed_hours:
         raise jsonify({"error: volunteer is not available"})
