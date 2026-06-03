@@ -21,7 +21,7 @@ class User:
     @classmethod
     def EditUser(cls,uid, email, name, role):
         connection= get_db_connection()
-        cursor=connection.cursor
+        cursor=connection.cursor()
         try:
             query = """
             UPDATE Users
@@ -47,7 +47,7 @@ class User:
             connection.close()
     @classmethod
     def changePassword(cls,uid, password_hash):
-        connection= get_db_connection
+        connection= get_db_connection()
         cursor= connection.cursor()
         try:
             query= """UPDATE Users,
@@ -62,7 +62,7 @@ class User:
             connection.close()
     @classmethod
     def createUser(cls, email, password_hash, name):
-        connection=get_db_connection
+        connection=get_db_connection()
         cursor=connection.cursor()
         try:
             query="""INSERT INTO Users(email, password_hash, name)
@@ -77,8 +77,8 @@ class User:
                 role='Volunteer'
             )
         finally:
-            cursor.close
-            connection.close
+            cursor.close()
+            connection.close()
     @classmethod
     def getUserbyID(cls,uid):
         connection= get_db_connection()
