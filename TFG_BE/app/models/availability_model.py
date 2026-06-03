@@ -1,25 +1,19 @@
 from config.db import get_db_connection
-import datetime
+import datetime as dt
 
 class Availability:
-    def __init__(self,uid,year,week,hours,wy):
+    def __init__(self,uid,year,week,hours):
         self.uid=uid
         self.year=year
         self.week=week
         self.hours=hours
-        self.wy=wy
-    @property
-    def wy(self):
-
 
     def to_dict(self):
         return{
             "uid":self.uid,
             "year":self.year,
             "week":self.week,
-            "hours":self.hours
-            "wy":self.wy
-        }
+            "hours":self.hours}
         
 
 
