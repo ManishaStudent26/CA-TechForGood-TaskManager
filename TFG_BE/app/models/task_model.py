@@ -88,7 +88,7 @@ class Task:
     @classmethod
     def createTask(cls, taskname, pid, startdate, targetdate, taskpri, weight, progress, status):
         connection =get_db_connection()
-        cursor=connection.cursor()
+        cursor=connection.cursor(dictionary=True)
         try:
           query = """
           INSERT INTO Tasks(task_name, project_id, start_date, target_date, task_priority, weight, progress, status)
@@ -121,7 +121,7 @@ class Task:
     @classmethod
     def getTaskbyContributor(cls,uid):
       connection=get_db_connection()
-      cursor=connection.cursor()
+      cursor=connection.cursor(dictionary=True)
       try:
         query="""SELECT a.task_id,
             a.task_name,
@@ -168,6 +168,7 @@ class Task:
         SET task_name=%s, start_date=%s, target_date=%s, task_priority=%s, weight=%s, progress=%s, status=%s
         WHERE task_id=%s"""
         cursor.execute(query,(taskname,startdate, targetdate, taskpri, weight, progress, status, taskid,))
+        connection.commit()
         return cursor.rowcount > 0 
       finally:
           cursor.close()
@@ -228,9 +229,9 @@ class Task:
     def assignTaskOwner(cls,uid,taskid,cid):
       currenttask = cls.getTaskbyID(taskid)
       if not currenttask.startdate or not currenttask.targetdate or not currenttask.weight:
-       raise ValidationError({"The task is missing dates or weight of the task in hours"})
+       raise ValidationError({"error":"The task is missing dates or weight of the task in hours"})
       elif cid == currenttask.taskowner:
-        raise ValidationError({"this is already the taskowner"})
+        raise ValidationError({"error":"this is already the taskowner"})
         
       else:
        startingdate=currenttask.startdate
