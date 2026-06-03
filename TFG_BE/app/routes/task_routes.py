@@ -39,7 +39,7 @@ def createprojecttask():
     except Exception as e:
         return jsonify({"error": "Failed to create task", "details": str(e)}), 500
     
-@task_bp.route('api/task<int:uid>', method(['GET']))
+@task_bp.route('api/task<int:uid>', method=(['GET']))
 @token_required
 def getusertasks(uid):
     uid=g.uid
