@@ -1,6 +1,6 @@
 from config.db import get_db_connection
-from datetime import date
-from availability_model import getAvailability
+from datetime import timedelta
+from availability_model import Availability
 from utils.errorHandling import ValidationError
 class Task:
     def __init__(self, taskid, taskname, taskowner, projectname, startdate, targetdate, taskpri, weight, progress, status, overdue):
@@ -210,12 +210,13 @@ class Task:
     @classmethod
     def assignTaskOwner(cls,uid,taskid):
       currenttask = cls.getTaskbyID(taskid)
-      if not currenttask.startdate or currenttask.targetdate:
+      if not currenttask.startdate or not currenttask.targetdate or not currenttask.weight:
        raise ValidationError({})
       else:
-        startyear=currenttask.startdate.year
-        startweek=currenttask.startdate.week
-        targetyear=currenttask.targetdate.year
-        targetweek=currenttask.targetdate.week
-        availabilitycheck=getAvailability(uid)
+       startingdate=currenttask.startdate
+       enddate=currenttask.targetdate
+       hoursneeded=currenttask.weight
+       hoursavailable=0.0
+       while startingdate=currentask.startdate
+        availabilitycheck=Availability.getAvailability(uid)
         taskownerd=cls.getTaskbyContributor(uid)

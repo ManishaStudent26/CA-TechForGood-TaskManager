@@ -1,11 +1,16 @@
 from config.db import get_db_connection
+import datetime
 
 class Availability:
-    def __init__(self,uid,year,week,hours):
+    def __init__(self,uid,year,week,hours,wy):
         self.uid=uid
         self.year=year
         self.week=week
         self.hours=hours
+        self.wy=wy
+    @property
+    def wy(self):
+
 
     def to_dict(self):
         return{
@@ -13,7 +18,9 @@ class Availability:
             "year":self.year,
             "week":self.week,
             "hours":self.hours
+            "wy":self.wy
         }
+        
 
 
 @classmethod    
