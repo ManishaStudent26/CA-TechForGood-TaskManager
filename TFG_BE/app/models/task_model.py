@@ -238,22 +238,24 @@ class Task:
        taskownertask=cls.getTaskbyContributor(uid)
        availabilitycheck=Availability.getAvailability(uid)
        target_year, target_week, _ = enddate.isocalendar()
-       while checked_final_week==False:
-         task_year, task_week, _ = startingdate.isocalendar()
-         confirmhours=0.0
+       confirmhours = float(currenttask.weight)
+       max_allowed_hours = 0.0
 
+       while checked_final_week==False:
+          task_year, task_week, _ = startingdate.isocalendar()
          #check if volunteer has other tasks
-         if task_week == target_week and task_year == target_year:
-          checked_final_week = True
+          if task_week == target_week and task_year == target_year:
+              checked_final_week = True
           for task in taskownertask:
-            if task.startdate <= startingdate <= task.targetdate:
-                confirmhours += task.weight
-        
-          max_allowed_hours = 0.0
+              if task.startdate <= startingdate <= task.targetdate:
+                  confirmhours += task.weight
+
           for avail in availabilitycheck:
-            if avail['week_number'] == task_week and avail['year'] == task_year:
+              if avail['week_number'] == task_week and avail['year'] == task_year:
                 max_allowed_hours += avail['hours']
                 break
+
+
           startingdate += timedelta(days=7)
 
       if not confirmhours > max_allowed_hours:
