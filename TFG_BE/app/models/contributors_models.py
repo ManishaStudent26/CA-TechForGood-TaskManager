@@ -32,7 +32,7 @@ class Contributor:
                 uid=row['uid'],
                 name=row['name'],
                 ))
-                return projects
+            return projects
         finally:
             cursor.close()
             connection.close()
