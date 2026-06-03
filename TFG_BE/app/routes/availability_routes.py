@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request, g
 from models.availability_model import Availability
 from utils.middleware import token_required
-from utils.errorHandling import ValidationError, ResourceNotFoundError, FailedToCreate
+from utils.errorHandling import ValidationError, FailedToCreate
 
 availability_bp=Blueprint('availability',__name__)
 
@@ -12,7 +12,7 @@ def getAvailabilitybyUID(uid):
     volunteer_availability=[availability.to_dict() for availability in get_availability]
     return jsonify(volunteer_availability),200
 
-@availability_bp.route('/api/availabiliy/<int:uid/>', method=['POST'])
+@availability_bp.route('/api/availability/<int:uid>/', method=['POST'])
 @token_required
 def create_new_availability(uid):
     data = request.get_json()
@@ -34,7 +34,7 @@ def create_new_availability(uid):
     except: ValueError
     raise FailedToCreate()
 
-@availability_bp.route('api/availability/<int:uid>', method=['PUT'])
+@availability_bp.route('api/availability/<int:uid>/', method=['PUT'])
 @token_required
 def update_availability():
     data =request.get_json()
