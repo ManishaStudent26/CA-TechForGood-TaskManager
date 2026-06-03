@@ -208,10 +208,13 @@ class Task:
           cursor.close()
           connection.close()       
     @classmethod
-    def assignTaskOwner(cls,uid,taskid):
+    def assignTaskOwner(cls,uid,taskid,cid):
       currenttask = cls.getTaskbyID(taskid)
       if not currenttask.startdate or not currenttask.targetdate or not currenttask.weight:
        raise ValidationError({})
+      elif cid == currenttask.cid:
+        return jsonify({"this is already the task owner"})
+        
       else:
        startingdate=currenttask.startdate
        enddate=currenttask.targetdate
@@ -221,7 +224,10 @@ class Task:
        confirmavailability=0.0
 
        #check if volunteer has other tasks
+       taskownertask=cls.getTaskbyContributor(uid)
+       if task
+
        while startingdate => enddate:
         
         availabilitycheck=Availability.getAvailability(uid)
-        taskownerd=cls.getTaskbyContributor(uid)
+    
