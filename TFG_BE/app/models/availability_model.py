@@ -19,7 +19,7 @@ class Availability:
 
 @classmethod    
 def getAvailability(cls,uid):
-    connection=get_db_connection
+    connection=get_db_connection()
     cursor=connection.cursor(dictionary=True)
     cursor.execute("SELECT * FROM Availability WHERE uid=%s", (uid,))
     rows =cursor.fetchall()
@@ -29,7 +29,7 @@ def getAvailability(cls,uid):
 
 @classmethod
 def setAvailability(uid, week, year, hours):
-    connection=get_db_connection
+    connection=get_db_connection()
     cursor=connection.cursor
     try:
         query="""INSERT INTO Availability (uid, week, year, hours),
@@ -42,7 +42,7 @@ def setAvailability(uid, week, year, hours):
 
 @classmethod
 def updateAvailability(uid,week, year, hours):
-    connection=get_db_connection
+    connection=get_db_connection()
     cursor=connection.cursor
     try:
         query="""UPDATE Availability
@@ -50,8 +50,8 @@ def updateAvailability(uid,week, year, hours):
         WHERE uid=%s
         AND week=%s
         AND year=%s"""
-        cursor.execute(query,hours, uid, week, year)
-        connection.commit
+        cursor.execute(query,(hours, uid, week, year))
+        connection.commit()
     finally:
         cursor.close()
         connection.close()
