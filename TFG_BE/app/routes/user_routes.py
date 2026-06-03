@@ -77,3 +77,14 @@ def UpdateUser(uid):
     
     if user_update:
         return jsonify({"message": f"User {uid} successfully updated."}), 200
+    
+@user_bp.route('/user/<int:uid>', method=['DELETE'])
+@token_required
+def DelUser(uid):
+    data=request.get_json()
+    email = data.get('uid')
+    if not uid:
+        raise ValidationError()
+    user_del=User.DelUser()
+    if user_del:
+        return jsonify({"message:":f"User{uid} successfully removed"}), 200
