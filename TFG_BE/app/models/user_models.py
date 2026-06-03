@@ -27,7 +27,7 @@ class User:
             UPDATE Users
             SET email=%s, name=%s, role=%s
             WHERE uid=%s"""
-            cursor.execute(query, email, name, role, uid)
+            cursor.execute(query, (email, name, role, uid))
             connection.commit()
             return cursor.rowcount > 0 
         finally:
