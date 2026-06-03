@@ -91,8 +91,8 @@ class Task:
         cursor=connection.cursor()
         try:
           query = """
-          INSERT INTO Tasks(task_name, contributor_id, project_id, start_date, target_date, task_priority, weight, progress, status)
-          VALUES(%s, %s, %s, %s, %s, %s, %s, %s,%s)"""
+          INSERT INTO Tasks(task_name, project_id, start_date, target_date, task_priority, weight, progress, status)
+          VALUES(%s, %s, %s, %s, %s, %s, %s,%s)"""
           cursor.execute(query,(taskname, pid, startdate, targetdate, taskpri, weight, progress, status))
           connection.commit()
           new_id = cursor.lastrowid
@@ -136,7 +136,7 @@ class Task:
             FROM Tasks a
             LEFT JOIN Contributors c on a.uid=c.uid
             WHERE c.uid=%s"""
-        cursor.excute(query,(uid,))
+        cursor.execute(query,(uid,))
         rows =cursor.fetchall()
 
         tasks=[]
