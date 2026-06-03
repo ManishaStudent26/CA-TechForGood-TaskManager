@@ -57,4 +57,4 @@ def update_availability():
     else:
         raise jsonify({"error: This user might not exist or you do not have access to update the record"})
     
-    
+#availability does not have a delete. If no availability admin can set to 0. Cascade in SQL to be set.
