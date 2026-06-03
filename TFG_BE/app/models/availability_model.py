@@ -7,6 +7,15 @@ class Availability:
         self.week=week
         self.hours=hours
 
+    def to_dict(self):
+        return{
+            "uid":self.uid,
+            "year":self.year,
+            "week":self.week,
+            "hours":self.hours
+        }
+
+
 @classmethod    
 def getAvailability(cls,uid):
     connection=get_db_connection
