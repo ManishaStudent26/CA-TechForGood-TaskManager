@@ -217,6 +217,11 @@ class Task:
        enddate=currenttask.targetdate
        hoursneeded=currenttask.weight
        hoursavailable=0.0
-       while startingdate=currentask.startdate
+       taskhours=0.0
+       confirmavailability=0.0
+
+       #check if volunteer has other tasks
+       while startingdate => enddate:
+        
         availabilitycheck=Availability.getAvailability(uid)
         taskownerd=cls.getTaskbyContributor(uid)
