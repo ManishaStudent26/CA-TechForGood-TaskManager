@@ -249,16 +249,14 @@ class Task:
             if task.startdate <= startingdate <= task.targetdate:
                 confirmhours += task.weight
         
-          max_allowed_hours = 0
-          week_found = False
+          max_allowed_hours = 0.0
           for avail in availabilitycheck:
             if avail['week_number'] == task_week and avail['year'] == task_year:
-                max_allowed_hours = avail['hours']
-                week_found = True
+                max_allowed_hours += avail['hours']
                 break
           startingdate += timedelta(days=7)
-            
-      if not week_found or confirmhours > max_allowed_hours:
+
+      if not confirmhours > max_allowed_hours:
         raise jsonify({"error: volunteer is not available"})
       else:
         connection=get_db_connection()
