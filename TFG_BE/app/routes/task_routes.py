@@ -40,15 +40,14 @@ def createprojecttask():
     except Exception as e:
         return jsonify({"error": "Failed to create task", "details": str(e)}), 500
     
-@task_bp.route('/api/task<int:uid>', methods=(['GET']))
+@task_bp.route('/api/task', methods=(['GET']))
 @token_required
-def getusertasks(uid):
-    uid=g.uid
-    usertasks= Task.getTaskbyContributor(uid)
+def getusertasks():
+    usertasks= Task.getTaskbyContributor(g.uid)
     serialized_tasks=[usertask.to_dict() for usertask in usertasks]
     return jsonify(serialized_tasks), 200
 
-@task_bp.route('api/tasks', methods=['PUT'])
+@task_bp.route('/api/tasks', methods=['PUT'])
 @token_required
 def updatetask(uid):
     data=request.get_json()
@@ -71,7 +70,7 @@ def updatetask(uid):
     except Exception as e:
         raise FailedToCreate({})
     
-@task_bp.route('api/tasks', methods=['DELETE'])
+@task_bp.route('/api/tasks', methods=['DELETE'])
 @token_required
 def deltask(taskid):
     data=request.get_json()
