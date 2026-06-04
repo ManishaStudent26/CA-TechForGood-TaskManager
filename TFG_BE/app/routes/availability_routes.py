@@ -1,56 +1,79 @@
 from flask import Blueprint, jsonify, request, g
 from models.availability_model import Availability
 from utils.middleware import token_required
-from utils.errorHandling import ValidationError, FailedToCreate
+from utils.errorHandling import ValidationError, ResourceNotFoundError, FailedToCreate
 
-availability_bp=Blueprint('availability',__name__)
+availability_bp = Blueprint('availability', __name__)
 
-@availability_bp.route('/api/availability/<int:uid/>', method=['GET'])
+@availability_bp.route('/api/availability/<int:uid>', methods=['GET']) # Fixed: methods=
 @token_required
-def getAvailabilitybyUID(uid):
+def getAvailabilitybyUID(uid): # Fixed: Caught URL parameter 'uid'
+    # Fixed: No get_json() needed for GET. Grab from URL directly.
     get_availability = Availability.getAvailability(uid)
-    return jsonify(get_availability),200
+    
+    if not get_availability:
+        raise ResourceNotFoundError()
+        
+    # Fixed: The model already returns a list of dicts; don't re-call to_dict()
+    return jsonify(get_availability), 200
 
-@availability_bp.route('/api/availability/<int:uid>/', method=['POST'])
+
+@availability_bp.route('/api/availability/<int:uid>', methods=['POST']) # Fixed: typo and methods=
 @token_required
-def create_new_availability(uid):
-    data = request.get_json()
-    uid=data.get('uid')
-    year=data.get('year')
-    week=data.get('week')
-    hours=data.get('hours')
-
-    if not uid or not year or not week or not hours:
+def create_new_availability(uid): # Fixed: Caught URL parameter 'uid'
+    data = request.get_json() # Fixed: Added ()
+    if not data:
         raise ValidationError()
+
+    year = data.get('year')
+    week = data.get('week')
+    hours = data.get('hours')
+
+    if not year or not week or not hours:
+        raise ValidationError()
+        
     try:
-        new_availability= Availability.setAvailability(
+        # Fixed: Match exact positional order signature of the model (uid, week, year, hours)
+        success = Availability.setAvailability(
             uid=uid,
-            year=year,
             week=week,
+            year=year,
             hours=hours
         )
-        return jsonify(new_availability.to_dict()),201
-    except: ValueError
-    raise FailedToCreate()
+        if success:
+            return jsonify({"message": "Availability created successfully"}), 201
+        else:
+            raise FailedToCreate()
+    except ValueError: # Fixed: Correct exception handling syntax
+        raise FailedToCreate()
 
-@availability_bp.route('api/availability/<int:uid>/', method=['PUT'])
+
+@availability_bp.route('/api/availability/<int:uid>', methods=['PUT']) # Fixed: leading slash, methods=, and HTTP verb
 @token_required
-def update_availability(uid):
-    data =request.get_json()
-    year=data.get('year')
-    week=data.get('week')
-    hours=data.get('hours')
-    if not uid or not year or not week or not hours:
+def update_availability(uid): # Fixed: Caught URL parameter 'uid'
+    data = request.get_json() # Fixed: Added ()
+    if not data:
         raise ValidationError()
-    updated_avail=Availability.updateAvailability(
-        uid=uid,
-        year=year,
-        week=week,
-        hours=hours,
-    )
-    if updated_avail:
-        return jsonify({"Update succesful"}),200
-    else:
-        raise jsonify({"error: This user might not exist or you do not have access to update the record"})
+
+    year = data.get('year')
+    week = data.get('week')
+    hours = data.get('hours')
     
-#availability does not have a delete. If no availability admin can set to 0. Cascade in SQL to be set.
+    if not year or not week or not hours:
+        raise ValidationError()
+        
+    # Fixed: Match exact positional order signature of the model (uid, week, year, hours)
+    updated_avail = Availability.updateAvailability(
+        uid=uid,
+        week=week,
+        year=year,
+        hours=hours
+    )
+    
+    if updated_avail:
+        return jsonify({"message": "Update successful"}), 200 # Fixed: Set as a proper dictionary mapping
+    else:
+        # Fixed: Raised custom exception class instead of raising an invalid jsonify object
+        raise ResourceNotFoundError()
+
+# availability does not have a delete. If no availability admin can set to 0. Cascade in SQL to be set.
