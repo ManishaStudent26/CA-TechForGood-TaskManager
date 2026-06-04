@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'; // Fixed: Typo hook casing useEFfect corrected
+import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Box, Paper, Typography, Chip, Tabs, Tab } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { api } from '../api'; // Fixed: Added missing import for your API object layers
+import { api } from '../api/api';
 
 export default function ProjectDashboard({ projectId }) {
   const [tasks, setTasks] = useState([]);
