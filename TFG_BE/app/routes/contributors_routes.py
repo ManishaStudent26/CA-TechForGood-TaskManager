@@ -53,7 +53,7 @@ def remove_project_contributor(cid):
     if not success:
         raise ResourceNotFoundError()
         
-    return jsonify({"message": "Contributor successfully deleted."}), 200Handling import ValidationError, ResourceNotFoundError
+    return jsonify({"message": "Contributor successfully deleted."}), 200
 
 contributors_bp = Blueprint('contributors',__name__)
 
