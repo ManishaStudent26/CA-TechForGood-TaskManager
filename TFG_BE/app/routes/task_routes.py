@@ -71,7 +71,7 @@ def updatetask(uid):
     except Exception as e:
         raise FailedToCreate({})
     
-@task_bp.route('api/tasks', methods=['DEL'])
+@task_bp.route('api/tasks', methods=['DELETE'])
 @token_required
 def deltask(taskid):
     data=request.get_json()
