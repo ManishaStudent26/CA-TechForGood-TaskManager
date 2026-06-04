@@ -49,7 +49,6 @@ def update_existing_project(pid):
         
     success = Project.editProject(
         pid=pid,
-        project_owner=g.user_id,
         project_name=project_name,
         project_start=project_start,
         project_end=project_end
