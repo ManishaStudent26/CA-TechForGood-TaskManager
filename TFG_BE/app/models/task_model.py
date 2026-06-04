@@ -1,5 +1,4 @@
 from config.db import get_db_connection
-from flask import jsonify
 from datetime import timedelta,date
 from availability_model import Availability
 from utils.errorHandling import ValidationError

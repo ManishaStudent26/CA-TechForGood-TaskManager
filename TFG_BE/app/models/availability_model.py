@@ -13,8 +13,6 @@ class Availability:
             "year":self.year,
             "week":self.week,
             "hours":self.hours}
-        
-
 
     @classmethod    
     def getAvailability(cls,uid):
