@@ -9,8 +9,7 @@ availability_bp=Blueprint('availability',__name__)
 @token_required
 def getAvailabilitybyUID(uid):
     get_availability = Availability.getAvailability(uid)
-    volunteer_availability=[availability.to_dict() for availability in get_availability]
-    return jsonify(volunteer_availability),200
+    return jsonify(get_availability),200
 
 @availability_bp.route('/api/availability/<int:uid>/', method=['POST'])
 @token_required
