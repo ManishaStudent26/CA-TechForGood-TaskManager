@@ -9,7 +9,7 @@ task_bp=Blueprint('tasks',__name__)
 @token_required
 def  getprojecttasks(pid):
     project_tasks = Task.getTaskbyProject(pid)
-    serialized_tasks=[project_task.to_dic() for project_task in project_tasks]
+    serialized_tasks=[project_task.to_dict() for project_task in project_tasks]
     return jsonify(serialized_tasks), 200
 
 @task_bp.route('/api/tasks', methods=['POST'])
@@ -45,7 +45,7 @@ def createprojecttask():
 def getusertasks(uid):
     uid=g.uid
     usertasks= Task.getTaskbyContributor(uid)
-    serialized_tasks=[usertask.to_dic() for usertask in usertasks]
+    serialized_tasks=[usertask.to_dict() for usertask in usertasks]
     return jsonify(serialized_tasks), 200
 
 @task_bp.route('api/tasks', methods=['PUT'])
