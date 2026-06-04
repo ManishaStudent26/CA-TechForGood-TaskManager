@@ -3,7 +3,7 @@ from models.task_model import Task
 from utils.middleware import token_required
 from utils.errorHandling import ValidationError, FailedToCreate
 
-task_bp=Blueprint(Task,__name__)
+task_bp=Blueprint('tasks',__name__)
 
 @task_bp.route ('/api/projecttasks', methods=['GET'])
 @token_required
