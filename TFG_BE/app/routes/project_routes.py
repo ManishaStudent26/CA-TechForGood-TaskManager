@@ -63,7 +63,7 @@ def update_existing_project(pid):
 @projects_bp.route('/api/projects/<int:pid>', methods=['DELETE'])
 @token_required
 def delete_existing_project(pid):
-    success = Project.deleteProject(pid=pid, project_owner=g.user_id)
+    success = Project.deleteProject(pid)
     
     if success:
         return jsonify({"message": f"Project {pid} successfully deleted."}), 200
