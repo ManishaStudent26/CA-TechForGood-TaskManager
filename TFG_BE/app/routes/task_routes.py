@@ -5,7 +5,7 @@ from utils.errorHandling import ValidationError, FailedToCreate
 
 task_bp=Blueprint('tasks',__name__)
 
-@task_bp.route ('/api/projecttasks<int:pid>', methods=['GET'])
+@task_bp.route ('/api/projecttasks/<int:pid>', methods=['GET'])
 @token_required
 def  getprojecttasks(pid):
     project_tasks = Task.getTaskbyProject(pid)
@@ -91,6 +91,6 @@ def assignowner():
     uid=data.get('uid')
     success= Task.assignTaskOwner(uid, taskid,cid)
     if success:
-        return jsonify({"message:""Processed"})
+        return jsonify({"message:""Processed"}),200
     else:
         raise FailedToCreate({})
