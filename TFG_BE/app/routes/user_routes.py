@@ -3,16 +3,20 @@ import sys
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
+
 from flask import Blueprint, jsonify, request
 from models.user_models import User
 from utils.middleware import token_required
-from utils.errorHandling import ValidationError
+from utils.errorHandling import ValidationError, ResourceNotFoundError, FailedToCreate
 
-user_bp = Blueprint('user_bp',__name__)
+user_bp = Blueprint('user_bp', __name__)
 
-@user_bp.route('/user')
+@user_bp.route('/user', methods=['GET'])
+@token_required
 def getUserbyEmail():
-    email_input=request.args.get('email')
+    email_input = request.args.get('email')
+    if not email_input:
+        raise ValidationError("Missing required 'email' query parameter.")
 
     current_user = User.getUserbyEmail(email_input)
 
@@ -22,31 +26,42 @@ def getUserbyEmail():
             "email": current_user.email,
             "name": current_user.name,
             "role": current_user.role
-        })
+        }), 200
+    else:
+        raise ResourceNotFoundError()
+
 
 @user_bp.route('/user', methods=['POST'])
 @token_required
 def create_user():
-    data = request.get_json()
-    email=data.get('email')
-    password_hash=data.get('password_hash')
-    name=data.get('name')
+    data = request.get_json() or {}
+    email = data.get('email')
+    password_hash = data.get('password_hash')
+    name = data.get('name')
+    
     if not email or not password_hash or not name:
-        return jsonify({"error": "Missing fields for update"}), 400
+        raise ValidationError("Missing fields for user creation.")
+        
     try:
         new_user = User.createUser(
             email=email,
             password_hash=password_hash,
             name=name
-            )
-        return jsonify(new_user.to.dict()), 201
+        )
+        # Fixed: Changed new_user.to.dict() to new_user.to_dict()
+        return jsonify(new_user.to_dict()), 201
     except Exception as e:
-        return jsonify({"error":"Failed to create project", "details": str(e)}), 500
+        # Fixed: Updated descriptive error log from project to user
+        return jsonify({"error": "Failed to create user", "details": str(e)}), 500
 
-@user_bp.route('/user/search',methods=['GET'])
+
+@user_bp.route('/user/search', methods=['GET'])
 @token_required
 def getUserbyID():
-    getuid=request.args.get('uid')
+    getuid = request.args.get('uid')
+    if not getuid:
+        raise ValidationError("Missing required 'uid' query parameter.")
+        
     userinfo = User.getUserbyID(getuid)
 
     if userinfo:
@@ -55,41 +70,59 @@ def getUserbyID():
             "email": userinfo.email,
             "name": userinfo.name,
             "role": userinfo.role
-        })
-@user_bp.route('/user/<int:uid>', method=['PUT'])
+        }), 200
+    else:
+        raise ResourceNotFoundError()
+
+
+@user_bp.route('/user/<int:uid>', methods=['PUT']) # Fixed: method -> methods
 @token_required
 def UpdateUser(uid):
-    data = request.get_json()
+    data = request.get_json() or {}
 
     email = data.get('email')
     name = data.get('name')
     role = data.get('role')
 
     if not email or not name or not role:
-        raise ValidationError()
+        raise ValidationError("Missing required fields for update.")
 
-    user_update = User.editUser(
-    uid=uid,
-    email=email,
-    name=name,
-    role=role
-)
+    # Fixed: Match exact case signature from model -> EditUser
+    user_update = User.EditUser(
+        uid=uid,
+        email=email,
+        name=name,
+        role=role
+    )
     
     if user_update:
         return jsonify({"message": f"User {uid} successfully updated."}), 200
+    else:
+        raise ResourceNotFoundError()
     
-@user_bp.route('/user/<int:uid>', method=['DELETE'])
+    
+@user_bp.route('/user/<int:uid>', methods=['DELETE']) # Fixed: method -> methods
 @token_required
 def DelUser(uid):
-    data=request.get_json()
-    if not uid:
-        raise ValidationError()
-    user_del=User.DelUser(uid)
+    # Note: Flask validates <int:uid> from the path. No need to manually check 'if not uid'
+    user_del = User.DelUser(uid)
+    
     if user_del:
-        return jsonify({"message:":f"User{uid} successfully removed"}), 200
+        # Fixed: Removed formatting colon typo inside string payload dictionary key
+        return jsonify({"message": f"User {uid} successfully removed."}), 200
+    else:
+        raise ResourceNotFoundError()
+
 
 @user_bp.route('/allusers', methods=['GET'])
 @token_required
 def GetUsers():
-    users=User.getAllUser()
-    return users
+    users = User.getAllUser()
+    
+    if users is None:
+        return jsonify([]), 200
+        
+    # Fixed: Safely serialize users list using to_dict() if model returns object instances
+    # If your model returns raw dicts, you can change this to just: return jsonify(users), 200
+    serialized_users = [user.to_dict() for user in users]
+    return jsonify(serialized_users), 200
