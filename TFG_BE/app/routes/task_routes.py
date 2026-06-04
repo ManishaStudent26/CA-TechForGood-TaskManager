@@ -1,11 +1,11 @@
 import os
 import sys
 from flask import Blueprint, jsonify, g, request
-from models.task_model import Task
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(current_dir))
 from utils.middleware import token_required
 from utils.errorHandling import ValidationError, ResourceNotFoundError, FailedToCreate
+from models.task_model import Task
 
 task_bp = Blueprint('tasks', __name__)
 
