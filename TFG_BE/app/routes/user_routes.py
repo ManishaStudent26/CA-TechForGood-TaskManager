@@ -7,7 +7,7 @@ sys.path.append(parent_dir)
 from flask import Blueprint, jsonify, request
 from models.user_models import User
 from utils.middleware import token_required
-from utils.errorHandling import ValidationError, ResourceNotFoundError, FailedToCreate
+from utils.errorHandling import ValidationError, ResourceNotFoundError
 
 user_bp = Blueprint('user_bp', __name__)
 

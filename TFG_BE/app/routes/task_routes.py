@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, g, request
 from models.task_model import Task
 from utils.middleware import token_required
-from utils.errorHandling import ValidationError, FailedToCreate, ResourceNotFoundError
+from utils.errorHandling import ValidationError, ResourceNotFoundError, FailedToCreate
 
 task_bp = Blueprint('tasks', __name__)
 
