@@ -43,11 +43,11 @@ def create_user():
     except Exception as e:
         return jsonify({"error":"Failed to create project", "details": str(e)}), 500
 
-@user_bp.route('/user',methods=['GET'])
+@user_bp.route('/user/search',methods=['GET'])
 @token_required
 def getUserbyID():
     getuid=request.args.get('uid')
-    userinfo = User.getUserbyEmail(getuid)
+    userinfo = User.getUserbyID(getuid)
 
     if userinfo:
         return jsonify({
