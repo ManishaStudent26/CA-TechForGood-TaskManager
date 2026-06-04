@@ -98,3 +98,10 @@ class User:
         finally:
             cursor.close()
             connection.close()
+    @classmethod
+    def getAllUser(cls,uid):
+        connection=get_db_connection()
+        cursor=connection.cursor(dictionary=True)
+        try:
+            cursor.execute("SELECT * FROM USERS")
+            row
