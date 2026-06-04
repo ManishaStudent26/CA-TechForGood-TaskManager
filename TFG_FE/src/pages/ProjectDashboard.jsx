@@ -4,71 +4,79 @@ import { Box, Paper, Typography, Chip, Tabs, Tab } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/api';
 
-export default function ProjectDashboard({ projectId }) {
-  const [tasks, setTasks] = useState([]);
+export default function ProjectDashboard({ uid }) {
+  const [projects, setProjects] = useState([]); // Fixed: Tracks projects instead of tasks
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
-  const [activeTab, setActiveTab] = useState(0); // Fixed: Defined missing active tab state
-  const navigate = useNavigate(); // Fixed: Initialized router hook navigation
+  const [activeTab, setActiveTab] = useState(0); 
+  const navigate = useNavigate(); 
 
   useEffect(() => {
+    // Safety check: Don't fetch if the manager's User ID hasn't loaded yet
+    if (!uid) {
+      setErrorMessage("User session not found. Please log in again.");
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
-    api.tasks.getByProject(projectId)
+    // Fixed: Logic updated to target Project routes using the User ID (uid)
+    api.projects.getByManager(uid)
       .then((data) => {
-        setTasks(data);
+        setProjects(data);
         setLoading(false);
       })
       .catch((err) => {
-        setErrorMessage(err.message);
+        setErrorMessage(err.message || 'Failed to fetch projects');
         setLoading(false);
       });
-  }, [projectId]);
+  }, [uid]); // Tracks uid updates safely
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
 
-  // Fixed: Defined MUI DataGrid Columns structure mapping directly to your Flask database dictionary keys
+  // Fixed: Rebuilt columns to map perfectly to your Python Project dictionary keys
   const columns = [
-    { field: 'taskid', headerName: 'ID', width: 90 },
-    { field: 'taskname', headerName: 'Task Name', flex: 1, minWidth: 200 },
+    { field: 'pid', headerName: 'Project ID', width: 120 },
+    { field: 'project_name', headerName: 'Project Name', flex: 1, minWidth: 200 },
     { 
-      field: 'status', 
+      field: 'project_status', 
       headerName: 'Status', 
       width: 150,
       renderCell: (params) => {
-        const status = params.value || 'Upcoming';
+        // Fallback safety matching your backend logic state handling
+        const status = params.value || 'In Progress';
         let color = 'default';
         if (status === 'In Progress') color = 'primary';
         if (status === 'Completed') color = 'success';
-        if (status === 'Pending' || status === 'Upcoming') color = 'warning';
+        if (status === 'Upcoming') color = 'warning';
         return <Chip label={status} color={color} size="small" />;
       }
     },
-    { field: 'taskpri', headerName: 'Priority', width: 130 },
-    { field: 'targetdate', headerName: 'Due Date', width: 150 }
+    { field: 'opentasks', headerName: 'Open Tasks Count', width: 160, type: 'number' },
+    { field: 'project_start', headerName: 'Start Date', width: 150 },
+    { field: 'project_end', headerName: 'End Date', width: 150 }
   ];
 
-  // Fixed: Merged filtering logic securely inside the component body using 'tasks' state
-  const filteredRows = tasks.filter((row) => {
-    // Standardize casing to avoid string matching mismatches
-    const status = row.status || 'Upcoming';
+  // Fixed: Filters row rows based on project data attributes rather than task attributes
+  const filteredRows = projects.filter((row) => {
+    const status = row.project_status || 'In Progress';
     
-    if (activeTab === 0) return true; // "All Tasks"
+    if (activeTab === 0) return true; // "All Projects"
     if (activeTab === 1) return status === 'In Progress';
-    if (activeTab === 2) return status === 'Pending' || status === 'Upcoming';
+    if (activeTab === 2) return status === 'Upcoming';
     if (activeTab === 3) return status === 'Completed';
     return true;
   });
 
-  if (loading) return <Box sx={{ p: 4 }}><Typography>Loading tasks...</Typography></Box>;
+  if (loading) return <Box sx={{ p: 4 }}><Typography>Loading projects workspace...</Typography></Box>;
   if (errorMessage) return <Box sx={{ p: 4 }}><Typography color="error">Error: {errorMessage}</Typography></Box>;
 
-  // Fixed: Single consolidated UI return statement combining tabs, headers, and grid rendering
   return (
-    <Box sx={{ p: 4, maxWidth: 1000, margin: '0 auto' }}>
+    <Box sx={{ p: 4, maxWidth: 1100, margin: '0 auto' }}>
       <Typography variant="h4" sx={{ mb: 2, fontWeight: 'bold' }}>
-        Project Workspace Tasks
+        Manager Project Workspace
       </Typography>
 
       <Tabs 
@@ -78,9 +86,9 @@ export default function ProjectDashboard({ projectId }) {
         indicatorColor="primary"
         sx={{ mb: 3, borderBottom: 1, borderColor: 'divider' }}
       >
-        <Tab label="All Tasks" />
+        <Tab label="All Projects" />
         <Tab label="In Progress" />
-        <Tab label="Pending / Upcoming" />
+        <Tab label="Upcoming" />
         <Tab label="Completed" />
       </Tabs>
       
@@ -90,9 +98,10 @@ export default function ProjectDashboard({ projectId }) {
           columns={columns}
           initialState={{ pagination: { paginationModel: { page: 0, pageSize: 5 } } }}
           pageSizeOptions={[5, 10]}
-          // Fixed: Tells DataGrid to target 'taskid' as unique index row key mapping fallback if 'id' isn't explicitly sent from back
-          getRowId={(row) => row.taskid || row.pid} 
-          onRowClick={(params) => navigate(`/tasks/${params.id}`)}
+          // Fixed: Targets 'pid' matching the unique identifier sent by your Python backend model
+          getRowId={(row) => row.pid} 
+          // Clicking a row safely redirects the manager to view that specific project's task layout
+          onRowClick={(params) => navigate(`/projects/${params.id}`)}
           sx={{ cursor: 'pointer', border: 'none' }}
         />
       </Box>

@@ -6,10 +6,11 @@ from routes.project_routes import projects_bp
 from routes.task_routes import task_bp
 from routes.availability_routes import availability_bp
 from routes.contributors_routes import contributors_bp
+from config.settings import Config
 
 app = Flask(__name__)
-CORS(app)
-
+CORS(app,resources={r"/*": {"origins": ["http://localhost:5000","http://localhost:5173"]}})
+app.config['SECRET_KEY']=Config.JWT_SECRET
 app.register_blueprint(user_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(projects_bp)
