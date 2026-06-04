@@ -82,9 +82,14 @@ def UpdateUser(uid):
 @token_required
 def DelUser(uid):
     data=request.get_json()
-    email = data.get('uid')
     if not uid:
         raise ValidationError()
-    user_del=User.DelUser()
+    user_del=User.DelUser(uid)
     if user_del:
         return jsonify({"message:":f"User{uid} successfully removed"}), 200
+
+@user_bp.route('/allusers', methods=['GET'])
+@token_required
+def GetUsers():
+    users=User.getAllUser()
+    return users
