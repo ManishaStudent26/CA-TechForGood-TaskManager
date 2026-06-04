@@ -12,7 +12,7 @@ def  getprojecttasks():
     serialized_tasks=[project_task.to_dic() for project_task in project_tasks]
     return jsonify(serialized_tasks), 200
 
-@task_bp.route('api/tasks', methods=['POST'])
+@task_bp.route('/api/tasks', methods=['POST'])
 @token_required
 def createprojecttask():
     data=request.get_json()
@@ -40,7 +40,7 @@ def createprojecttask():
     except Exception as e:
         return jsonify({"error": "Failed to create task", "details": str(e)}), 500
     
-@task_bp.route('api/task<int:uid>', methods=(['GET']))
+@task_bp.route('/api/task<int:uid>', methods=(['GET']))
 @token_required
 def getusertasks(uid):
     uid=g.uid
@@ -83,7 +83,7 @@ def deltask(taskid):
         return jsonify({"error": "Task not found or unauthorized access."}), 404
 
 
-@task_bp.route('api/setOwner',methods=['PUT'])
+@task_bp.route('/api/setOwner',methods=['PUT'])
 @token_required
 def assignowner():
     data=request.get_json()
