@@ -1,6 +1,6 @@
 from config.db import get_db_connection
 from datetime import timedelta,date
-from availability_model import Availability
+from models.availability_model import Availability
 from utils.errorHandling import ValidationError
 class Task:
     def __init__(self, taskid, taskname, taskowner, projectname, startdate, targetdate, taskpri, weight, progress, status, overdue):
