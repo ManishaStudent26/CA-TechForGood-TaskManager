@@ -67,7 +67,7 @@ def updatetask(uid):
             taskpri=taskpri,
             weight=weight,
             status=status)
-        return jsonify({update_task.to_dict()}), 201
+        return jsonify(update_task.to_dict()), 201
     except Exception as e:
         raise FailedToCreate({})
     
