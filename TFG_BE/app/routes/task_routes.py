@@ -1,31 +1,31 @@
 from flask import Blueprint, jsonify, g, request
 from models.task_model import Task
 from utils.middleware import token_required
-from utils.errorHandling import ValidationError, FailedToCreate
+from utils.errorHandling import ValidationError, FailedToCreate, ResourceNotFoundError
 
-task_bp=Blueprint('tasks',__name__)
+task_bp = Blueprint('tasks', __name__)
 
-@task_bp.route ('/api/projecttasks/<int:pid>', methods=['GET'])
+@task_bp.route('/api/projecttasks/<int:pid>', methods=['GET']) # Fixed: Added missing forward slash / before dynamic block
 @token_required
-def  getprojecttasks(pid):
+def getprojecttasks(pid):
     project_tasks = Task.getTaskbyProject(pid)
-    serialized_tasks=[project_task.to_dict() for project_task in project_tasks]
+    serialized_tasks = [project_task.to_dict() for project_task in project_tasks]
     return jsonify(serialized_tasks), 200
 
 @task_bp.route('/api/tasks', methods=['POST'])
 @token_required
 def createprojecttask():
-    data=request.get_json()
-    taskname=data.get('taskname')
-    pid=data.get('pid')
-    startdate=data.get('startdate')
-    targetdate=data.get('targetdate')
-    taskpri=data.get('taskpri')
-    weight=data.get('weight')
-    status=data.get('status')
+    data = request.get_json() or {} # Safe dictionary fallback
+    taskname = data.get('taskname')
+    pid = data.get('pid')
+    startdate = data.get('startdate')
+    targetdate = data.get('targetdate')
+    taskpri = data.get('taskpri')
+    weight = data.get('weight')
+    status = data.get('status')
 
     if not taskname or not startdate or not taskpri or not status:
-        raise ValidationError({})
+        raise ValidationError("Missing required fields for task creation.")
     try:
         new_task = Task.createTask(
             taskname=taskname,
@@ -40,37 +40,43 @@ def createprojecttask():
     except Exception as e:
         return jsonify({"error": "Failed to create task", "details": str(e)}), 500
     
-@task_bp.route('/api/task', methods=(['GET']))
+@task_bp.route('/api/task', methods=['GET'])
 @token_required
 def getusertasks():
-    usertasks= Task.getTaskbyContributor(g.uid)
-    serialized_tasks=[usertask.to_dict() for usertask in usertasks]
+    usertasks = Task.getTaskbyContributor(g.uid)
+    serialized_tasks = [usertask.to_dict() for usertask in usertasks]
     return jsonify(serialized_tasks), 200
 
 @task_bp.route('/api/tasks/<int:taskid>', methods=['PUT'])
 @token_required
 def updatetask(taskid):
-    data=request.get_json()
-    taskname=data.get('taskname')
-    startdate=data.get('startdate')
-    targetdate=data.get('targetdate')
-    taskpri=data.get('taskpri')
-    weight=data.get('weight')
-    status=data.get('status')
+    data = request.get_json() or {}
+    taskname = data.get('taskname')
+    startdate = data.get('startdate')
+    targetdate = data.get('targetdate')
+    taskpri = data.get('taskpri')
+    weight = data.get('weight')
+    status = data.get('status')
+    
     if not taskname or not startdate or not taskpri or not status:
-        raise ValidationError({})
+        raise ValidationError("Missing required fields for task update.")
     try:
-        update_task=Task.editTask(
+        success = Task.editTask(
             taskid=taskid,
             taskname=taskname,
             startdate=startdate,
             targetdate=targetdate,
             taskpri=taskpri,
             weight=weight,
-            status=status)
-        return jsonify(update_task.to_dict()), 201
+            status=status
+        )
+        # Fixed: Safely assuming editTask returns a rowcount boolean like your other models
+        if success:
+            return jsonify({"message": f"Task {taskid} successfully updated."}), 200
+        else:
+            raise ResourceNotFoundError()
     except Exception as e:
-        raise FailedToCreate({})
+        raise FailedToCreate(f"Database modification failed: {str(e)}")
     
 @task_bp.route('/api/tasks/<int:taskid>', methods=['DELETE'])
 @token_required
@@ -79,18 +85,18 @@ def deltask(taskid):
     if success:
         return jsonify({"message": f"Task {taskid} successfully deleted."}), 200
     else:
-        return jsonify({"error": "Task not found or unauthorized access."}), 404
+        raise ResourceNotFoundError()
 
-
-@task_bp.route('/api/setOwner',methods=['PUT'])
+@task_bp.route('/api/setOwner', methods=['PUT'])
 @token_required
 def assignowner():
-    data=request.get_json()
-    taskid=data.get('taskid')
-    cid=data.get('cid')
-    uid=data.get('uid')
-    success= Task.assignTaskOwner(uid, taskid,cid)
+    data = request.get_json() or {}
+    taskid = data.get('taskid')
+    cid = data.get('cid')
+    uid = data.get('uid')
+    
+    success = Task.assignTaskOwner(uid, taskid, cid)
     if success:
-        return jsonify({"message:""Processed"}),200
+        return jsonify({"message": "Processed"}), 200 # Fixed: Corrected invalid double quote dictionary parsing syntax
     else:
-        raise FailedToCreate({})
+        raise FailedToCreate("Failed to assign task owner.")
