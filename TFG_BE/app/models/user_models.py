@@ -112,4 +112,18 @@ class User:
         cursor=connection.cursor(dictionary=True)
         try:
             cursor.execute("SELECT * FROM USERS")
-            row
+            rows= cursor.fetchall()
+
+            users=[]
+            for row in rows:
+                users.append(cls(
+                    uid=row['uid'],
+                    email=row['email'],
+                    name=row['name'],
+                    password_hash=['password_hash'],
+                    role=['role']
+                ))
+            return users
+        finally:
+            cursor.close()
+            connection.close()
