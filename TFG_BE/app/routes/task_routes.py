@@ -72,11 +72,9 @@ def updatetask(taskid):
     except Exception as e:
         raise FailedToCreate({})
     
-@task_bp.route('/api/tasks', methods=['DELETE'])
+@task_bp.route('/api/tasks/<int:taskid>', methods=['DELETE'])
 @token_required
 def deltask(taskid):
-    data=request.get_json()
-    taskid=data.get('taskid')
     success = Task.delTask(taskid)
     if success:
         return jsonify({"message": f"Task {taskid} successfully deleted."}), 200
