@@ -13,9 +13,9 @@ export default function LoginPage() {
   const [error, setError] = useState("");
 
 async function onSubmit(e) {
-e.preventDefault();
-setError("");
-setLoading(true);
+  e.preventDefault();
+  setError("");
+  setLoading(true);
 try {
 await login(email, password);
 nav("/Dashboard");

@@ -1,16 +1,16 @@
+import { useAuth } from '../auth/AuthContext';
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Box, Paper, Typography, Chip, Tabs, Tab } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/api';
-
-export default function ProjectDashboard() {
+export default function ProjectDashboard(){
+  const {uid} = useAuth();
+  const navigate = useNavigate();
   const [projects, setProjects] = useState([]); // Fixed: Tracks projects instead of tasks
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
-  const [activeTab, setActiveTab] = useState(0); 
-  const uid = localStorage.getItem('uid');
-
+  const [activeTab, setActiveTab] = useState(0);
   useEffect(() => {
     // Safety check: Don't fetch if the manager's User ID hasn't loaded yet
     if (!uid) {
@@ -107,5 +107,4 @@ setLoading(true);
         />
       </Box>
     </Box>
-  );
-}
+  );}

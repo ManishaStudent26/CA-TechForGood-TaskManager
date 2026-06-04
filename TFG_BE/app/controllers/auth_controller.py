@@ -20,12 +20,11 @@ def login_user(data):
     if not is_valid:
         return {"error": "Invalid email or password"}, 401
     payload = {
-        "user_id": user.uid,
+        "uid": user.uid,  # Changed from "user_id" to "uid"
         "role": user.role,
         "exp": datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=2)
     }
-
-    token = jwt.encode(payload, Config.JWT_SECRET, algorithm="HS256") 
+    token = jwt.encode(payload, Config.JWT_SECRET, algorithm="HS256")
 
     return {
         "message": "Login successful",

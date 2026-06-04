@@ -11,7 +11,7 @@ export const api = {
   },
 
  projects: {
-    getAllByManager: (uid) => apiFetch(`/api/projects?uid=${uid}`),
+    getAllByManager: () => apiFetch(`/api/projects`),
     create: (projectData) => apiFetch('/api/projects', { method: 'POST', body: projectData }),
     update: (pid, projectData) => apiFetch(`/api/projects/${pid}`, { method: 'PUT', body: projectData }),
     delete: (pid) => apiFetch(`/api/projects/${pid}`, { method: 'DELETE' }),

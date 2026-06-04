@@ -5,10 +5,10 @@ from utils.errorHandling import ValidationError
 
 projects_bp = Blueprint('projects', __name__)
 
-@projects_bp.route('/api/projects', methods=['GET'])
+@projects_bp.route('/projects', methods=['GET'])
 @token_required
 def get_manager_projects():
-    uid = request.args.get('uid')
+    uid = g.uid
     manager_projects = Project.getProjectbyManager(uid)
     serialized_projects = [project.to_dict() for project in manager_projects]
     return jsonify(serialized_projects), 200
