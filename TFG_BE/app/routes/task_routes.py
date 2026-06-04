@@ -5,10 +5,10 @@ from utils.errorHandling import ValidationError, FailedToCreate
 
 task_bp=Blueprint('tasks',__name__)
 
-@task_bp.route ('/api/projecttasks', methods=['GET'])
+@task_bp.route ('/api/projecttasks<int:pid>', methods=['GET'])
 @token_required
-def  getprojecttasks():
-    project_tasks = Task.getTaskbyProject(g.pid)
+def  getprojecttasks(pid):
+    project_tasks = Task.getTaskbyProject(pid)
     serialized_tasks=[project_task.to_dic() for project_task in project_tasks]
     return jsonify(serialized_tasks), 200
 
