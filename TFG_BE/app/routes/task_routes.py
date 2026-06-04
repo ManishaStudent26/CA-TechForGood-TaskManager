@@ -29,7 +29,7 @@ def createprojecttask():
     try:
         new_task = Task.createTask(
             taskname=taskname,
-            pid=g.pid,
+            pid=pid,
             startdate=startdate,
             targetdate=targetdate,
             taskpri=taskpri,
