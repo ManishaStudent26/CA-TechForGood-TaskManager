@@ -6,10 +6,15 @@ class ValidationError(Exception):
         self.message = message
 
 class FailedToCreate(Exception):
-    def __init__(self, message="Failed to create the new record"):
+    def __init__(self, message="Failed to create or update record"):
         super().__init__(message)
         self.message = message
 
+class ResourceNotFoundError(Exception):
+    def __init__(self, message="The requested resource was not found or access is denied."):
+        super().__init__(message)
+        self.message = message
+        
 def register_generic_error_handlers(app):
     @app.errorhandler(ValidationError)
     @app.errorhandler(400)

@@ -1,9 +1,7 @@
 import os
 import sys
 current_dir = os.path.dirname(os.path.abspath(__file__))
-parent_dir = os.path.dirname(current_dir)
-sys.path.append(parent_dir)
-
+sys.path.append(os.path.dirname(current_dir))
 from flask import Blueprint, jsonify, request
 from models.user_models import User
 from utils.middleware import token_required
