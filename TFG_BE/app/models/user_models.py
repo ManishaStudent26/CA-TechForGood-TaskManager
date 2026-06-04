@@ -8,9 +8,17 @@ class User:
         self.name = name
         self.role = role
 
+    def to_dict(self):
+        return{
+            "uid":self.uid,
+            "email":self.email,
+            "password_hash":self._password_hash,
+            "name":self.name,
+            "self.role": self.role
+        }
+
     @classmethod
     def getUserbyEmail(cls, email):
-
         connection= get_db_connection()
         cursor=connection.cursor(dictionary=True)
         try:
