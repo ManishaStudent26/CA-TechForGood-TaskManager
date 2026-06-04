@@ -9,7 +9,10 @@ from routes.contributors_routes import contributors_bp
 from config.settings import Config
 
 app = Flask(__name__)
-CORS(app,resources={r"/*": {"origins": ["http://localhost:5000","http://localhost:5173"]}})
+CORS(app, resources={r"/*": {
+    "origins": ["http://localhost:5173", "http://localhost:5000"],
+    "supports_credentials": True
+}})
 app.config['SECRET_KEY']=Config.JWT_SECRET
 app.register_blueprint(user_bp)
 app.register_blueprint(auth_bp)

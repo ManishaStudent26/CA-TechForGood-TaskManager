@@ -8,15 +8,19 @@ class Project:
         self.project_name = project_name
         self.project_start = project_start
         self.project_end = project_end
-        self.project_status= project_status
-        self.opentasks= opentasks
+        self.project_status = project_status
+        self.opentasks = opentasks
     
     @property
     def status(self):
+        # 🌟 Fallback check if date fields are missing or empty
+        if not self.project_start or not self.project_end:
+            return "Unknown"
+            
         today = date.today()
         if today < self.project_start:
             return "Upcoming"
-        elif self.start_date <= today <= self.project_end:
+        elif self.project_start <= today <= self.project_end: # 🌟 Fixed typo (changed self.start_date to self.project_start)
             return "In Progress"
         else:
             return "Completed"
@@ -28,14 +32,15 @@ class Project:
             "project_name": self.project_name,
             "project_start": self.project_start.isoformat() if self.project_start else None,
             "project_end": self.project_end.isoformat() if self.project_end else None,
-            "project_status": self.project_status,
+            # 🌟 FIXED HERE: Use your active dynamic status property if constructor status is None!
+            "project_status": self.project_status if self.project_status else self.status,
             "opentasks": self.opentasks
-            }
+        }
 
     @classmethod
-    def getProjectbyManager(cls,uid):
-        connection= get_db_connection()
-        cursor=connection.cursor(dictionary=True)
+    def getProjectbyManager(cls, uid):
+        connection = get_db_connection()
+        cursor = connection.cursor(dictionary=True)
         try:
             query = """
             SELECT 
@@ -45,29 +50,32 @@ class Project:
                 p.project_start, 
                 p.project_end, 
                 COUNT(t.Task_ID) AS opentasks 
-                FROM Projects p 
-                LEFT JOIN Tasks t ON p.project_id = t.project_id
-                WHERE p.project_owner = %s 
-                GROUP BY p.project_id
-                """
+            FROM Projects p 
+            LEFT JOIN Tasks t ON p.project_id = t.project_id
+            WHERE p.project_owner = %s 
+            GROUP BY 
+                p.project_id,
+                p.project_owner
+            """
             cursor.execute(query, (uid,))
             rows = cursor.fetchall()
             
             projects = [] 
             for row in rows:
                 projects.append(cls(
-                pid=row['project_id'],
-                project_owner=row['project_owner'],
-                project_name=row['project_name'],
-                project_start=row['project_start'],
-                project_end=row['project_end'],
-                project_status= None,
-                opentasks=row['opentasks']
+                    pid=row['project_id'],
+                    project_owner=row['project_owner'],
+                    project_name=row['project_name'],
+                    project_start=row['project_start'],
+                    project_end=row['project_end'],
+                    project_status=None,
+                    opentasks=row['opentasks']
                 ))
             return projects
         finally:
             cursor.close()
             connection.close()
+
     @classmethod
     def createProject(cls, project_owner, project_name, project_start, project_end):
         connection = get_db_connection()
