@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request, g
 from models.project_model import Project
 from utils.middleware import token_required
-from utils.errorHandling import ValidationError, ResourceNotFoundError
+from utils.errorHandling import ValidationError
 
 projects_bp = Blueprint('projects', __name__)
 
