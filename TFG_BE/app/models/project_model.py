@@ -68,8 +68,8 @@ class Project:
         finally:
             cursor.close()
             connection.close()
-@classmethod
-def createProject(cls, project_owner, project_name, project_start, project_end):
+    @classmethod
+    def createProject(cls, project_owner, project_name, project_start, project_end):
         connection = get_db_connection()
         cursor = connection.cursor()
         try:
@@ -94,8 +94,8 @@ def createProject(cls, project_owner, project_name, project_start, project_end):
             cursor.close()
             connection.close()
 
-@classmethod
-def editProject(cls, pid, project_name, project_start, project_end):
+    @classmethod
+    def editProject(cls, pid, project_name, project_start, project_end):
         connection = get_db_connection()
         cursor = connection.cursor()
         try:
@@ -111,8 +111,8 @@ def editProject(cls, pid, project_name, project_start, project_end):
             cursor.close()
             connection.close()
 
-@classmethod
-def deleteProject(cls, pid):
+    @classmethod
+    def deleteProject(cls, pid):
         connection = get_db_connection()
         cursor = connection.cursor()
         try:
