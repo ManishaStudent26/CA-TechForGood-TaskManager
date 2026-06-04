@@ -47,9 +47,9 @@ def getusertasks():
     serialized_tasks=[usertask.to_dict() for usertask in usertasks]
     return jsonify(serialized_tasks), 200
 
-@task_bp.route('/api/tasks', methods=['PUT'])
+@task_bp.route('/api/tasks/<int:taskid>', methods=['PUT'])
 @token_required
-def updatetask(uid):
+def updatetask(taskid):
     data=request.get_json()
     taskname=data.get('taskname')
     startdate=data.get('startdate')
@@ -60,7 +60,9 @@ def updatetask(uid):
     if not taskname or not startdate or not taskpri or not status:
         raise ValidationError({})
     try:
-        update_task=Task.editTask(taskname=taskname,
+        update_task=Task.editTask(
+            taskid=taskid,
+            taskname=taskname,
             startdate=startdate,
             targetdate=targetdate,
             taskpri=taskpri,
