@@ -8,7 +8,8 @@ projects_bp = Blueprint('projects', __name__)
 @projects_bp.route('/api/projects', methods=['GET'])
 @token_required
 def get_manager_projects():
-    manager_projects = Project.getProjectbyManager(g.user_id)
+    uid = request.args.get('uid')
+    manager_projects = Project.getProjectbyManager(uid)
     serialized_projects = [project.to_dict() for project in manager_projects]
     return jsonify(serialized_projects), 200
 
@@ -16,7 +17,7 @@ def get_manager_projects():
 @token_required
 def create_new_project():
     data = request.get_json()
-    
+    uid = request.args.get('uid')
     project_name = data.get('project_name')
     project_start = data.get('project_start')
     project_end = data.get('project_end')
@@ -26,7 +27,7 @@ def create_new_project():
         
     try:
         new_project = Project.createProject(
-            project_owner=g.user_id,
+            project_owner=uid,
             project_name=project_name,
             project_start=project_start,
             project_end=project_end

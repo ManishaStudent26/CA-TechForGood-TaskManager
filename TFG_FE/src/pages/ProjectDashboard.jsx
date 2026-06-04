@@ -4,12 +4,12 @@ import { Box, Paper, Typography, Chip, Tabs, Tab } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/api';
 
-export default function ProjectDashboard({ uid }) {
+export default function ProjectDashboard() {
   const [projects, setProjects] = useState([]); // Fixed: Tracks projects instead of tasks
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
   const [activeTab, setActiveTab] = useState(0); 
-  const navigate = useNavigate(); 
+  const uid = localStorage.getItem('uid');
 
   useEffect(() => {
     // Safety check: Don't fetch if the manager's User ID hasn't loaded yet
@@ -19,9 +19,10 @@ export default function ProjectDashboard({ uid }) {
       return;
     }
 
-    setLoading(true);
-    // Fixed: Logic updated to target Project routes using the User ID (uid)
-    api.projects.getByManager(uid)
+setLoading(true);
+    
+    // 🌟 FIXED: Calling the exact function from your api.js and passing the uid
+    api.projects.getAllByManager(uid)
       .then((data) => {
         setProjects(data);
         setLoading(false);
@@ -30,7 +31,7 @@ export default function ProjectDashboard({ uid }) {
         setErrorMessage(err.message || 'Failed to fetch projects');
         setLoading(false);
       });
-  }, [uid]); // Tracks uid updates safely
+  }, [uid]);// Tracks uid updates safely
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
