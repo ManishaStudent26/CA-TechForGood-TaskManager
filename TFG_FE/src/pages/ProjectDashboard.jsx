@@ -1,6 +1,6 @@
 import { useAuth } from '../auth/AuthContext';
 import React, { useState, useEffect } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid} from '@mui/x-data-grid';
 import { Box, Paper, Typography, Chip, Tabs, Tab } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/api';
@@ -17,7 +17,7 @@ export default function ProjectDashboard(){
       setErrorMessage("User session not found. Please log in again.");
       setLoading(false);
       return;
-    }
+    };
 
 setLoading(true);
     
@@ -31,22 +31,22 @@ setLoading(true);
         setErrorMessage(err.message || 'Failed to fetch projects');
         setLoading(false);
       });
-  }, [uid]);// Tracks uid updates safely
+  }, [uid]);// AI fix: Tracks uid updates safely
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
 
-  // Fixed: Rebuilt columns to map perfectly to your Python Project dictionary keys
-  const columns = [
-    { field: 'pid', headerName: 'Project ID', width: 120 },
-    { field: 'project_name', headerName: 'Project Name', flex: 1, minWidth: 200 },
-    { 
+  // AI Fixed: Rebuilt columns to map perfectly to your Python Project dictionary keys
+  const columns= [
+    { field: 'pid', headerName: 'Project ID', width: 120},
+    { field: 'project_name', headerName: 'Project Name', flex: 1, minWidth: 200},
+    {
       field: 'project_status', 
       headerName: 'Status', 
       width: 150,
       renderCell: (params) => {
-        // Fallback safety matching your backend logic state handling
+        // AI:Fallback safety matching your backend logic state handling
         const status = params.value || 'In Progress';
         let color = 'default';
         if (status === 'In Progress') color = 'primary';
@@ -55,9 +55,14 @@ setLoading(true);
         return <Chip label={status} color={color} size="small" />;
       }
     },
-    { field: 'opentasks', headerName: 'Open Tasks Count', width: 160, type: 'number' },
+    { field: 'opentasks', headerName: 'Open Tasks Count', width: 160, type: 'number'},
     { field: 'project_start', headerName: 'Start Date', width: 150 },
-    { field: 'project_end', headerName: 'End Date', width: 150 }
+    { field: 'project_end', headerName: 'End Date', width: 150 },
+    {field:'edit',
+      headername:'', 
+      width:150, 
+      renderCell:params=><button>Edit</button>},
+    {field: 'delete', width:150, renderCell:params=><button>Delete</button>}
   ];
 
   // Fixed: Filters row rows based on project data attributes rather than task attributes
@@ -75,7 +80,7 @@ setLoading(true);
   if (errorMessage) return <Box sx={{ p: 4 }}><Typography color="error">Error: {errorMessage}</Typography></Box>;
 
   return (
-    <Box sx={{ p: 4, maxWidth: 1100, margin: '0 auto' }}>
+    <Box sx={{ p: 4, maxWidth: 1200, margin: '0 auto' }}>
       <Typography variant="h4" sx={{ mb: 2, fontWeight: 'bold' }}>
         Manager Project Workspace
       </Typography>
@@ -102,7 +107,8 @@ setLoading(true);
           // Fixed: Targets 'pid' matching the unique identifier sent by your Python backend model
           getRowId={(row) => row.pid} 
           // Clicking a row safely redirects the manager to view that specific project's task layout
-          onRowClick={(params) => navigate(`/projects/${params.id}`)}
+          //TO BE FIXED!!
+          onRowClick={(params) => navigate(`/tasks/${params.id}`)}
           sx={{ cursor: 'pointer', border: 'none' }}
         />
       </Box>

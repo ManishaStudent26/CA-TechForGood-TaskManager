@@ -6,15 +6,12 @@ from utils.errorHandling import ValidationError
 projects_bp = Blueprint('projects', __name__)
 
 @projects_bp.route('/api/projects', methods=['GET','OPTIONS'])
+@token_required
 def get_manager_projects():
     if request.method == 'OPTIONS':
         return jsonify({"message": "Preflight OK"}), 200
     if not hasattr(g, 'uid') or g.uid is None:
         return jsonify({"error": "Session identity could not be verified by middleware."}), 500
-    uid = g.uid
-    manager_projects = Project.getProjectbyManager(uid)
-    serialized_projects = [project.to_dict() for project in manager_projects]
-    return jsonify(serialized_projects), 200
     uid = g.uid
     manager_projects = Project.getProjectbyManager(uid)
     serialized_projects = [project.to_dict() for project in manager_projects]

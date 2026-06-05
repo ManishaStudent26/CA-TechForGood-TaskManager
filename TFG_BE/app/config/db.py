@@ -1,4 +1,3 @@
-import os
 import mysql.connector
 from mysql.connector import Error
 from config.settings import Config
