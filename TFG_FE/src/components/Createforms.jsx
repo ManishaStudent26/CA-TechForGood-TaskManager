@@ -37,12 +37,16 @@ export default function ProjectFormDialog() {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Create a new project</DialogTitle>
         <DialogContent>
+          <DialogContentText>
+            Fill in a project name and a start and end date.
+          </DialogContentText>
           <form onSubmit={handleSubmit} id="subscription-form">
             <TextField
               autoFocus
               required
               margin="dense"
               id="projectname"
+              label="Project Name"
               name="projectname"
               type="projectname"
               fullWidth
