@@ -14,15 +14,8 @@ export default function ProjectDashboard(){
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
   const [activeTab, setActiveTab] = useState(0);
-  useEffect(() => {
-    //AI Fix Safety check: Don't fetch if the manager's User ID hasn't loaded yet
-    if (!uid) {
-      setErrorMessage("User session not found. Please log in again.");
-      setLoading(false);
-      return;
-    };
-
-setLoading(true);
+  const getProjects=()=>{
+    setLoading(true);
     
     // 🌟 AI FIXED: Calling the exact function from your api.js and passing the uid
     api.projects.getAllByManager(uid)
@@ -34,7 +27,17 @@ setLoading(true);
         setErrorMessage(err.message || 'Failed to fetch projects');
         setLoading(false);
       });
-  }, [uid]);// AI fix: Tracks uid updates safely
+  };
+
+  useEffect(() => {
+    //AI Fix Safety check: Don't fetch if the manager's User ID hasn't loaded yet
+    if (!uid) {
+      setErrorMessage("User session not found. Please log in again.");
+      setLoading(false);
+      return;
+    }
+    else {getProjects();}
+  },[uid]);// AI fix: Tracks uid updates safely
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -87,7 +90,9 @@ setLoading(true);
       <Typography variant="h4" sx={{ mb: 2, fontWeight: 'bold' }}>
         Manager Project Workspace
       </Typography>
-      <ProjectFormDialog/>
+      <ProjectFormDialog
+      refreshProjects={getProjects}
+      />
 
       <Tabs 
         value={activeTab} 
@@ -117,4 +122,5 @@ setLoading(true);
         />
       </Box>
     </Box>
-  );}
+  );
+}

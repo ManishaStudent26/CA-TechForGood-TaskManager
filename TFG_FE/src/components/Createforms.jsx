@@ -8,7 +8,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useAuth } from '../auth/AuthContext';
 
-export default function ProjectFormDialog() {
+export default function ProjectFormDialog({refreshProjects }) {
   const {uid}=useAuth()
   const [open, setOpen] = React.useState(false);
 
@@ -38,7 +38,11 @@ export default function ProjectFormDialog() {
         method:'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(newProject)})
-      if(response.ok){alert('Project was saved'); handleClose();}
+      if(response.ok){alert('Project was saved');
+      if (refreshProjects) {
+    refreshProjects();
+  }
+      handleClose();}
     }catch(error){
       console.error('Error saving', error)}
   };
