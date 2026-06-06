@@ -4,7 +4,7 @@ import { DataGrid} from '@mui/x-data-grid';
 import { Box, Paper, Typography, Chip, Tabs, Tab } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/api';
-import {Projectform} from '../components'
+import ProjectFormDialog from '../components/Createforms'
 
 
 export default function ProjectDashboard(){
@@ -87,6 +87,7 @@ setLoading(true);
       <Typography variant="h4" sx={{ mb: 2, fontWeight: 'bold' }}>
         Manager Project Workspace
       </Typography>
+      <ProjectFormDialog/>
 
       <Tabs 
         value={activeTab} 
