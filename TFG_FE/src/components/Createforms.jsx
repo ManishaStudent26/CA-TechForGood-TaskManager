@@ -18,11 +18,13 @@ export default function ProjectFormDialog() {
     setOpen(false);
   };
 
-  const handleSubmit = (event: React.InputEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.InputEvent) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries((formData as any).entries());
-    const email = formJson.email;
+    const project_name = formJson.project_name;
+    const project_start=formJson.project_start;
+    const project_end=formJson.project_end;
     console.log(email);
     handleClose();
   };
@@ -30,33 +32,45 @@ export default function ProjectFormDialog() {
   return (
     <React.Fragment>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Open form dialog
+        Create a new project
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Subscribe</DialogTitle>
+        <DialogTitle>Create a new project</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            To subscribe to this website, please enter your email address here. We
-            will send updates occasionally.
-          </DialogContentText>
           <form onSubmit={handleSubmit} id="subscription-form">
             <TextField
               autoFocus
               required
               margin="dense"
-              id="name"
-              name="email"
-              label="Email Address"
-              type="email"
+              id="projectname"
+              name="projectname"
+              type="projectname"
               fullWidth
               variant="standard"
             />
+            <TextField
+            autoFocus
+              margin="dense"
+              id="project_start"
+              name="startdate"
+              type="date"
+              fullWidth
+              variant="standard"
+            />
+            <TextField
+            autoFocus
+            margin="dense"
+              id="project_start"
+              name="startdate"
+              type="date"
+              fullWidth
+              variant="standard"/>
           </form>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit" form="subscription-form">
-            Create
+          <Button type="submit" form="new project form">
+            Submit
           </Button>
         </DialogActions>
       </Dialog>
