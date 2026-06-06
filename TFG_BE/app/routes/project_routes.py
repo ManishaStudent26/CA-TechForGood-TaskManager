@@ -18,7 +18,6 @@ def get_manager_projects():
     return jsonify(serialized_projects), 200
 
 @projects_bp.route('/api/projects', methods=['POST'])
-@token_required
 def create_new_project():
     data = request.get_json()
     uid = request.data.get('uid')
@@ -41,7 +40,6 @@ def create_new_project():
         return jsonify({"error": "Failed to create project", "details": str(e)}), 500
 
 @projects_bp.route('/api/projects/<int:pid>', methods=['PUT'])
-@token_required
 def update_existing_project(pid):
     data = request.get_json()
     
@@ -65,7 +63,6 @@ def update_existing_project(pid):
         return jsonify({"error": "Project not found or unauthorized access."}), 404
 
 @projects_bp.route('/api/projects/<int:pid>', methods=['DELETE'])
-@token_required
 def delete_existing_project(pid):
     success = Project.deleteProject(pid)
     

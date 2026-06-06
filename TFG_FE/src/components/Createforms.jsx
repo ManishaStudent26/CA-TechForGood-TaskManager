@@ -6,8 +6,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { useAuth } from '../auth/AuthContext';
 
 export default function ProjectFormDialog() {
+  const {uid}=useAuth()
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -18,11 +20,10 @@ export default function ProjectFormDialog() {
     setOpen(false);
   };
 
-  const handleSubmit = (event)=> {
+  const handleSubmit = async(event)=> {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries(formData.entries());
-    const {uid}=Auth()
     const project_name = formJson.project_name;
     const project_start=formJson.project_start;
     const project_end=formJson.project_end;
@@ -33,11 +34,10 @@ export default function ProjectFormDialog() {
       project_end:formJson.project_end
     }
     try{
-      const response = fetch('http://localhost:5000/api/projects',{
+      const response = await fetch('http://localhost:5000/api/projects',{
         method:'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(newProject)
-      })
+        body: JSON.stringify(newProject)})
       if(response.ok){alert('Project was saved'); handleClose();}
     }catch(error){
       console.error('Error saving', error)}
@@ -56,34 +56,34 @@ export default function ProjectFormDialog() {
           <DialogContentText>
             Fill in a project name and a start and end date.
           </DialogContentText>
-          <form onSubmit={handleSubmit} id="subscription-form">
+          <form onSubmit={handleSubmit} id="newproject_form">
             <TextField
               autoFocus
               required
               margin="dense"
               id="projectname"
               label="Project Name"
-              name="projectname"
+              name="project_name"
               type="projectname"
               fullWidth
               variant="standard"
             />
             <TextField
-            autoFocus
               required
               margin="dense"
-              id="project_start"
+              id="project start"
+              label="Start Date"
               name="project_start"
               type="date"
               fullWidth
               variant="standard"
             />
             <TextField
-            autoFocus
             required
             margin="dense"
-              id="project_start"
-              name="project_start"
+              id="project end"
+              label="End Date"
+              name="project_end"
               type="date"
               fullWidth
               variant="standard"/>
@@ -91,7 +91,7 @@ export default function ProjectFormDialog() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit}type="submit" form="new project form">
+          <Button type="submit" form="newproject_form">
             Submit
           </Button>
         </DialogActions>
