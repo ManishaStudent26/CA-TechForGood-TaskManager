@@ -4,7 +4,8 @@ import { DataGrid} from '@mui/x-data-grid';
 import { Box, Paper, Typography, Chip, Tabs, Tab } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/api';
-import ProjectFormDialog from '../components/Createforms'
+import ProjectFormDialog from '../components/Createforms';
+import ProjectDelete from '../components/DeleteButtons';
 
 
 export default function ProjectDashboard(){
@@ -13,6 +14,7 @@ export default function ProjectDashboard(){
   const [projects, setProjects] = useState([]); // Fixed: Tracks projects instead of tasks
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
+  const [selectedRowId, setSelectedRowId] = useState(null);
   const [activeTab, setActiveTab] = useState(0);
   const getProjects=()=>{
     setLoading(true);
@@ -45,6 +47,7 @@ export default function ProjectDashboard(){
 
   // AI Fixed: Rebuilt columns to map perfectly to your Python Project dictionary keys
   const columns= [
+    {},
     { field: 'pid', headerName: 'Project ID', width: 120},
     { field: 'project_name', headerName: 'Project Name', flex: 1, minWidth: 200},
     {
@@ -64,11 +67,12 @@ export default function ProjectDashboard(){
     { field: 'opentasks', headerName: 'Open Tasks Count', width: 160, type: 'number'},
     { field: 'project_start', headerName: 'Start Date', width: 150 },
     { field: 'project_end', headerName: 'End Date', width: 150 },
-    {field:'edit',
+    { field: '  ',
       headername:'', 
-      width:150, 
+      width:60, 
       renderCell:params=><button>Edit</button>},
-    {field: 'delete', width:150, renderCell:params=><button>Delete</button>}
+    {field: 'Delete', width:90, renderCell:params=>(
+    <ProjectDelete pid={params.id}>Delete</ProjectDelete>)}
   ];
 
   // AI Fixed: Filters row rows based on project data attributes rather than task attributes
@@ -117,7 +121,7 @@ export default function ProjectDashboard(){
           getRowId={(row) => row.pid} 
           // AI Fix: Clicking a row safely redirects the manager to view that specific project's task layout
           //TO BE FIXED!!
-          onRowClick={(params) => navigate(`/tasks/${params.id}`)}
+          //onRowClick={(params) => navigate(`/tasks/${params.id}`)}
           sx={{ cursor: 'pointer', border: 'none' }}
         />
       </Box>
