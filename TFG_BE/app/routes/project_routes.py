@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request, g
 from models.project_model import Project
 from utils.middleware import token_required
 from utils.errorHandling import ValidationError
+from datetime import datetime
 
 projects_bp = Blueprint('projects', __name__)
 
@@ -19,11 +20,20 @@ def get_manager_projects():
 
 @projects_bp.route('/api/projects', methods=['POST'])
 def create_new_project():
+    print("🎯 React successfully reached the Python backend!")
     data = request.get_json()
-    uid = request.data.get('uid')
+    uid = data.get('uid')
     project_name = data.get('project_name')
-    project_start = data.get('project_start')
-    project_end = data.get('project_end')
+    project_start_str = data.get('project_start')
+    project_end_str = data.get('project_end')
+    
+    try:
+    # Convert the strings into actual Python date objects before saving
+        project_start = datetime.strptime(project_start_str, '%Y-%m-%d').date() if project_start_str else None
+        project_end = datetime.strptime(project_end_str, '%Y-%m-%d').date() if project_end_str else None
+    except ValueError as e:
+        print(f"❌ Date formatting failed: {e}")
+    # This print will tell you exactly if the format was wrong
     
     if not project_name or not project_start or not project_end:
         raise ValidationError("Missing required fields: project_name, project_start, or project_end")
