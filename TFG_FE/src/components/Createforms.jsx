@@ -33,7 +33,7 @@ export default function ProjectFormDialog() {
       project_end:formJson.project_end
     }
     try{
-      const response = await fetch('http://localhost:5000/api/projects',{
+      const response = fetch('http://localhost:5000/api/projects',{
         method:'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(newProject)
@@ -91,7 +91,7 @@ export default function ProjectFormDialog() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit" form="new project form">
+          <Button onClick={handleSubmit}type="submit" form="new project form">
             Submit
           </Button>
         </DialogActions>
