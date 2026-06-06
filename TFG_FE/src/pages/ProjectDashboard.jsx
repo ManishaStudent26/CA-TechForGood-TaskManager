@@ -15,7 +15,7 @@ export default function ProjectDashboard(){
   const [errorMessage, setErrorMessage] = useState('');
   const [activeTab, setActiveTab] = useState(0);
   useEffect(() => {
-    // Safety check: Don't fetch if the manager's User ID hasn't loaded yet
+    //AI Fix Safety check: Don't fetch if the manager's User ID hasn't loaded yet
     if (!uid) {
       setErrorMessage("User session not found. Please log in again.");
       setLoading(false);
@@ -24,7 +24,7 @@ export default function ProjectDashboard(){
 
 setLoading(true);
     
-    // 🌟 FIXED: Calling the exact function from your api.js and passing the uid
+    // 🌟 AI FIXED: Calling the exact function from your api.js and passing the uid
     api.projects.getAllByManager(uid)
       .then((data) => {
         setProjects(data);
@@ -68,7 +68,7 @@ setLoading(true);
     {field: 'delete', width:150, renderCell:params=><button>Delete</button>}
   ];
 
-  // Fixed: Filters row rows based on project data attributes rather than task attributes
+  // AI Fixed: Filters row rows based on project data attributes rather than task attributes
   const filteredRows = projects.filter((row) => {
     const status = row.project_status || 'In Progress';
     
@@ -108,9 +108,9 @@ setLoading(true);
           columns={columns}
           initialState={{ pagination: { paginationModel: { page: 0, pageSize: 5 } } }}
           pageSizeOptions={[5, 10]}
-          // Fixed: Targets 'pid' matching the unique identifier sent by your Python backend model
+          // AI Fixed: Targets 'pid' matching the unique identifier sent by your Python backend model
           getRowId={(row) => row.pid} 
-          // Clicking a row safely redirects the manager to view that specific project's task layout
+          // AI Fix: Clicking a row safely redirects the manager to view that specific project's task layout
           //TO BE FIXED!!
           onRowClick={(params) => navigate(`/tasks/${params.id}`)}
           sx={{ cursor: 'pointer', border: 'none' }}

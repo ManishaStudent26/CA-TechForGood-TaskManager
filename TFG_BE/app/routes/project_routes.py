@@ -21,7 +21,7 @@ def get_manager_projects():
 @token_required
 def create_new_project():
     data = request.get_json()
-    uid = request.args.get('uid')
+    uid = request.data.get('uid')
     project_name = data.get('project_name')
     project_start = data.get('project_start')
     project_end = data.get('project_end')

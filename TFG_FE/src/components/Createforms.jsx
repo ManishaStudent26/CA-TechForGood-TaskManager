@@ -21,13 +21,29 @@ export default function ProjectFormDialog() {
   const handleSubmit = (event)=> {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const formJson = Object.fromEntries(formDat.entries());
+    const formJson = Object.fromEntries(formData.entries());
+    const {uid}=Auth()
     const project_name = formJson.project_name;
     const project_start=formJson.project_start;
     const project_end=formJson.project_end;
-    console.log(email);
-    handleClose();
+    const newProject={
+      uid:uid,
+      project_name:formJson.project_name,
+      project_start:formJson.project_start,
+      project_end:formJson.project_end
+    }
+    try{
+      const response = await fetch('http://localhost:5000/api/projects',{
+        method:'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(newProject)
+      })
+      if(response.ok){alert('Project was saved'); handleClose();}
+    }catch(error){
+      console.error('Error saving', error)}
   };
+
+
 
   return (
     <React.Fragment>
@@ -57,7 +73,7 @@ export default function ProjectFormDialog() {
               required
               margin="dense"
               id="project_start"
-              name="startdate"
+              name="project_start"
               type="date"
               fullWidth
               variant="standard"
@@ -67,7 +83,7 @@ export default function ProjectFormDialog() {
             required
             margin="dense"
               id="project_start"
-              name="startdate"
+              name="project_start"
               type="date"
               fullWidth
               variant="standard"/>
