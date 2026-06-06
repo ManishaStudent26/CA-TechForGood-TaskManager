@@ -18,10 +18,10 @@ export default function ProjectFormDialog() {
     setOpen(false);
   };
 
-  const handleSubmit = (event: React.InputEvent) => {
+  const handleSubmit = (event)=> {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const formJson = Object.fromEntries((formData as any).entries());
+    const formJson = Object.fromEntries(formDat.entries());
     const project_name = formJson.project_name;
     const project_start=formJson.project_start;
     const project_end=formJson.project_end;
@@ -50,6 +50,7 @@ export default function ProjectFormDialog() {
             />
             <TextField
             autoFocus
+              required
               margin="dense"
               id="project_start"
               name="startdate"
@@ -59,6 +60,7 @@ export default function ProjectFormDialog() {
             />
             <TextField
             autoFocus
+            required
             margin="dense"
               id="project_start"
               name="startdate"
