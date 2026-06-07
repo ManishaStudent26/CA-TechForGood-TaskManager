@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { api } from '../api/api';
 import ProjectFormDialog from '../components/Createforms';
 import ProjectDelete from '../components/DeleteButtons';
+import ProjectEditForm from '../components/EditForms';
 
 
 export default function ProjectDashboard(){
@@ -70,10 +71,9 @@ export default function ProjectDashboard(){
     { field: '  ',
       headername:'', 
       width:60, 
-      renderCell:params=><button>Edit</button>},
+      renderCell:params=>(<ProjectEditForm pid={params.row.pid} refreshProjects={getProjects}/>)},
     {field: 'Delete', width:90, renderCell:params=>(<ProjectDelete pid={params.row.pid} refreshProjects={getProjects}/>)}
   ];
-
   // AI Fixed: Filters row rows based on project data attributes rather than task attributes
   const filteredRows = projects.filter((row) => {
     const status = row.project_status || 'In Progress';
