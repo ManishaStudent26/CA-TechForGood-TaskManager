@@ -1,7 +1,7 @@
 import { useAuth } from '../auth/AuthContext';
 import React, { useState, useEffect } from 'react';
 import { DataGrid} from '@mui/x-data-grid';
-import { Box, Paper, Typography, Chip, Tabs, Tab } from '@mui/material';
+import { Box, Paper, Typography, Chip, Tabs, Tab, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/api';
 import ProjectFormDialog from '../components/Createforms';
@@ -48,8 +48,7 @@ export default function ProjectDashboard(){
 
   // AI Fixed: Rebuilt columns to map perfectly to your Python Project dictionary keys
   const columns= [
-    {},
-    { field: 'pid', headerName: 'Project ID', width: 120},
+    {field:'View', width:80, renderCell:(params)=>(<Button onClick={() => navigate(`/tasks/${params.row.pid}`)}>View</Button>)},
     { field: 'project_name', headerName: 'Project Name', flex: 1, minWidth: 200},
     {
       field: 'project_status', 
@@ -68,11 +67,10 @@ export default function ProjectDashboard(){
     { field: 'opentasks', headerName: 'Open Tasks Count', width: 160, type: 'number'},
     { field: 'project_start', headerName: 'Start Date', width: 150 },
     { field: 'project_end', headerName: 'End Date', width: 150 },
-    { field: '  ',
-      headername:'', 
-      width:60, 
+    { field: 'Edit', 
+      width:80, 
       renderCell:params=>(<ProjectEditForm pid={params.row.pid} refreshProjects={getProjects}/>)},
-    {field: 'Delete', width:90, renderCell:params=>(<ProjectDelete pid={params.row.pid} refreshProjects={getProjects}/>)}
+    {field: 'Delete',width:90, renderCell:params=>(<ProjectDelete pid={params.row.pid} refreshProjects={getProjects}/>)}
   ];
   // AI Fixed: Filters row rows based on project data attributes rather than task attributes
   const filteredRows = projects.filter((row) => {
@@ -120,7 +118,7 @@ export default function ProjectDashboard(){
           getRowId={(row) => row.pid} 
           // AI Fix: Clicking a row safely redirects the manager to view that specific project's task layout
           //TO BE FIXED!!
-          //onRowClick={(params) => navigate(`/tasks/${params.id}`)}
+          //
           sx={{ cursor: 'pointer', border: 'none' }}
         />
       </Box>
