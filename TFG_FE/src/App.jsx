@@ -3,6 +3,7 @@ import React from 'react';
 import { AuthProvider } from './auth/AuthContext';
 import LoginPage from './pages/login';
 import ProjectsDashboard from './pages/ProjectDashboard';
+import TaskView from './pages/Tasks';
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
           {/* Main Application Routes */}
           <Route path="/login" element={<LoginPage/>} />
           <Route path="/Dashboard" element={<ProjectsDashboard/>} />
+          <Route path="/Tasks/:pid" element={<TaskView/>}/>
           {/* Fallback redirect for broken or mismatched URLs */}
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
