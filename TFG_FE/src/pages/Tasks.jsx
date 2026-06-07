@@ -14,7 +14,7 @@ export default function TaskView(pid) {
     const[contributors,setContributors]=useState([]);
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
-    const [activeTab, setActiveTab] = useState(0);
+    const [activeTab, setActiveTab] = useState("1");
     const[taskTab, setTaskTab]=useState([])
     const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);};
