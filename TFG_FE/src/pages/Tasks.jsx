@@ -47,7 +47,7 @@ export default function TaskView(pid) {
     </Typography>
     <TabContext value={activeTab}>
      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}> 
-      <TabList onChange={setActiveTab}>
+      <TabList onChange={handleTabChange}>
         <Tab label="Tasks" value="1"/>
         <Tab label="Contributors" value="2"/>
       </TabList>
