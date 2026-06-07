@@ -15,7 +15,6 @@ export default function ProjectDashboard(){
   const [projects, setProjects] = useState([]); // Fixed: Tracks projects instead of tasks
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
-  const [selectedRowId, setSelectedRowId] = useState(null);
   const [activeTab, setActiveTab] = useState(0);
   const getProjects=()=>{
     setLoading(true);
