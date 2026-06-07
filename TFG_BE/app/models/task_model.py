@@ -1,5 +1,5 @@
 from config.db import get_db_connection
-from datetime import timedelta,date
+from datetime import datetime,date
 from models.availability_model import Availability
 from utils.errorHandling import ValidationError
 class Task:
@@ -9,16 +9,21 @@ class Task:
      self.taskowner=taskowner
      self.projectname=projectname
      self.startdate=startdate
-     self.targetdate=targetdate
+     if targetdate is not None:
+            self.targetdate = datetime.strptime(targetdate, "%Y-%m-%d").date()
+     else:
+            self.targetdate = None
+    
      self.taskpri=taskpri
      self.weight=weight
      self.progress=progress
      self.status=status
-     self.overdue=overdue
 
     @property
     def overdue(self):
         today = date.today()
+        if self.targetdate is None:
+           return False
         if self.status==('Completed'):
           return  False
         elif today >= self.targetdate:
