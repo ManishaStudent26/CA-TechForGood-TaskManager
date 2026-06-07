@@ -20,7 +20,7 @@ export default function ProjectDelete({pid, refreshProjects}){
   const handleDelete =async(actionType)=>{
     
     
-    try{const response = await fetch(`http://localhost:5000/api/projects/%{pid}`,{
+    try{const response = await fetch(`http://localhost:5000/api/projects/${pid}`,{
         method:'DELETE',
         headers: {'Content-Type': 'application/json'}})
         if(response.ok){alert('Project was deleted');
