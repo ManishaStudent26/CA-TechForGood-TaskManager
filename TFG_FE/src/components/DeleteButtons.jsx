@@ -6,7 +6,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function ProjectDelete(pid, refreshProjects){
+export default function ProjectDelete({pid, refreshProjects}){
+  console.log("Checking my ID prop inside handleDelete:", pid);
   const [open, setOpen] = React.useState(false);
 
    const handleOnClick =()=>{
@@ -17,7 +18,9 @@ export default function ProjectDelete(pid, refreshProjects){
   };
 
   const handleDelete =async(actionType)=>{
-    try{const response = await fetch(`http://localhost:5000/api/projects/<int:pid>`,{
+    
+    
+    try{const response = await fetch(`http://localhost:5000/api/projects/%{pid}`,{
         method:'DELETE',
         headers: {'Content-Type': 'application/json'}})
         if(response.ok){alert('Project was deleted');

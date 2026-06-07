@@ -32,7 +32,7 @@ def create_new_project():
         project_start = datetime.strptime(project_start_str, '%Y-%m-%d').date() if project_start_str else None
         project_end = datetime.strptime(project_end_str, '%Y-%m-%d').date() if project_end_str else None
     except ValueError as e:
-        print(f"❌ Date formatting failed: {e}")
+        print(f"Date formatting failed: {e}")
     # This print will tell you exactly if the format was wrong
     
     if not project_name or not project_start or not project_end:

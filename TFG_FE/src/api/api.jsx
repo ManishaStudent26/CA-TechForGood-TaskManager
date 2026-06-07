@@ -14,7 +14,7 @@ export const api = {
     getAllByManager: () => apiFetch(`/api/projects`),
     create: (projectData) => apiFetch('/api/projects', { method: 'POST', body: projectData }),
     update: (pid, projectData) => apiFetch(`/api/projects/${pid}`, { method: 'PUT', body: projectData }),
-    delete: (pid) => apiFetch(`/api/projects/<ibt:pid>`, { method: 'DELETE' }),
+    delete: (pid) => apiFetch(`/api/projects/${pid}`, { method: 'DELETE' }),
   },
 
   tasks: {

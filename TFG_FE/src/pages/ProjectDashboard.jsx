@@ -71,8 +71,7 @@ export default function ProjectDashboard(){
       headername:'', 
       width:60, 
       renderCell:params=><button>Edit</button>},
-    {field: 'Delete', width:90, renderCell:params=>(
-    <ProjectDelete pid={params.id}>Delete</ProjectDelete>)}
+    {field: 'Delete', width:90, renderCell:params=>(<ProjectDelete pid={params.row.pid} refreshProjects={getProjects}/>)}
   ];
 
   // AI Fixed: Filters row rows based on project data attributes rather than task attributes
