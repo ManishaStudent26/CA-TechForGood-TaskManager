@@ -116,8 +116,6 @@ export default function ProjectDashboard(){
           // AI Fixed: Targets 'pid' matching the unique identifier sent by your Python backend model
           getRowId={(row) => row.pid} 
           // AI Fix: Clicking a row safely redirects the manager to view that specific project's task layout
-          //TO BE FIXED!!
-          //
           sx={{ cursor: 'pointer', border: 'none' }}
         />
       </Box>

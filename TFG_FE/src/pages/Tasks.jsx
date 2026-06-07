@@ -13,6 +13,9 @@ export default function TaskView(pid) {
     const [errorMessage, setErrorMessage] = useState('');
     const [activeTab, setActiveTab] = useState(0);
     const[taskTab, setTaskTab]=useState([])
+    const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
+  };
     const getTasks=()=>{
 
       setLoading(true);
@@ -27,8 +30,6 @@ export default function TaskView(pid) {
       })
       };
 
-
-
     const getContributors=()=>{
       setLoading(true);
       api.contributors.getByProject(pid)
@@ -36,9 +37,7 @@ export default function TaskView(pid) {
         setContributors(data)
         setLoading(false)
       })
-      const handleTabChange = (event, newValue) => {
-    setActiveTab(newValue);
-  };
+      
 
     };
 
