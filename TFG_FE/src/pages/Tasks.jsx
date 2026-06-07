@@ -4,18 +4,19 @@ import { Box, Paper, Typography, Chip, Tabs, Tab, Button} from '@mui/material';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { api } from '../api/api'
-import { useAuth } from '../auth/AuthContext';
 
-export default function TaskView(pid) {
+export default function TaskView() {
+    const { pid } = useParams();
+console.log("pid:", { pid });
     const navigate = useNavigate();
     const [tasks, setTasks] = useState([]);
     const[contributors,setContributors]=useState([]);
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
     const [activeTab, setActiveTab] = useState("1");
-    const[taskTab, setTaskTab]=useState(["task-1"])
+    const[taskTab, setTaskTab]=useState("task-1");
     const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);};
     const handletaskTabs=(event,newValue)=>{

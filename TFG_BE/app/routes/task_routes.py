@@ -13,7 +13,6 @@ from utils.errorHandling import ValidationError, ResourceNotFoundError, FailedTo
 task_bp = Blueprint('tasks', __name__)
 
 @task_bp.route('/api/projecttasks/<int:pid>', methods=['GET']) # Fixed: Added missing forward slash / before dynamic block
-@token_required
 def getprojecttasks(pid):
     project_tasks = Task.getTaskbyProject(pid)
     serialized_tasks = [project_task.to_dict() for project_task in project_tasks]

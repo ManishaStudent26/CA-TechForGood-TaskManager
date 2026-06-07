@@ -56,7 +56,7 @@ class Task:
             a.task_priority,
             a.weight,
             a.progress,
-            a.status
+            a.task_status
             FROM Tasks a
             LEFT JOIN Projects c on a.project_id=c.project_id
             WHERE a.project_id= %s
@@ -76,7 +76,7 @@ class Task:
             taskpri=row['task_priority'],
             weight=row['weight'],
             progress=row['progress'],
-            status=row['status'],
+            status=row['task_status'],
             overdue=None
             ))
           return tasks
@@ -131,7 +131,7 @@ class Task:
             a.task_priority,
             a.weight,
             a.progress,
-            a.status
+            a.task_status
             FROM Tasks a
             LEFT JOIN Contributors c on a.uid=c.uid
             WHERE c.uid=%s"""
@@ -150,7 +150,7 @@ class Task:
             taskpri=row['task_priority'],
             weight=row['weight'],
             progress=row['progress'],
-            status=row['status'],
+            status=row['task_status'],
             overdue=None
             ))
         return tasks
@@ -202,7 +202,7 @@ class Task:
           a.task_priority,
           a.weight,
           a.progress,
-          a.status
+          a.task_status
           FROM Tasks a
           LEFT JOIN Projects c on a.project_id=c.project_id
           WHERE a.task_id= %s"""
