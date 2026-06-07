@@ -15,14 +15,14 @@ export default function TaskView(pid) {
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
     const [activeTab, setActiveTab] = useState("1");
-    const[taskTab, setTaskTab]=useState([])
+    const[taskTab, setTaskTab]=useState(["task-1"])
     const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);};
     const handletaskTabs=(event,newValue)=>{
     setTaskTab(newValue);};
     const getTasks=()=>{
       setLoading(true);
-      api.tasks.getByTask(pid)
+      api.tasks.getByProject(pid)
       .then((data)=>{        setTasks(taskdata)
         setLoading(false)
       })
@@ -40,6 +40,36 @@ export default function TaskView(pid) {
         setLoading(false)
       })};
 
+      useEffect(()=>{
+        if(!pid){
+          console.log("No param id need to add param statement")
+          setLoading(false);
+          return;
+        }
+        else{getTasks();}
+      },[pid])
+
+  const taskColumns=[
+    {field:"assignowner"},
+    {field:"taskid"},
+    {field:"taskowner"},
+    {field:"projectname"},
+    {field:"startdate"},
+    {field:"targetdate"},
+    {field:"taskpri"},
+    {field:"weight"},
+    {field:"progress"},
+    {field:"status"},
+    {field:"overdue"},
+    {field:"edit"},
+    {field:"delete"}
+  ]
+
+  const contriColumns=[
+    {field:""},
+    {}
+  ]
+
   return (
   <Box sx={{ p: 4, maxWidth: 1200, margin: '0 auto' }}>
     <Typography variant="h4" sx={{ mb: 2, fontWeight: 'bold' }}>
@@ -52,7 +82,25 @@ export default function TaskView(pid) {
         <Tab label="Contributors" value="2"/>
       </TabList>
       </Box>
-      <TabPanel value="1">Hello</TabPanel>
+      <TabPanel value="1">
+        {/*Note to self Where Task tabs live*/}
+        <TabContext value={taskTab}>
+          <TabList onChange={handletaskTabs}>
+            <Tab label="All" value="task-1"/>
+            <Tab label="Planned" value="task-2"/>
+            <Tab label="Ongoing" value="task-3"/>
+            <Tab label="Completed" value="task-4"/>
+            <Tab label="Overdue" value="task-5"/>
+          </TabList>
+          <TabPanel value="task-1">
+            <DataGrid
+            rows={tasks}
+            columns={taskColumns}
+            />
+          </TabPanel>
+        </TabContext>
+
+      </TabPanel>
       <TabPanel value="2">Hi</TabPanel>
     </TabContext>
           </Box>
