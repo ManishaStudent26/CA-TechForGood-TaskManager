@@ -1,4 +1,4 @@
-  import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DataGrid} from '@mui/x-data-grid';
 import { Box, Paper, Typography, Chip, Tabs, Tab, Button} from '@mui/material';
 import TabContext from '@mui/lab/TabContext';
@@ -45,7 +45,7 @@ export default function TaskView(pid) {
     <Typography variant="h4" sx={{ mb: 2, fontWeight: 'bold' }}>
     Tasks and Project Contributors
     </Typography>
-    <TabContext value={value}>
+    <TabContext value={activeTab}>
      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}> 
       <TabList onChange={setActiveTab}>
         <Tab label="Tasks" value="1"/>
