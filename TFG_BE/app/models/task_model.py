@@ -1,5 +1,5 @@
 from config.db import get_db_connection
-from datetime import datetime,date
+from datetime import datetime,date, timedelta
 from models.availability_model import Availability
 from utils.errorHandling import ValidationError
 class Task:
