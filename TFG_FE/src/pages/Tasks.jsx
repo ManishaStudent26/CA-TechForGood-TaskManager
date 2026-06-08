@@ -24,7 +24,7 @@ console.log("pid:", { pid });
     const getTasks=()=>{
       setLoading(true);
       api.tasks.getByProject(pid)
-      .then((data)=>{        setTasks(taskdata)
+      .then((data)=>{ setTasks(data)
         setLoading(false)
       })
       .catch((err)=> {
@@ -43,7 +43,7 @@ console.log("pid:", { pid });
 
       useEffect(()=>{
         if(!pid){
-          console.log("No param id need to add param statement")
+          console.log("No param id needed to add param statement")
           setLoading(false);
           return;
         }
@@ -88,6 +88,7 @@ console.log("pid:", { pid });
             <DataGrid
             rows={tasks}
             columns={taskColumns}
+            getRowId={(row) => row.taskid}
             />
 
       </TabPanel>

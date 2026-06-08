@@ -15,7 +15,7 @@ task_bp = Blueprint('tasks', __name__)
 @task_bp.route('/api/projecttasks/<int:pid>', methods=['GET']) # Fixed: Added missing forward slash / before dynamic block
 def getprojecttasks(pid):
     project_tasks = Task.getTaskbyProject(pid)
-    serialized_tasks = [project_task.to_dict() for project_task in project_tasks]
+    serialized_tasks = [task.to_dict() for task in project_tasks]
     return jsonify(serialized_tasks), 200
 
 @task_bp.route('/api/tasks', methods=['POST'])

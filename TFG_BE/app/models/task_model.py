@@ -1,5 +1,5 @@
 from config.db import get_db_connection
-from datetime import datetime,date, timedelta
+from datetime import datetime,date, time
 from models.availability_model import Availability
 from utils.errorHandling import ValidationError
 class Task:
@@ -20,7 +20,7 @@ class Task:
      self.status=status
 
     @property
-    def overdue(self):
+    def projectstate(self):
         today = date.today()
         if self.targetdate is None:
            return False
@@ -42,7 +42,7 @@ class Task:
             "weight": float(self.weight) if self.weight else 0.0, # DECIMAL converts best to float for JSON
             "progress": float(self.progress) if self.progress else 0.0,
             "status": self.status,
-            "overdue": self.overdue
+            "overdue": self.projectstate
         }
     
        
@@ -71,6 +71,7 @@ class Task:
 
           tasks=[]
           for row in rows:
+            print(f"Task Object ID: {row['task_id']}, Name: {row['task_name']}")
             tasks.append(cls(
             taskid=row['task_id'],
             taskname=row['task_name'],
