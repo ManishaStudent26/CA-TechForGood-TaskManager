@@ -2,7 +2,7 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
-import { FormControl } from '@mui/material';
+import {InputLabel, FormControl, Select, MenuItem } from '@mui/material';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
@@ -109,6 +109,7 @@ export function ProjectFormDialog({refreshProjects }) {
 export function CreateTaskForm(pid,refreshTasks){
   console.log("Form received pid:", pid);
  const [open, setOpen] = React.useState(false);
+ const [taskpriority, TaskPriorityChangeEvent] = React.useState('LOW');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -177,12 +178,12 @@ export function CreateTaskForm(pid,refreshTasks){
               fullWidth
               variant="standard"/>
             <FormControl fullWidth variant="standard" margin="dense" required>
-    <InputLabel id="condition-label">Condition</InputLabel>
+    <InputLabel id="priority-label">Condition</InputLabel>
     <Select
-      labelId="condition-label"
-      name="comic_condition" // 🌟 Maps to formJson.comic_condition
-      value={condition} 
-      onChange={(e) => setCondition(e.target.value)}
+      labelId="priority-label"
+      name="taskpri" // 🌟 Maps to formJson.comic_condition
+      value={taskpriority} 
+      onChange={(e) => TaskPriorityChangeEvent(e.target.value)}
     >
       <MenuItem value="LOW">LOW </MenuItem>
       <MenuItem value="MED">MED </MenuItem>
