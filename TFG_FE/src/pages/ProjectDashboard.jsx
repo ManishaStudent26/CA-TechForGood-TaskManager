@@ -69,8 +69,7 @@ export default function ProjectDashboard(){
     { field: 'Edit', 
       width:80, 
       renderCell:params=>(<ProjectEditForm pid={params.row.pid} refreshProjects={getProjects}/>)},
-    {field: 'Delete',width:90, renderCell:params=>(<ProjectDelete pid={params.row.pid} refreshProjects={getProjects}/>)}
-  ];
+    {field: 'Delete',width:90, renderCell:params=>(<ProjectDelete pid={params.row.pid}/>)}];
   // AI Fixed: Filters row rows based on project data attributes rather than task attributes
   const filteredRows = projects.filter((row) => {
     const status = row.project_status || 'In Progress';

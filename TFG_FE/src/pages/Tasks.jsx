@@ -7,6 +7,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import { useNavigate, useParams } from 'react-router-dom';
 import { api } from '../api/api'
 import { CreateTaskForm } from '../components/Createforms';
+import { TaskDeleteButton } from '../components/DeleteButtons';
 
 export default function TaskView() {
     const { pid } = useParams();
@@ -64,7 +65,7 @@ console.log("pid:", { pid });
     {field:"status"},
     {field:"overdue"},
     {field:"edit"},
-    {field:"delete"}
+    {field:"delete", width:90, renderCell:params=>(<TaskDeleteButton taskid={params.row.taskid} pid={pid} refreshTasks={getTasks}/>)}
   ]
 
   const contriColumns=[

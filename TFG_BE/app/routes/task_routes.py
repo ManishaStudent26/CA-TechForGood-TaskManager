@@ -68,14 +68,12 @@ def createprojecttask():
         #return jsonify({"error": "Failed to create task", "details": str(e)}), 500
     
 @task_bp.route('/api/task', methods=['GET'])
-@token_required
 def getusertasks():
     usertasks = Task.getTaskbyContributor(g.uid)
     serialized_tasks = [task.to_dict() for task in usertasks]
     return jsonify(serialized_tasks), 200
 
 @task_bp.route('/api/tasks/<int:taskid>', methods=['PUT'])
-@token_required
 def updatetask(taskid):
     data = request.get_json() or {}
     taskname = data.get('taskname')
@@ -110,7 +108,6 @@ def updatetask(taskid):
         raise FailedToCreate(f"Database modification failed: {str(e)}")
     
 @task_bp.route('/api/tasks/<int:taskid>', methods=['DELETE'])
-@token_required
 def deltask(taskid):
     success = Task.delTask(taskid)
     if success:
@@ -119,7 +116,6 @@ def deltask(taskid):
         raise ResourceNotFoundError()
 
 @task_bp.route('/api/setOwner', methods=['PUT'])
-@token_required
 def assignowner():
     data = request.get_json() or {}
     taskid = data.get('taskid')

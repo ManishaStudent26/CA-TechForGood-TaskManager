@@ -61,7 +61,7 @@ export function ProjectDelete({pid, refreshProjects}){
   );
 };
 
-export function TaskDeleteButton({taskid, refreshTasks}){
+export function TaskDeleteButton({taskid, pid, refreshTasks}){
   console.log("Checking my ID prop inside handleDelete:", pid);
   const [open, setOpen] = React.useState(false);
 
@@ -80,7 +80,7 @@ export function TaskDeleteButton({taskid, refreshTasks}){
         headers: {'Content-Type': 'application/json'}})
         if(response.ok){alert('Project was deleted');
         if (refreshProjects) {
-        refreshProjects();}
+        refreshTasks(pid);}
         handleClose();}
         }catch(error){
       console.error('Error saving', error)}
