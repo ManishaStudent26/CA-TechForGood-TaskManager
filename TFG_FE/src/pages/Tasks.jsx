@@ -46,7 +46,7 @@ console.log("pid:", { pid });
         }
         else{getTasks();}
       },[pid])
-      useEffect(()=>getContributors)
+      useEffect(()=>{getContributors,pid},[pid,])
 
   const taskColumns=[
     {field:"assignowner"},
