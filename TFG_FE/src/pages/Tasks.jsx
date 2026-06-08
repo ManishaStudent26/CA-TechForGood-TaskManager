@@ -51,6 +51,7 @@ console.log("pid:", { pid });
   const taskColumns=[
     {field:"assignowner"},
     {field:"taskid"},
+    {field:"taskname"},
     {field:"taskowner"},
     {field:"projectname"},
     {field:"startdate"},
@@ -84,6 +85,7 @@ console.log("pid:", { pid });
       </TabList>
       </Box>
       <TabPanel value="1">
+        <CreateTaskForm></CreateTaskForm>
 
             <DataGrid
             rows={tasks}

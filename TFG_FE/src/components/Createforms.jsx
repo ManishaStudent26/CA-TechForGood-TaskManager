@@ -7,8 +7,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useAuth } from '../auth/AuthContext';
+import { api } from '../api/api'
 
-export default function ProjectFormDialog({refreshProjects }) {
+export function ProjectFormDialog({refreshProjects }) {
   const {uid}=useAuth()
   const [open, setOpen] = React.useState(false);
 
@@ -102,4 +103,86 @@ export default function ProjectFormDialog({refreshProjects }) {
       </Dialog>
     </React.Fragment>
   );
-}
+};
+
+export function CreateTaskForm(pid,refreshTasks){
+ const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleSubmit =async(event)=>{
+    event.preventDefault();
+  const formData=new FormData(event.currentTarget)
+  const formJson =Object.fromEntries(formData.entries)
+  const TaskValues=
+  {taskname:formJson.taskname,
+    startdate:formJson.startdate,
+    targetdate:formJson.targetdate,
+    taskpri:formJson.taskpri,
+    weight:formJson.weight,
+    progress:0,
+    status:"Planned",}
+    try{ const response =await api.tasks.createTask(pid, TaskValues);
+      if (response.ok){alert('Task was saved')};
+      if(refreshTasks){refreshTasks()};
+      handleClose();
+    }catch(error){console.error('Error saving')
+    }};
+    return(
+      <React.Fragmant>
+       <Button variant="outlined" onClick={handleClickOpen}>
+        Add Task
+      </Button>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Create a new task</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+          </DialogContentText>
+          <form onSubmit={handleSubmit} id="newtask_form">
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="projectname"
+              label="Project Name"
+              name="project_name"
+              type="projectname"
+              fullWidth
+              variant="standard"
+            />
+            <TextField
+              required
+              margin="dense"
+              id="project start"
+              label="Start Date"
+              name="project_start"
+              type="date"
+              fullWidth
+              variant="standard"
+            />
+            <TextField
+            required
+            margin="dense"
+              id="project end"
+              label="End Date"
+              name="project_end"
+              type="date"
+              fullWidth
+              variant="standard"/>
+
+          </form>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button type="submit" form="newtask_form">
+            Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </React.Fragmant>);
+    };
