@@ -8,7 +8,7 @@ from flask import Blueprint, jsonify, g, request
 from models.task_model import Task
 from utils.middleware import token_required
 from utils.errorHandling import ValidationError, ResourceNotFoundError, FailedToCreate
-from datetime import datetime
+from datetime import datetime, date
 
 
 task_bp = Blueprint('tasks', __name__)
@@ -28,13 +28,17 @@ def createprojecttask():
     starttext = data.get('startdate')
     targettext = data.get('targetdate')
     taskpri = data.get('taskpri')
+    progress= data.get('progress')
     weight = data.get('weight')
     status = data.get('status')
+    startdate= None
+    targetdate=None
     try:
-        startdate=datetime.strptime('starttext', '%Y-%m-%d').date() if starttext else None
-        targetdate=datetime.strptime('targettext', '%Y-%m-%d').date()if targettext else None
+        startdate=datetime.strptime(starttext, '%Y-%m-%d').date() if starttext else None
+        targetdate=datetime.strptime(targettext, '%Y-%m-%d').date()if targettext else None
     except ValueError as e:
-        print(f"Date formatting failed: {e}")                           
+        print(f"Date formatting failed: {e}")
+        return {"error": f"Invalid date format: {e}"}, 400                         
     if not taskname or not startdate or not taskpri or not status:
         raise ValidationError("Missing required fields for task creation.")
     try:
@@ -44,12 +48,24 @@ def createprojecttask():
             startdate=startdate,
             targetdate=targetdate,
             taskpri=taskpri,
+            progress=progress,
             weight=weight,
             status=status
         )
-        return jsonify(new_task.to_dict()), 201
+        return {"message": "Task created successfully"}, 201
+        
     except Exception as e:
-        return jsonify({"error": "Failed to create task", "details": str(e)}), 500
+        # 🌟 FORCE THE REASON OUT IN THE OPEN:
+        print("\n" + "="*40)
+        print("🚨 DATABASE INSERTION CRASHED! REASON BELOW:")
+        import traceback
+        traceback.print_exc()  # This prints the entire internal traceback stack trace
+        print("="*40 + "\n")
+        
+        return {"error": str(e)}, 500
+        #return jsonify(new_task.to_dict()), 201
+    #except Exception as e:
+        #return jsonify({"error": "Failed to create task", "details": str(e)}), 500
     
 @task_bp.route('/api/task', methods=['GET'])
 @token_required
@@ -69,8 +85,8 @@ def updatetask(taskid):
     weight = float(data.get('weight'))
     status = data.get('status')
     try:
-        startdate=datetime.strptime('starttext', '%Y-%m-%d').date()
-        targetdate=datetime.strptime('targettext', '%Y-%m-%d').date()
+        startdate=datetime.strptime(starttext, '%Y-%m-%d').date()
+        targetdate=datetime.strptime(targettext, '%Y-%m-%d').date()
     except ValueError as e:
         print(f"Date formatting failed: {e}")                           
     if not taskname or not startdate or not taskpri or not status:

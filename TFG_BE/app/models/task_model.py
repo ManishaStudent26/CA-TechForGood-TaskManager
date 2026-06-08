@@ -1,5 +1,5 @@
 from config.db import get_db_connection
-from datetime import datetime,date, time
+from datetime import datetime,date, timedelta
 from models.availability_model import Availability
 from utils.errorHandling import ValidationError
 class Task:
@@ -96,29 +96,10 @@ class Task:
         cursor=connection.cursor(dictionary=True)
         try:
           query = """
-          INSERT INTO Tasks(task_name, project_id, start_date, target_date, task_priority, weight, progress, status)
+          INSERT INTO Tasks(task_name, project_id, start_date, target_date, task_priority, weight, progress, task_status)
           VALUES(%s, %s, %s, %s, %s, %s, %s,%s)"""
           cursor.execute(query,(taskname, pid, startdate, targetdate, taskpri, weight, progress, status))
           connection.commit()
-          new_id = cursor.lastrowid
-          name_query = "SELECT project_name FROM Projects WHERE project_id = %s"
-          cursor.execute(name_query, (pid,))
-          project_row = cursor.fetchone()
-          actualprojectname=project_row['project_name']
-
-          return cls(
-             taskid=new_id,
-             taskname=taskname,
-             taskowner=None,
-             projectname=actualprojectname,
-             startdate=startdate,
-             targetdate=targetdate,
-             taskpri=taskpri,
-             weight=weight,
-             progress=progress,
-             status=status,
-             overdue=None
-          )
         finally:
           cursor.close()
           connection.close()
