@@ -136,14 +136,10 @@ export function CreateTaskForm({pid,refreshTasks}){
       if (response.ok)
       handleClose()/*AI edit */
       {alert('Task was saved')};
-      setTimeout(() => {
-          if (props.refreshTasks) {
-            props.refreshTasks();
-          }
-        }, 100);
-    } catch (error) {
-      console.error('Error saving:', error);
-    }};
+      refreshTasks();
+    } 
+    catch (error) {
+      console.error('Error saving:', error);}};
     return(
       <React.Fragment>
        <Button variant="outlined" onClick={handleClickOpen}>
