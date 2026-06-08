@@ -16,11 +16,8 @@ console.log("pid:", { pid });
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
     const [activeTab, setActiveTab] = useState("1");
-    const[taskTab, setTaskTab]=useState("task-1");
     const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);};
-    const handletaskTabs=(event,newValue)=>{
-    setTaskTab(newValue);};
     const getTasks=()=>{
       setLoading(true);
       api.tasks.getByProject(pid)
@@ -49,6 +46,7 @@ console.log("pid:", { pid });
         }
         else{getTasks();}
       },[pid])
+      useEffect(()=>getContributors)
 
   const taskColumns=[
     {field:"assignowner"},
@@ -67,8 +65,10 @@ console.log("pid:", { pid });
   ]
 
   const contriColumns=[
-    {field:""},
-    {}
+    {field:"contributor_id"},
+    {field:"project_id"},
+    {field:"uid"},
+    {field:"name"}
   ]
 
   return (
@@ -92,7 +92,13 @@ console.log("pid:", { pid });
             />
 
       </TabPanel>
-      <TabPanel value="2">Hi</TabPanel>
+      <TabPanel value="2">
+        <DataGrid
+            rows={contributors}
+            columns={contriColumns}
+            getRowId={(row) => row.uid}
+            />
+      </TabPanel>
     </TabContext>
           </Box>
           );
