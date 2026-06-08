@@ -20,7 +20,7 @@ export const api = {
   tasks: {
     getByProject: (pid) => apiFetch(`/api/projecttasks/${pid}`),
     getByUser: () => apiFetch('/api/task'),
-    create: (taskData) => apiFetch('/api/tasks', { method: 'POST', body: taskData }),
+    createTask: (taskData) => apiFetch('/api/tasks', { method: 'POST', headers: {'Content-Type': 'application/json'}, body:JSON.stringify(taskData)}),
     update: (taskid, taskData) => apiFetch(`/api/tasks/${taskid}`, { method: 'PUT', body: taskData }),
     delete: (taskid) => apiFetch(`/api/tasks/${taskid}`, { method: 'DELETE' }),
     assignOwner: (payload) => apiFetch('/api/setOwner', { method: 'PUT', body: payload }),

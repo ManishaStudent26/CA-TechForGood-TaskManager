@@ -106,7 +106,7 @@ export function ProjectFormDialog({refreshProjects }) {
   );
 };
 
-export function CreateTaskForm(pid,refreshTasks){
+export function CreateTaskForm({pid,refreshTasks}){
   console.log("Form received pid:", pid);
  const [open, setOpen] = React.useState(false);
  const [taskpriority, TaskPriorityChangeEvent] = React.useState('LOW');
@@ -118,19 +118,21 @@ export function CreateTaskForm(pid,refreshTasks){
   const handleClose = () => {
     setOpen(false);
   };
-  const handleSubmit =async(event)=>{
+  const handleTaskSubmit =async(event)=>{
     event.preventDefault();
   const formData=new FormData(event.currentTarget)
-  const formJson =Object.fromEntries(formData.entries)
+  const formJson =Object.fromEntries(formData.entries())
   const TaskValues=
   {taskname:formJson.taskname,
     startdate:formJson.startdate,
     targetdate:formJson.targetdate,
     taskpri:formJson.taskpri,
     weight:parseFloat(formJson.task_weight),/*AI FIX */
-    progress:0,
-    status:"Planned",}
-    try{ const response =await api.tasks.createTask(pid, TaskValues);
+    progress:0.0,
+    status:"Planned",
+    pid:parseInt(pid)}
+    console.log("Clean extracted data object:", formJson);
+    try{ const response =await fetch('http://localhost:5000/api/tasks',{ method: 'POST', headers: {'Content-Type':'application/json'}, body:JSON.stringify(TaskValues)});
       if (response.ok){alert('Task was saved')};
       if(refreshTasks){refreshTasks()};
       handleClose();
@@ -146,7 +148,7 @@ export function CreateTaskForm(pid,refreshTasks){
         <DialogContent>
           <DialogContentText>
           </DialogContentText>
-          <form onSubmit={handleSubmit} id="newtask_form">
+          <form onSubmit={handleTaskSubmit} id="newtask_form">
             <TextField
               autoFocus
               required
@@ -181,7 +183,7 @@ export function CreateTaskForm(pid,refreshTasks){
     <InputLabel id="priority-label">Condition</InputLabel>
     <Select
       labelId="priority-label"
-      name="taskpri" // 🌟 Maps to formJson.comic_condition
+      name="taskpri"
       value={taskpriority} 
       onChange={(e) => TaskPriorityChangeEvent(e.target.value)}
     >
@@ -199,7 +201,7 @@ export function CreateTaskForm(pid,refreshTasks){
   type="number"      // 🌟 Forces numeric keyboard/input behavior
   fullWidth
   variant="standard"
-  inputProps={{ 
+  inputrops={{ 
     step: "0.01",    // 🌟 Allows decimals (e.g., 1.25, 5.50)
     min: "0"         // Optional: Prevents negative numbers
   }}

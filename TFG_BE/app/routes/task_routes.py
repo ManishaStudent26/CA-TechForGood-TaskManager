@@ -8,6 +8,7 @@ from flask import Blueprint, jsonify, g, request
 from models.task_model import Task
 from utils.middleware import token_required
 from utils.errorHandling import ValidationError, ResourceNotFoundError, FailedToCreate
+from datetime import datetime
 
 
 task_bp = Blueprint('tasks', __name__)
@@ -19,17 +20,21 @@ def getprojecttasks(pid):
     return jsonify(serialized_tasks), 200
 
 @task_bp.route('/api/tasks', methods=['POST'])
-@token_required
 def createprojecttask():
-    data = request.get_json() or {} # Safe dictionary fallback
+    data = request.get_json()
+    print(data)
     taskname = data.get('taskname')
     pid = data.get('pid')
-    startdate = data.get('startdate')
-    targetdate = data.get('targetdate')
+    starttext = data.get('startdate')
+    targettext = data.get('targetdate')
     taskpri = data.get('taskpri')
     weight = data.get('weight')
     status = data.get('status')
-
+    try:
+        startdate=datetime.strptime('starttext', '%Y-%m-%d').date() if starttext else None
+        targetdate=datetime.strptime('targettext', '%Y-%m-%d').date()if targettext else None
+    except ValueError as e:
+        print(f"Date formatting failed: {e}")                           
     if not taskname or not startdate or not taskpri or not status:
         raise ValidationError("Missing required fields for task creation.")
     try:
@@ -58,12 +63,16 @@ def getusertasks():
 def updatetask(taskid):
     data = request.get_json() or {}
     taskname = data.get('taskname')
-    startdate = data.get('startdate')
-    targetdate = data.get('targetdate')
-    taskpri = data.get('taskpri')
-    weight = data.get('weight')
+    starttext = data.get('startdate')
+    targettext = data.get('targetdate')
+    taskpri = float(data.get('taskpri'))
+    weight = float(data.get('weight'))
     status = data.get('status')
-    
+    try:
+        startdate=datetime.strptime('starttext', '%Y-%m-%d').date()
+        targetdate=datetime.strptime('targettext', '%Y-%m-%d').date()
+    except ValueError as e:
+        print(f"Date formatting failed: {e}")                           
     if not taskname or not startdate or not taskpri or not status:
         raise ValidationError("Missing required fields for task update.")
     try:
