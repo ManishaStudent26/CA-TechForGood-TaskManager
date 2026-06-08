@@ -2,6 +2,7 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
+import { FormControl } from '@mui/material';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
@@ -125,7 +126,7 @@ export function CreateTaskForm(pid,refreshTasks){
     startdate:formJson.startdate,
     targetdate:formJson.targetdate,
     taskpri:formJson.taskpri,
-    weight:formJson.weight,
+    weight:parseFloat(formJson.task_weight),/*AI FIX */
     progress:0,
     status:"Planned",}
     try{ const response =await api.tasks.createTask(pid, TaskValues);
@@ -149,19 +150,19 @@ export function CreateTaskForm(pid,refreshTasks){
               autoFocus
               required
               margin="dense"
-              id="projectname"
-              label="Project Name"
-              name="project_name"
-              type="projectname"
+              id="taskname"
+              label="Taskname"
+              name="taskname"
+              type="name"
               fullWidth
               variant="standard"
             />
             <TextField
               required
               margin="dense"
-              id="project start"
+              id="startdate"
               label="Start Date"
-              name="project_start"
+              name="startdate"
               type="date"
               fullWidth
               variant="standard"
@@ -169,12 +170,39 @@ export function CreateTaskForm(pid,refreshTasks){
             <TextField
             required
             margin="dense"
-              id="project end"
-              label="End Date"
-              name="project_end"
+              id="targetdate"
+              label="Targetdate"
+              name="targetdate"
               type="date"
               fullWidth
               variant="standard"/>
+            <FormControl fullWidth variant="standard" margin="dense" required>
+    <InputLabel id="condition-label">Condition</InputLabel>
+    <Select
+      labelId="condition-label"
+      name="comic_condition" // 🌟 Maps to formJson.comic_condition
+      value={condition} 
+      onChange={(e) => setCondition(e.target.value)}
+    >
+      <MenuItem value="LOW">LOW </MenuItem>
+      <MenuItem value="MED">MED </MenuItem>
+      <MenuItem value="HIGH">HIGH</MenuItem>
+    </Select></FormControl>
+    {/*THIS FIELD BELOW WAS AI MADE will be adjusted for hours part*/}
+    <TextField
+  required
+  margin="dense"
+  id="task-weight"
+  label="Task Weight (Decimals Allowed)"
+  name="task_weight" // 🌟 Maps to formJson.task_weight
+  type="number"      // 🌟 Forces numeric keyboard/input behavior
+  fullWidth
+  variant="standard"
+  inputProps={{ 
+    step: "0.01",    // 🌟 Allows decimals (e.g., 1.25, 5.50)
+    min: "0"         // Optional: Prevents negative numbers
+  }}
+/>
 
           </form>
         </DialogContent>
