@@ -47,6 +47,7 @@ class Availability:
             cursor.close()
             connection.close()
 
+    
     @classmethod
     def updateAvailability(cls,uid,week, year, hours):
         connection=get_db_connection()

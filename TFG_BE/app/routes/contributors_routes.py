@@ -24,27 +24,6 @@ def get_project_contributors(pid):
     raise ResourceNotFoundError()
 
 
-@contributors_bp.route('/api/projects/<int:pid>/contributors', methods=['POST'])
-@token_required
-def add_project_contributor(pid):
-    data = request.get_json() or {}
-    uid = data.get('uid')
-    
-    if not uid:
-        raise ValidationError()
-        
-    new_contributor = Contributor.addContributortoProject(pid, uid)
-    
-    if not new_contributor:
-        raise FailedToCreate()
-        
-    # If your model returns the dictionary of the newly created contributor row directly:
-    return jsonify(new_contributor), 201
-
-    # Alternate approach if your model returns a instantiated class instance:
-    # return jsonify(new_contributor.to_dict()), 201
-
-
 @contributors_bp.route('/api/contributors/<int:cid>', methods=['DELETE'])
 @token_required
 def remove_project_contributor(cid):

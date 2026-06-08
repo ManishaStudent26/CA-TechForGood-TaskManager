@@ -25,7 +25,7 @@ class Contributor:
                 p.project_id,
                 p.uid,
                 u.name
-                FROM ProjectsUsers p 
+                FROM ProjectUsers p 
                 LEFT JOIN Users u ON p.uid= u.uid
                 WHERE project_id=%s
                 """
