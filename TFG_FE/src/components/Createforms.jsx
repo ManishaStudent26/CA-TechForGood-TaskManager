@@ -106,6 +106,7 @@ export function ProjectFormDialog({refreshProjects }) {
 };
 
 export function CreateTaskForm(pid,refreshTasks){
+  console.log("Form received pid:", pid);
  const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -134,7 +135,7 @@ export function CreateTaskForm(pid,refreshTasks){
     }catch(error){console.error('Error saving')
     }};
     return(
-      <React.Fragmant>
+      <React.Fragment>
        <Button variant="outlined" onClick={handleClickOpen}>
         Add Task
       </Button>
@@ -184,5 +185,5 @@ export function CreateTaskForm(pid,refreshTasks){
           </Button>
         </DialogActions>
       </Dialog>
-    </React.Fragmant>);
+    </React.Fragment>);
     };
