@@ -133,10 +133,16 @@ export function CreateTaskForm({pid,refreshTasks}){
     pid:parseInt(pid)}
     console.log("Clean extracted data object:", formJson);
     try{ const response =await fetch('http://localhost:5000/api/tasks',{ method: 'POST', headers: {'Content-Type':'application/json'}, body:JSON.stringify(TaskValues)});
-      if (response.ok){alert('Task was saved')};
-      if(refreshTasks){refreshTasks()};
-      handleClose();
-    }catch(error){console.error('Error saving')
+      if (response.ok)
+      handleClose()/*AI edit */
+      {alert('Task was saved')};
+      setTimeout(() => {
+          if (props.refreshTasks) {
+            props.refreshTasks();
+          }
+        }, 100);
+    } catch (error) {
+      console.error('Error saving:', error);
     }};
     return(
       <React.Fragment>

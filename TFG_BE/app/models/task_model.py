@@ -4,20 +4,26 @@ from models.availability_model import Availability
 from utils.errorHandling import ValidationError
 class Task:
     def __init__(self, taskid, taskname, taskowner, projectname, startdate, targetdate, taskpri, weight, progress, status, overdue):
-     self.taskid=taskid
-     self.taskname=taskname
-     self.taskowner=taskowner
-     self.projectname=projectname
-     self.startdate=startdate
-     if targetdate is not None:
+        self.taskid = taskid
+        self.taskname = taskname
+        self.taskowner = taskowner
+        self.projectname = projectname
+        
+        # 🌟 AI FIX on date time errors!
+        if isinstance(startdate, str):
+            self.startdate = datetime.strptime(startdate, "%Y-%m-%d").date()
+        else:
+            self.startdate = startdate
+
+        if isinstance(targetdate, str):
             self.targetdate = datetime.strptime(targetdate, "%Y-%m-%d").date()
-     else:
-            self.targetdate = None
-    
-     self.taskpri=taskpri
-     self.weight=weight
-     self.progress=progress
-     self.status=status
+        else:
+            self.targetdate = targetdate
+        
+        self.taskpri = taskpri
+        self.weight = weight
+        self.progress = progress
+        self.status = status
 
     @property
     def projectstate(self):
@@ -100,6 +106,11 @@ class Task:
           VALUES(%s, %s, %s, %s, %s, %s, %s,%s)"""
           cursor.execute(query,(taskname, pid, startdate, targetdate, taskpri, weight, progress, status))
           connection.commit()
+          return {
+              "task_name": taskname,
+              "project_id": pid,
+              "task_status": status
+          }
         finally:
           cursor.close()
           connection.close()

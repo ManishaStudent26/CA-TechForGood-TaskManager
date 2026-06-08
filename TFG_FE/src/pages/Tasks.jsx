@@ -87,7 +87,7 @@ console.log("pid:", { pid });
       </TabList>
       </Box>
       <TabPanel value="1">
-        <CreateTaskForm pid={pid} refreshTasks={ getContributors} />
+        <CreateTaskForm pid={pid} refreshTasks={ getTasks} />
 
             <DataGrid
             rows={tasks}
