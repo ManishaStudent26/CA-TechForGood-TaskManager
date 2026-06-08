@@ -84,22 +84,11 @@ console.log("pid:", { pid });
       </TabList>
       </Box>
       <TabPanel value="1">
-        {/*Note to self Where Task tabs live*/}
-        <TabContext value={taskTab}>
-          <TabList onChange={handletaskTabs}>
-            <Tab label="All" value="task-1"/>
-            <Tab label="Planned" value="task-2"/>
-            <Tab label="Ongoing" value="task-3"/>
-            <Tab label="Completed" value="task-4"/>
-            <Tab label="Overdue" value="task-5"/>
-          </TabList>
-          <TabPanel value="task-1">
+
             <DataGrid
             rows={tasks}
             columns={taskColumns}
             />
-          </TabPanel>
-        </TabContext>
 
       </TabPanel>
       <TabPanel value="2">Hi</TabPanel>

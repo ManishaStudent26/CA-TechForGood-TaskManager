@@ -17,6 +17,7 @@ if (token) headers["Authorization"] = `Bearer ${token}`;
 const res = await fetch(`${BASE_URL}${path}`, {
 method,
 headers,
+credentials: "include",
 body: body ? JSON.stringify(body) : undefined,
 });
 const data = await res.json().catch(() => null);
