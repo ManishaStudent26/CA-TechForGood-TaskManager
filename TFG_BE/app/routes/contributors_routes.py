@@ -60,8 +60,8 @@ contributors_bp = Blueprint('contributors',__name__)
 @contributors_bp.route('/api/projects/<int:pid>/contributors', methods=['GET'])
 @token_required
 def get_project_contributors(pid):
-    contributors = Contributor.getContributorbyProject(pid)
-    serialized_contributors = [c.to_dict() for c in contributors]
+    projectContributors = Contributor.getContributorbyProject(pid)
+    serialized_contributors = [contributor.to_dict() for contributor in projectContributors]
     return jsonify(serialized_contributors), 200
 
 @contributors_bp.route('/api/projects/<int:pid>/contributors', methods=['POST'])

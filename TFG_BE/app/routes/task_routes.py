@@ -50,7 +50,7 @@ def createprojecttask():
 @token_required
 def getusertasks():
     usertasks = Task.getTaskbyContributor(g.uid)
-    serialized_tasks = [usertask.to_dict() for usertask in usertasks]
+    serialized_tasks = [task.to_dict() for task in usertasks]
     return jsonify(serialized_tasks), 200
 
 @task_bp.route('/api/tasks/<int:taskid>', methods=['PUT'])
