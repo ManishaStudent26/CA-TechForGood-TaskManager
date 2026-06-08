@@ -72,16 +72,12 @@ export function TaskDeleteButton({taskid, pid, refreshTasks}){
     setOpen(false);
   };
 
-  const handleDelete =async(actionType)=>{
-    
-    
-    try{const response = await fetch(`http://localhost:5000/api/tasks/${taskid}`,{
+  const handleDelete =async(actionType)=>{try{const response = await fetch(`http://localhost:5000/api/tasks/${taskid}`,{
         method:'DELETE',
         headers: {'Content-Type': 'application/json'}})
-        if(response.ok){alert('Project was deleted');
-        if (refreshProjects) {
-        refreshTasks(pid);}
-        handleClose();}
+        if(response.ok){alert('Project was deleted'); handleClose();
+        if (refreshTasks) {
+        refreshTasks(pid);}}
         }catch(error){
       console.error('Error saving', error)}
     
