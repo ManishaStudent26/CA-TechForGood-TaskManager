@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function ProjectDelete({pid, refreshProjects}){
+export function ProjectDelete({pid, refreshProjects}){
   console.log("Checking my ID prop inside handleDelete:", pid);
   const [open, setOpen] = React.useState(false);
 

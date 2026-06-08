@@ -6,6 +6,7 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { useNavigate, useParams } from 'react-router-dom';
 import { api } from '../api/api'
+import { CreateTaskForm } from '../components/Createforms';
 
 export default function TaskView() {
     const { pid } = useParams();

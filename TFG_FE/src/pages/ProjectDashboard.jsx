@@ -4,9 +4,9 @@ import { DataGrid} from '@mui/x-data-grid';
 import { Box, Paper, Typography, Chip, Tabs, Tab, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/api';
-import ProjectFormDialog from '../components/Createforms';
-import ProjectDelete from '../components/DeleteButtons';
-import ProjectEditForm from '../components/EditForms';
+import {ProjectFormDialog} from '../components/Createforms';
+import {ProjectDelete} from '../components/DeleteButtons';
+import {ProjectEditForm} from '../components/EditForms';
 
 
 export default function ProjectDashboard(){
