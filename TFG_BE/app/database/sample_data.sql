@@ -24,3 +24,9 @@ INSERT INTO ProjectUsers (contributor_id, project_id, uid) VALUES
 INSERT INTO Tasks (task_name, contributor_id, project_id, task_priority, weight, progress, task_status) VALUES
 ('Clear topsoil patches', 501, 101, 'HIGH', 2.50, 0.00, 'Planned'),
 ('Build timber planter boxes', 501, 101, 'MED', 4.00, 50.00, 'Ongoing');
+
+/*Additional Sample data*/
+INSERT INTO Users (uid, email, password_hash, name, phonenumber, role) VALUES
+(4, 'volunteer.amy@email.com', 'scrypt:32768:8:1$tTtj9ZP12ExhvFZF$d444eb21733cc836e3039a6f51b6e435db5743346361bc5b385f450f102b23cd400717c3bd7033850af0414caee62a3b29773644541a2b8a781e64c1e9ec44ed', 'Amy Robinson', '08531234331', 'Volunteer'),
+(5, 'volunteer.john@email.com','scrypt:32768:8:1$tTtj9ZP12ExhvFZF$d444eb21733cc836e3039a6f51b6e435db5743346361bc5b385f450f102b23cd400717c3bd7033850af0414caee62a3b29773644541a2b8a781e64c1e9ec44ed', 'John Doe', '0875556667', 'Volunteer'),
+(6, 'volunteer.jane@email.com', 'scrypt:32768:8:1$tTtj9ZP12ExhvFZF$d444eb21733cc836e3039a6f51b6e435db5743346361bc5b385f450f102b23cd400717c3bd7033850af0414caee62a3b29773644541a2b8a781e64c1e9ec44ed', 'Jane Doe', '0875556668', 'Volunteer'); 

@@ -1,12 +1,13 @@
 from config.db import get_db_connection
 
 class User:
-    def __init__(self, uid, email, password_hash, name, role):
+    def __init__(self, uid, email, password_hash, name, role, phonenr):
         self.uid = uid
         self.email = email
         self._password_hash = password_hash
         self.name = name
         self.role = role
+        self.phonenr = phonenr
 
     def to_dict(self):
         return{
@@ -14,7 +15,8 @@ class User:
             "email":self.email,
             "password_hash":self._password_hash,
             "name":self.name,
-            "self.role": self.role
+            "role": self.role,
+            "phonenr": self.phonenr
         }
 
     @classmethod
@@ -25,22 +27,22 @@ class User:
             cursor.execute("SELECT * FROM USERS WHERE email=%s", (email,))
             row =cursor.fetchone()
             if row:
-                return cls(row['uid'], row['email'], row['password_hash'], row['name'], row['role'])
+                return cls(row['uid'], row['email'], row['password_hash'], row['name'], row['role'], row['phonenumber'])
             return None
         finally:
             cursor.close()
             connection.close()
     
     @classmethod
-    def EditUser(cls,uid, email, name, role):
+    def EditUser(cls,uid, email, name, role, phonenr):
         connection= get_db_connection()
         cursor=connection.cursor()
         try:
             query = """
             UPDATE Users
-            SET email=%s, name=%s, role=%s
+            SET email=%s, name=%s, role=%s, phonenumber=%s
             WHERE uid=%s"""
-            cursor.execute(query, (email, name, role, uid))
+            cursor.execute(query, (email, name, role, uid, phonenr))
             connection.commit()
             return cursor.rowcount > 0 
         finally:
@@ -74,13 +76,13 @@ class User:
             cursor.close()
             connection.close()
     @classmethod
-    def createUser(cls, email, password_hash, name):
+    def createUser(cls, email, password_hash, name, phonenr):
         connection=get_db_connection()
         cursor=connection.cursor()
         try:
-            query="""INSERT INTO Users(email, password_hash, name)
-            VALUES(%s, %s, %s)"""
-            cursor.execute(query,(email, password_hash, name))
+            query="""INSERT INTO Users(email, password_hash, name, phonenumber)
+            VALUES(%s, %s, %s, %s)"""
+            cursor.execute(query,(email, password_hash, name,phonenr))
             connection.commit()
             new_id = cursor.lastrowid
             return cls(
@@ -101,7 +103,7 @@ class User:
             cursor.execute("SELECT * FROM USERS WHERE uid=%s", (uid,))
             row =cursor.fetchone()
             if row:
-                return cls(row['uid'], row['email'], row['password_hash'], row['name'], row['role'])
+                return cls(row['uid'], row['email'], row['password_hash'], row['name'], row['role'], row['phonenumber'])
             return None
         finally:
             cursor.close()
@@ -121,7 +123,8 @@ class User:
                     email=row['email'],
                     name=row['name'],
                     password_hash=['password_hash'],
-                    role=['role']
+                    role=['role'],
+                    phonenr=['phonenumber']
                 ))
             return users
         finally:
