@@ -14,35 +14,36 @@ console.log("pid:", { pid });
     const navigate = useNavigate();
     const [tasks, setTasks] = useState([]);
     const[contributors,setContributors]=useState([]);
-    const [loading, setLoading] = useState(true);
+    const [taskLoading, setTaskLoading] = useState(true);
+    const[contriLoading, setContriLoading]=useState(true);
     const [errorMessage, setErrorMessage] = useState('');
     const [activeTab, setActiveTab] = useState("1");
     const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);};
     const getTasks=()=>{
-      setLoading(true);
+      setTaskLoading(true);
       api.tasks.getByProject(pid)
       .then((data)=>{ setTasks(data)
-        setLoading(false)
+        setTaskLoading(false)
       })
       .catch((err)=> {
         setErrorMessage(err.message || 'Failed to fetch tasks');
-        setLoading(false)
+        setTaskLoading(false)
       })
       };
 
     const getContributors=()=>{
-      setLoading(true);
+      setContriLoading(true);
       api.contributors.getByProject(pid)
       .then((data)=>{
         setContributors(data)
-        setLoading(false)
+        setContriLoading(false)
       })};
 
       useEffect(()=>{
         if(!pid){
           console.log("No param id needed to add param statement")
-          setLoading(false);
+          setTaskLoading(false);
           return;
         }
         else{getTasks();}
@@ -86,7 +87,7 @@ console.log("pid:", { pid });
       </TabList>
       </Box>
       <TabPanel value="1">
-        <CreateTaskForm pid={pid} refreshTasks={getTasks}/>
+        <CreateTaskForm pid={pid} refreshTasks={ getContributors} />
 
             <DataGrid
             rows={tasks}
