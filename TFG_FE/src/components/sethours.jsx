@@ -68,7 +68,7 @@ return(
             <DialogTitle>Add Available Hours</DialogTitle>
             <DialogContent sx={{ pt: 2, minWidth: 300 }}>
     <FormControl fullWidth>
-  <InputLabel id="years input">Select Volunteer</InputLabel>
+  <InputLabel id="years input">Year</InputLabel>
   <Select labelId="years"
           id="year"
           value={year}
@@ -83,12 +83,12 @@ return(
       </MenuItem>))}
       
   </Select>
-  <InputLabel id="WeekSet" >Select Volunteer</InputLabel>
+  <InputLabel id="WeekSet" >Week</InputLabel>
   <Select labelId="WeekSet"
           id="week"
           value={week}
           onChange={handleWeekChange}
-          label="Year">
+          label="Weel">
     
     {WeekData.map((WeekData) => (
       
@@ -101,8 +101,8 @@ return(
               required
               margin="dense"
               id="hours"
-              label="Start Date"
-              name="project_start"
+              label="Hours"
+              name="hours"
               type="number"
               fullWidth
               variant="standard"
