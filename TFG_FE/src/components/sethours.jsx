@@ -41,13 +41,17 @@ export function AddHours({uid}){
       {alert('Action was saved');}}}
     catch(error){
       console.error('Error saving', error)}};
+
+
+
     const YearData = [
   { id: 2026, name: '2026' },
   { id: 2027, name: '2027' },
   { id: 2028, name: '2028' },
   { id: 2029, name: '2029'}
 ];
-    const WeekData= Array.from({ length: 52 }, (_, index) => {
+/*Const WeekData is AI */    
+const WeekData= Array.from({ length: 52 }, (_, index) => {
   const weekNum = index + 1;
   return {
     id: weekNum,
@@ -65,50 +69,44 @@ return(
             <DialogContent sx={{ pt: 2, minWidth: 300 }}>
     <FormControl fullWidth>
   <InputLabel id="years input">Select Volunteer</InputLabel>
-  <Select labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
+  <Select labelId="years"
+          id="year"
           value={year}
           onChange={handleChange}
           label="Year">
     
-    {items.map((item) => (
+    {YearData.map((YearData) => (
       
-      <MenuItem key={item.uid} value={item.uid}>
-        {item.name}
+      <MenuItem key={YearData.id} value={YearData.name}>
+        {YearData.name}
         
       </MenuItem>))}
       
   </Select>
-  <InputLabel id="demo-simple-select-outlined-label">Select Volunteer</InputLabel>
-  <Select labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
+  <InputLabel id="WeekSet" >Select Volunteer</InputLabel>
+  <Select labelId="WeekSet"
+          id="week"
           value={week}
-          onChange={handleChange}
+          onChange={handleWeekChange}
           label="Year">
     
-    {items.map((item) => (
+    {WeekData.map((WeekData) => (
       
-      <MenuItem key={item.uid} value={item.uid}>
-        {item.name}
+      <MenuItem key={WeekData.id} value={WeekData.id}>
+        {WeekData.name}
         
       </MenuItem>))}
-      
-  </Select>
-   <Select labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          value={week}
-          onChange={handleChange}
-          label="Year">
-    
-    {items.map((item) => (
-      
-      <MenuItem key={item.uid} value={item.uid}>
-        {item.name}
-        
-      </MenuItem>))}
-      
-  </Select>
-  
+      </Select>
+      <Field
+              required
+              margin="dense"
+              id="hours"
+              label="Start Date"
+              name="project_start"
+              type="number"
+              fullWidth
+              variant="standard"
+              />  
 </FormControl>
 </DialogContent>
 <DialogActions>
