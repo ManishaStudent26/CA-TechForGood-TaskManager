@@ -26,11 +26,11 @@ export default function AdminView(){
     getVolunteers()},[]);
 
     const columns =[
-      {
-        field:'uid', header:'User ID'},
+      {field:'uid', header:'User ID'},
       {field:'email', header:'Email'},
         {field:'name', header:'Name'},
-      {field:'phonenr', header:'Phone Number'}
+      {field:'setAvailability',header:'Set Hours'},
+      {field:'getAvailability',header:'View Hour'}
     ];
     if (loading) return <Box sx={{ p: 4 }}><Typography>Loading projects workspace...</Typography></Box>;
     if (errorMessage) return <Box sx={{ p: 4 }}><Typography color="error">Error: {errorMessage}</Typography></Box>;
