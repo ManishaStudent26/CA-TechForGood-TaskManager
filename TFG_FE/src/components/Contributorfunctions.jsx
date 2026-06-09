@@ -14,7 +14,7 @@ import Select from '@mui/material/Select';
 
 export function AddVolunteertoProject(pid){
   const [volunteer, setVolunteer] = React.useState('');
-  cont [items, setItems] = React.useState([]);
+  const [items, setItems] = React.useState([]);
   const [open, setOpen] = React.useState(false);
   const handleChange = (event) => {
     set(event.target.value);};
@@ -26,22 +26,20 @@ export function AddVolunteertoProject(pid){
     setOpen(false);
   };
   
-  /*Everything in this const AI suggested and applied */
+  /*Everything in this const AI suggested and applied: handles importing users for dropdown*/
   const response =async(event)=>await fetch('http://localhost:5000/api/allusers',{method:'GET'})
       .then((data)=>{setItems(data)
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
-return
+return(
     <React.Fragment>
            <Button variant="outlined" onClick={handleClickOpen}>
             Add Volunteer to Project/Event
           </Button>
           <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Add Volunteer</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-              <form id="add-select"/>
+            <DialogContent sx={{ pt: 2, minWidth: 300 }}>
     <FormControl fullWidth>
   <InputLabel >Select Volunteer</InputLabel>
   <Select>
@@ -51,12 +49,11 @@ return
       </option>))}
   </Select>
 </FormControl>
-</DialogContentText>
 </DialogContent>
 <DialogActions>
   <Button onClick={handleClose}>Cancel</Button>
   <Button onClick={handleClose}>Submit</Button>
 </DialogActions>
 </Dialog>
-</React.Fragment>
+</React.Fragment>)
 };
