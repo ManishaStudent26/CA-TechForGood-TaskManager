@@ -18,7 +18,7 @@ export default function App() {
           <Route path="/login" element={<LoginPage/>} />
           <Route path="/Dashboard" element={<ProjectsDashboard/>} />
           <Route path="/tasks/:pid" element={<TaskView/>}/>
-          <Route path="/adminDashboard" element={AdminView}/>
+          <Route path="/adminDashboard" element={<AdminView/>}/>
           {/* Fallback redirect for broken or mismatched URLs */}
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
