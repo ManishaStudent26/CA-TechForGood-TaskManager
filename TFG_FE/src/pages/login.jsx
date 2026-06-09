@@ -18,8 +18,8 @@ setError("");
 setLoading(true);
 try {
 await login(email, password);
-if (role === "Event Manager") nav("/Dashboard");
-else nav("/adminDashboard");
+if (role === "Event Manager") {nav("/Dashboard");}
+else {nav("/adminDashboard");}
 } catch (err) {
 setError(err.message);
 } finally {
