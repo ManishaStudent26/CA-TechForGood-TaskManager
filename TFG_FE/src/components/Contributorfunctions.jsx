@@ -19,18 +19,38 @@ export function AddVolunteertoProject(pid){
   const handleChange = (event) => {
     set(event.target.value);};
   const handleClickOpen = () => {
-    setOpen(true);
-  };
+    setOpen(true);}
 
   const handleClose = () => {
     setOpen(false);
   };
   
   /*Everything in this const AI suggested and applied: handles importing users for dropdown*/
-  const response =async(event)=>await fetch('http://localhost:5000/api/allusers',{method:'GET'})
-      .then((data)=>{setItems(data)
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
+React.useEffect(() => {
+  // 1. Define your async logic inside a nested function
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/allusers', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      // Convert the stream to JSON data
+      const data = await response.json();
+      
+      // Update your items state with the rows array
+      setItems(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  // 2. Execute it immediately
+  fetchUsers();
+}, []); // Keeps it running only once when the modal loads
+//END OF AI Coded BLOCK.
 
 return(
     <React.Fragment>

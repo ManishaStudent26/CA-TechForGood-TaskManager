@@ -117,5 +117,5 @@ def GetUsers():
         
     # AI Fixed: Safely serialize users list using to_dict() if model returns object instances
     # If your model returns raw dicts, you can change this to just: return jsonify(users), 200
-    serialized_users = [user_bp.to_dict() for user_bp in users]
+    serialized_users = [user.to_dict() for user in users]
     return jsonify(serialized_users), 200

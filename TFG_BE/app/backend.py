@@ -10,7 +10,7 @@ from config.settings import Config
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {
-    "origins": ["http://localhost:5173", "http://localhost:5000", "http://localhost:5050"],
+    "origins": ["http://localhost:5173", "http://localhost:5000"],
     "supports_credentials": True
 }})
 app.config['SECRET_KEY']=Config.JWT_SECRET
