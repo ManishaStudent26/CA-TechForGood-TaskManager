@@ -14,7 +14,6 @@ from utils.errorHandling import ValidationError, ResourceNotFoundError, FailedTo
 availability_bp = Blueprint('availability', __name__)
 
 @availability_bp.route('/api/availability/<int:uid>', methods=['GET']) # Fixed: methods=
-@token_required
 def getAvailabilitybyUID(uid): # Fixed: Caught URL parameter 'uid'
     # Fixed: No get_json() needed for GET. Grab from URL directly.
     get_availability = Availability.getAvailability(uid)
@@ -27,7 +26,6 @@ def getAvailabilitybyUID(uid): # Fixed: Caught URL parameter 'uid'
 
 
 @availability_bp.route('/api/availability/<int:uid>', methods=['POST']) # Fixed: typo and methods=
-@token_required
 def create_new_availability(uid): # Fixed: Caught URL parameter 'uid'
     data = request.get_json() # Fixed: Added ()
     if not data:
@@ -57,7 +55,6 @@ def create_new_availability(uid): # Fixed: Caught URL parameter 'uid'
 
 
 @availability_bp.route('/api/availability/<int:uid>', methods=['PUT']) # Fixed: leading slash, methods=, and HTTP verb
-@token_required
 def update_availability(uid): # Fixed: Caught URL parameter 'uid'
     data = request.get_json() # Fixed: Added ()
     if not data:
