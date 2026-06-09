@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid} from '@mui/x-data-grid';
 import { Box, Paper, Typography, Chip, Tabs, Tab, Button} from '@mui/material';
+import { AddHours } from '../components/sethours';
 
 export default function AdminView(){
      const [volunteer, setVolunteers] = useState([]); // Fixed: Tracks projects instead of tasks
@@ -30,7 +31,7 @@ export default function AdminView(){
       {field:'email', header:'Email'},
         {field:'name', header:'Name'},
       {field:'setAvailability',header:'Set Hours'},
-      {field:'getAvailability',header:'View Hour'}
+      {field:'getAvailability',header:'View Hour', renderCell:getparams=>(<AddHours uid={params.row.uid}/>)}
     ];
     if (loading) return <Box sx={{ p: 4 }}><Typography>Loading projects workspace...</Typography></Box>;
     if (errorMessage) return <Box sx={{ p: 4 }}><Typography color="error">Error: {errorMessage}</Typography></Box>;
