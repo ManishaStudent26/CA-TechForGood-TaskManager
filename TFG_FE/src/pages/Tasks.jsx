@@ -99,7 +99,7 @@ console.log("pid:", { pid });
 
       </TabPanel>
       <TabPanel value="2">
-        <AddVolunteertoProject pid={pid}/>
+        <AddVolunteertoProject pid={pid} refreshContributors={getContributors}/>
         <DataGrid
             rows={contributors}
             columns={contriColumns}

@@ -60,13 +60,13 @@ class Contributor:
             if user_row['role'] != 'Volunteer':
                 raise ValueError("Only users with the role 'Volunteer' can be added as contributors.")
 
-            duplicate_query = "SELECT contributor_id FROM ProjectsUsers WHERE project_id = %s AND uid = %s"
+            duplicate_query = "SELECT contributor_id FROM ProjectUsers WHERE project_id = %s AND uid = %s"
             cursor.execute(duplicate_query, (pid, uid))
             if cursor.fetchone():
                 raise ValueError("This user is already a contributor to this project.")
 
             insert_query = """
-            INSERT INTO ProjectsUsers (project_id, uid)
+            INSERT INTO ProjectUsers (project_id, uid)
             VALUES (%s, %s)
             """
             cursor.execute(insert_query, (pid, uid))
@@ -88,7 +88,7 @@ class Contributor:
         cursor = connection.cursor()
         try:
             query = """
-            DELETE FROM ProjectsUsers 
+            DELETE FROM ProjectUsers 
             WHERE contributor_id = %s
             """
             cursor.execute(query, (cid,))
