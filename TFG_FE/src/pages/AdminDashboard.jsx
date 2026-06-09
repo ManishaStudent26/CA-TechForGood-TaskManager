@@ -3,7 +3,6 @@ import { DataGrid} from '@mui/x-data-grid';
 import { Box, Paper, Typography, Chip, Tabs, Tab, Button} from '@mui/material';
 
 export default function AdminView(){
-    setLoading(true);
      const [volunteer, setVolunteers] = useState([]); // Fixed: Tracks projects instead of tasks
      const [loading, setLoading] = useState(true);
      const [errorMessage, setErrorMessage] = useState('');
@@ -16,18 +15,21 @@ export default function AdminView(){
         }
       });
       const data = await response.json();
-      
-      // Update your items state with the rows array
       setVolunteers(data);
+      setLoading(false)
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
+
+  useEffect(()=>{
+    getVolunteers()},[]);
+
     const columns =[
       {
         field:'uid', header:'User ID'},
       {field:'email', header:'Email'},
-        {field:name, header:'Name'},
+        {field:'name', header:'Name'},
       {field:'phonenr', header:'Phone Number'}
     ];
     if (loading) return <Box sx={{ p: 4 }}><Typography>Loading projects workspace...</Typography></Box>;
