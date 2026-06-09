@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export function AddVolunteertoProject({pid}, refreshContributors){
+export function AddVolunteertoProject({pid, refreshContributors}){
   console.log("Form received pid:", pid);
   const [volunteer, setVolunteer] = React.useState('');
   const [items, setItems] = React.useState([]);
@@ -32,12 +32,10 @@ export function AddVolunteertoProject({pid}, refreshContributors){
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({uid:volunteer})})
-      if(response.ok){alert('Action was saved');
-      if (refreshContributors) {
-    refreshContributors();
-  }
-      handleClose();}
-    }
+      if(response.ok){
+      handleClose();
+      {alert('Action was saved');}
+      refreshContributors();}}
     catch(error){
       console.error('Error saving', error)}
   };
