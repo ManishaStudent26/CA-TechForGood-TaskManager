@@ -8,7 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { api } from '../api/api'
 import { CreateTaskForm } from '../components/Createforms';
 import { TaskDeleteButton } from '../components/DeleteButtons';
-import { addVolunteertoProject } from '../components/Contributorfunctions';
+import { AddVolunteertoProject } from '../components/Contributorfunctions';
 
 export default function TaskView() {
     const { pid } = useParams();
@@ -99,7 +99,7 @@ console.log("pid:", { pid });
 
       </TabPanel>
       <TabPanel value="2">
-        <addVolunteertoProject/>
+        <AddVolunteertoProject pid={pid}/>
         <DataGrid
             rows={contributors}
             columns={contriColumns}

@@ -10,21 +10,27 @@ import { useAuth } from '../auth/AuthContext';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 
-export function addVolunteertoProject(pid){
+export function AddVolunteertoProject(pid){
   const [volunteer, setVolunteer] = React.useState('');
   cont [items, setItems] = React.useState([]);
   const [open, setOpen] = React.useState(false);
   const handleChange = (event) => {
     set(event.target.value);};
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   
   /*Everything in this const AI suggested and applied */
-  const response =await fetch('http://localhost:5000/api/allusers',{method:'GET'})
+  const response =async(event)=>await fetch('http://localhost:5000/api/allusers',{method:'GET'})
       .then((data)=>{setItems(data)
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
-
 
 return
     <React.Fragment>
@@ -35,7 +41,7 @@ return
             <DialogTitle>Add Volunteer</DialogTitle>
             <DialogContent>
               <DialogContentText>
-              </DialogContentText>
+              <form id="add-select"/>
     <FormControl fullWidth>
   <InputLabel >Select Volunteer</InputLabel>
   <Select>
@@ -45,7 +51,12 @@ return
       </option>))}
   </Select>
 </FormControl>
+</DialogContentText>
 </DialogContent>
+<DialogActions>
+  <Button onClick={handleClose}>Cancel</Button>
+  <Button onClick={handleClose}>Submit</Button>
+</DialogActions>
 </Dialog>
 </React.Fragment>
 };
