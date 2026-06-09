@@ -45,7 +45,7 @@ export function ProjectEditForm({pid,refreshProjects }) {
       handleClose();}
     }catch(error){
       console.error('Error saving', error)}
-  };
+  };}
 
 
 
@@ -102,4 +102,4 @@ export function ProjectEditForm({pid,refreshProjects }) {
       </Dialog>
     </React.Fragment>
   );
-}}
+}
