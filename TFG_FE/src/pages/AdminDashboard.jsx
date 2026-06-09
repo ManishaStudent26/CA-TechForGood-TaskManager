@@ -31,7 +31,7 @@ export default function AdminView(){
       {field:'email', header:'Email'},
         {field:'name', header:'Name'},
       {field:'setAvailability',header:'Set Hours'},
-      {field:'getAvailability',header:'View Hour', renderCell:getparams=>(<AddHours uid={params.row.uid}/>)}
+      {field:'getAvailability',header:'View Hour', renderCell:params=>(<AddHours uid={params.row.uid}/>)}
     ];
     if (loading) return <Box sx={{ p: 4 }}><Typography>Loading projects workspace...</Typography></Box>;
     if (errorMessage) return <Box sx={{ p: 4 }}><Typography color="error">Error: {errorMessage}</Typography></Box>;

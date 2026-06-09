@@ -97,7 +97,7 @@ return(
         
       </MenuItem>))}
       </Select>
-      <Field
+      <TextField
               required
               margin="dense"
               id="hours"
