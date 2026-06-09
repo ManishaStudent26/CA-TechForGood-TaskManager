@@ -18,9 +18,9 @@ setError("");
 setLoading(true);
 try {
 await login(email, password);
-nav("/Dashboard");
-}
-catch (err) {
+if (role === "Event Manager") nav("/Dashboard");
+else nav("/adminDashboard");
+} catch (err) {
 setError(err.message);
 } finally {
 setLoading(false);
