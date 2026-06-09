@@ -30,7 +30,6 @@ def getUserbyEmail():
 
 
 @user_bp.route('/user', methods=['POST'])
-@token_required
 def create_user():
     data = request.get_json() or {}
     email = data.get('email')
@@ -54,7 +53,6 @@ def create_user():
 
 
 @user_bp.route('/user/search', methods=['GET'])
-@token_required
 def getUserbyID():
     getuid = request.args.get('uid')
     if not getuid:
@@ -74,7 +72,6 @@ def getUserbyID():
 
 
 @user_bp.route('/user/<int:uid>', methods=['PUT']) # Fixed: method -> methods
-@token_required
 def UpdateUser(uid):
     data = request.get_json() or {}
 
@@ -100,7 +97,6 @@ def UpdateUser(uid):
     
     
 @user_bp.route('/user/<int:uid>', methods=['DELETE']) # Fixed: method -> methods
-@token_required
 def DelUser(uid):
     # Note: Flask validates <int:uid> from the path. No need to manually check 'if not uid'
     user_del = User.DelUser(uid)
@@ -113,14 +109,13 @@ def DelUser(uid):
 
 
 @user_bp.route('/allusers', methods=['GET'])
-@token_required
 def GetUsers():
     users = User.getAllUser()
     
     if users is None:
         return jsonify([]), 200
         
-    # Fixed: Safely serialize users list using to_dict() if model returns object instances
+    # AI Fixed: Safely serialize users list using to_dict() if model returns object instances
     # If your model returns raw dicts, you can change this to just: return jsonify(users), 200
     serialized_users = [user_bp.to_dict() for user_bp in users]
     return jsonify(serialized_users), 200

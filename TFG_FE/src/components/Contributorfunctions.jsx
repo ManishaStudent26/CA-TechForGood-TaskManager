@@ -7,32 +7,42 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useAuth } from '../auth/AuthContext';
-import { Fragment } from 'react';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 export function addVolunteertoProject(pid){
+  const [volunteer, setVolunteer] = React.useState('');
+  cont [items, setItems] = React.useState([]);
+  const [open, setOpen] = React.useState(false);
+  const handleChange = (event) => {
+    set(event.target.value);};
+  
+  /*Everything in this const AI suggested and applied */
+  const response =await fetch('http://localhost:5000/api/allusers',{method:'GET'})
+      .then((data)=>{setItems(data)
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
+
 
 return
     <React.Fragment>
            <Button variant="outlined" onClick={handleClickOpen}>
-            Add Task
+            Add Volunteer to Project/Event
           </Button>
           <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Create a new task</DialogTitle>
+            <DialogTitle>Add Volunteer</DialogTitle>
             <DialogContent>
               <DialogContentText>
               </DialogContentText>
     <FormControl fullWidth>
   <InputLabel >Select Volunteer</InputLabel>
-  <Select
-    labelId="select-volunteer"
-    id=""
-    value={age}
-    label="Age"
-    onChange={handleChange}
-  >
-    <MenuItem value={10}>Ten</MenuItem>
-    <MenuItem value={20}>Twenty</MenuItem>
-    <MenuItem value={30}>Thirty</MenuItem>
+  <Select>
+    {items.map((item) => (
+      <option key={item.id} value={item.id}>
+        {item.name}
+      </option>))}
   </Select>
 </FormControl>
 </DialogContent>

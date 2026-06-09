@@ -109,11 +109,11 @@ class User:
             cursor.close()
             connection.close()
     @classmethod
-    def getAllUser(cls,uid):
+    def getAllUser(cls):
         connection=get_db_connection()
         cursor=connection.cursor(dictionary=True)
         try:
-            cursor.execute("SELECT * FROM USERS")
+            cursor.execute("SELECT * FROM USERS WHERE role='Volunteer'")
             rows= cursor.fetchall()
 
             users=[]

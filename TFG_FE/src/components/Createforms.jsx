@@ -198,7 +198,7 @@ export function CreateTaskForm({pid,refreshTasks}){
   required
   margin="dense"
   id="task-weight"
-  label="Task Weight (Decimals Allowed)"
+  label="Task Weight"
   name="task_weight" // 🌟 Maps to formJson.task_weight
   type="number"      // 🌟 Forces numeric keyboard/input behavior
   fullWidth
