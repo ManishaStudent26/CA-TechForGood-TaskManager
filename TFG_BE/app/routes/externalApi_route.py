@@ -11,3 +11,4 @@ def getNews():
     get_news = newsapi.get_top_headlines(category='technology')
     if get_news['status'] == 'ok':
         return jsonify(get_news['articles'[:5]]), 200
+    

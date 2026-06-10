@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 export default function ButtonAppBar() {
   const navigate = useNavigate();
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1}, {width: '100%' }}>
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -25,7 +25,7 @@ export default function ButtonAppBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Tech For Good
           </Typography>
-          <NewsComponent color='inherit'/>
+          {/*<NewsComponent /> Ran out of credits while testing the component*/}
           <Button color="inherit" onClick={() => navigate(`/login`)}>Logout</Button>
         </Toolbar>
       </AppBar>

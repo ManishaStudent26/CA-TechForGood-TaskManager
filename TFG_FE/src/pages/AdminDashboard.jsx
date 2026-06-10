@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid} from '@mui/x-data-grid';
-import { Box, Paper, Typography, Chip, Tabs, Tab, Button} from '@mui/material';
+import { Box, Paper, Typography, Chip, Tabs, Tab, Button, AppBar} from '@mui/material';
 import { AddHours } from '../components/sethours';
 import { AvailabilityTable } from '../components/gethours';
+import ButtonAppBar from '../components/Topbar'
 
 export default function AdminView(){
      const [volunteer, setVolunteers] = useState([]);
@@ -38,7 +39,9 @@ export default function AdminView(){
     if (errorMessage) return <Box sx={{ p: 4 }}><Typography color="error">Error: {errorMessage}</Typography></Box>;
 
   return(
+    
   <Box sx={{ p: 4, maxWidth: 1200, margin: '0 auto' }}>
+    <div><ButtonAppBar></ButtonAppBar></div>
         <Typography variant="h4" sx={{ mb: 2, fontWeight: 'bold' }}>
           AdminView
         </Typography>
