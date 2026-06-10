@@ -16,6 +16,7 @@ export function AddVolunteertoTask({pid, taskid, refreshTasks}){
   console.log("Form received uid,cid &taskid:", pid, taskid);
   const [volunteer, setVolunteer] = React.useState('');
   const [items, setItems] = React.useState([]);
+  const selectedPerson = items[volunteer];;
   const [open, setOpen] = React.useState(false);
   const handleChange = (event) => {
     setVolunteer(event.target.value);};
@@ -28,18 +29,17 @@ export function AddVolunteertoTask({pid, taskid, refreshTasks}){
 const handleSubmit = async(event)=> {
     event.preventDefault();
 
-    try{
-        values=
-    {uid:volunteer.uid,
-    cid:volunteer.cid,
-    pid:pid,
-    taskid:taskid
 
-        }
-      const response = await fetch(`'/api/setOwner'`, { 
+    try{
+    const assigninfo=
+    {uid:selectedPerson.uid,
+    cid:selectedPerson.cid,
+    pid:pid,
+    taskid:taskid}                
+      const response = await fetch(`/api/setOwner`, { 
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(values)})
+        body: JSON.stringify(assigninfo)})
       if(response.ok){
       handleClose();
       {alert('Action was saved');}
@@ -88,7 +88,7 @@ return(
     
     {items.map((item) => (
       
-      <MenuItem key={item.uid} value={item.uid}>
+      <MenuItem key={item.uid} value={index}>
         {item.name}
         
       </MenuItem>))}
