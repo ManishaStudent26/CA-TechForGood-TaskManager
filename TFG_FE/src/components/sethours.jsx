@@ -37,12 +37,11 @@ const handleHourChange=event=>{
   const handleSubmit = async(event)=> {
     event.preventDefault();
     const items = {
-     year: parseInt(year), 
-     week: parseInt(week), 
+     year: year, 
+     week: week, 
      hours: parseFloat(hours),
-     uid: parseInt(uid)
    };
-    console.log("Clean extracted data object,formJSON")
+    console.log("Clean extracted data object", stringify(items))
     try{
       const response = await fetch(`http://localhost:5000/api/availability/${uid}/`, { 
         method: 'POST',
@@ -132,6 +131,7 @@ console.log("--- DROPDOWN CHECK ---", WeekDate);
   ];
 
 return(
+  
     <React.Fragment>
            <Button variant="outlined" onClick={handleClickOpen}>
             Add Hours
@@ -141,12 +141,13 @@ return(
     onSubmit: handleSubmit,  // <--AI FIx Binds your existing submit handler
   }}>
             <DialogTitle>Add Available Hours</DialogTitle>
-            <DialogContent sx={{ pt: 3, minWidth: 350 }}>
-    <FormControl fullWidth>
+            <DialogContent sx={{ pt: 5, minWidth: 350 }}>
+    <FormControl fullWidth variant="standard" margin="dense" required>
   <InputLabel id="yearsinput">Year</InputLabel>
   <Select native
   labelId="years"
           id="year"
+          name='year'
           value={year}
           onChange={handleChange}
           label="Year">
@@ -160,12 +161,13 @@ return(
       
   </Select>
   </FormControl>
-  <FormControl>
+  <FormControl fullWidth variant="standard" margin="dense" required>
   <InputLabel id="WeekSet" >Week</InputLabel>
   <Select 
   native
   labelId="WeekSet"
           id='week'
+          name='week'
           value={week}
           onChange={handleWeekChange}
           label="Week">
@@ -180,10 +182,10 @@ return(
         native 
         labelId="WeekSet"
           id='hour'
-          name="hour"
+          name="hours"
           value={hours}
           onChange={handleHourChange}
-          label="Week">
+          label="hours">
       {HoursData.map((HoursData) => (
       
       <option key={HoursData.id} value={HoursData.id} >

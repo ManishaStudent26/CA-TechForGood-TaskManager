@@ -24,8 +24,8 @@ class Availability:
             availabilities = []
             for row in rows: availabilities.append({
             'uid':row['uid'],
-            'year':row['year'],
-            'week':row['week'],
+            'year':row['timelog_year'],
+            'week':row['week_number'],
             'hours':row['available_hours']})
             return availabilities
         finally:
@@ -37,7 +37,7 @@ class Availability:
         connection=get_db_connection()
         cursor=connection.cursor()
         try:
-            query="""INSERT INTO Availability (uid, week, year, available_hours)
+            query="""INSERT INTO Availability (uid, week_number, timelog_year, available_hours)
             VALUES (%s, %s, %s, %s)
             ON DUPLICATE KEY UPDATE available_hours = VALUES(available_hours)"""
             cursor.execute(query, (uid, week, year,hours))
@@ -56,8 +56,8 @@ class Availability:
             query="""UPDATE Availability
             SET hours=%s
             WHERE uid=%s
-            AND week=%s
-            AND year=%s"""
+            AND week_number=%s
+            AND timelog_year=%s"""
             cursor.execute(query,(hours, uid, week, year))
             connection.commit()
             return cursor.rowcount > 0
