@@ -132,6 +132,7 @@ class Task:
             a.task_status
             FROM Tasks a
             LEFT JOIN ProjectUsers c on a.uid=c.uid
+            INNERJOIN Project d on d.project_id=a.project_id
             WHERE c.uid=%s"""
         cursor.execute(query,(uid,))
         rows =cursor.fetchall()
