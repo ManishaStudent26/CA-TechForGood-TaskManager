@@ -1,7 +1,8 @@
 from config.db import get_db_connection
 
 class Availability:
-    def __init__(self,uid,year,week,hours):
+    def __init__(self,timeid, uid,year,week,hours):
+        self.timeid=timeid
         self.uid=uid
         self.year=year
         self.week=week
@@ -9,6 +10,7 @@ class Availability:
 
     def to_dict(self):
         return{
+            "timeid":self.timeid,
             "uid":self.uid,
             "year":self.year,
             "week":self.week,
@@ -23,6 +25,7 @@ class Availability:
             rows=cursor.fetchall()
             availabilities = []
             for row in rows: availabilities.append({
+            'timeid':row['timelog_id'],
             'uid':row['uid'],
             'year':row['timelog_year'],
             'week':row['week_number'],
