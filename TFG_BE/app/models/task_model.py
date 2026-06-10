@@ -123,7 +123,7 @@ class Task:
         query="""SELECT a.task_id,
             a.task_name,
             a.contributor_id as taskowner,
-            c.project_name,
+            d.project_name,
             a.start_date,
             a.target_date,
             a.task_priority,
@@ -131,8 +131,8 @@ class Task:
             a.progress,
             a.task_status
             FROM Tasks a
-            LEFT JOIN ProjectUsers c on a.uid=c.uid
-            INNERJOIN Project d on d.project_id=a.project_id
+            LEFT JOIN ProjectUsers c on a.contributor_id=c.contributor_id
+            INNER JOIN Projects d on d.project_id=a.project_id
             WHERE c.uid=%s"""
         cursor.execute(query,(uid,))
         rows =cursor.fetchall()
@@ -238,7 +238,7 @@ class Task:
       
 
        taskownertask=cls.getTaskbyContributor(uid)
-       availabilitycheck=Availability.getAvailability(uid)
+       availabilitycheck=Availability.getAvailabilitybyUID(uid)
        target_year, target_week, _ = enddate.isocalendar()
        confirmhours = float(currenttask.weight)
        max_allowed_hours = 0.0
