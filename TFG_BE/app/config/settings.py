@@ -15,4 +15,4 @@ class Config:
     
     JWT_SECRET = os.getenv("JWT_SECRET")
     JWT_EXPIRES_IN = os.getenv("JWT_EXPIRES_IN", "2h")
-    api_key=os.getenv("api_key")
+    auth=os.getenv("api_key")

@@ -6,6 +6,7 @@ from routes.project_routes import projects_bp
 from routes.task_routes import task_bp
 from routes.availability_routes import availability_bp
 from routes.contributors_routes import contributors_bp
+from routes.externalApi_route import news_bp
 from config.settings import Config
 
 app = Flask(__name__)
@@ -20,6 +21,7 @@ app.register_blueprint(projects_bp)
 app.register_blueprint(task_bp)
 app.register_blueprint(availability_bp)
 app.register_blueprint(contributors_bp)
+app.register_blueprint(news_bp)
 
 
 if __name__ == '__main__':

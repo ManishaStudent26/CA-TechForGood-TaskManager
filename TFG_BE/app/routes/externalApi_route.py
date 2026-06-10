@@ -1,15 +1,14 @@
-from flask import Blueprint, jsonify, request
-from models.external_model import NewsApiClient
+import os
+from flask import Blueprint, jsonify
 from utils.errorHandling import ResourceNotFoundError
+from newsapi import NewsApiClient
 
-news_bp = Blueprint('availability', __name__)
+news_bp = Blueprint('news', __name__)
+newsapi = NewsApiClient(api_key=os.getenv('api_key'))
 
-@news_bp.route('/api/getnews>', methods=['GET']) # Fixed: methods=
+@news_bp.route('/api/getnews', methods=['GET'])
 def getNews():
-    get_news = NewsApiClient.get_top_headlines()
-    
-    if not get_news:
-        raise ResourceNotFoundError()
-        
-    # Fixed: The model already returns a list of dicts; don't re-call to_dict()
+    get_news = newsapi.get_top_headlines(category='technology', country='ie')
+    if get_news['status'] == 'ok':
+        return jsonify(get_news)
     return jsonify(get_news), 200
