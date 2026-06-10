@@ -254,7 +254,7 @@ class Task:
 
           for avail in availabilitycheck:
               if avail['week'] == task_week and avail['year'] == task_year:
-                max_allowed_hours += avail['hours']
+                max_allowed_hours += float(avail['hours'])
                 break
           startingdate += timedelta(days=7)
 
