@@ -22,7 +22,8 @@ export default function ButtonAppBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Tech For Good
           </Typography>
-          <Button color="inherit" >Logout</Button>
+          <Button color='ingerit'>Tech News</Button>
+          <Button color="inherit" onClick={() => navigate(`/login`)}>Logout</Button>
         </Toolbar>
       </AppBar>
     </Box>
