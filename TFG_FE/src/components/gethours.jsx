@@ -10,6 +10,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
+import React, { useState, useEffect } from 'react';
 
 export function AvailabilityTable({uid}) {
 const [tableOpen, setTableOpen] = React.useState(false);
@@ -53,8 +54,8 @@ return (
         <TableHead>
           <TableRow>
             <TableCell>year</TableCell>
-            <TableCell align="right">week</TableCell>
-            <TableCell align="right">hrs&nbsp;(g)</TableCell>
+            <TableCell align="left">week</TableCell>
+            <TableCell align="right">hrs&nbsp;</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -70,7 +71,6 @@ return (
           ))}
         </TableBody>
       </Table>
-        <p style={{ margin: '16px 0' }}>[ Your MUI Table component goes here ]</p>
       </DialogContent>
 
       <DialogActions>
