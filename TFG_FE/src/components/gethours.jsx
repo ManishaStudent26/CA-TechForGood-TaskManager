@@ -5,43 +5,34 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
 
-export function availabilityTable(uid) {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+export function AvailabilityTable({uid}) {
+const [tableOpen, setTableOpen] = React.useState(false);
+const [rows, setRows] = React.useState([]);
 
 React.useEffect(() => {
-  const fetchUsers = async () => {
+  const fetchAvailability = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/availability/<int:uid>', {
+      const response = await fetch(`http://localhost:5000/api/availability/${uid}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
       });
       const data = await response.json();
-      setItems(data);
+      setRows(data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
   fetchAvailability();
-}, []);
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+}, [uid]);
 
 return (
   <React.Fragment>
@@ -62,7 +53,7 @@ return (
         <TableHead>
           <TableRow>
             <TableCell>year</TableCell>
-            <TableCell align="right">Week</TableCell>
+            <TableCell align="right">week</TableCell>
             <TableCell align="right">hrs&nbsp;(g)</TableCell>
           </TableRow>
         </TableHead>
@@ -72,9 +63,6 @@ return (
               key={`${row.year}-${row.week}`}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
-                {row.year}
-              </TableCell>
               <TableCell>{row.year}</TableCell>
       <TableCell>Week {row.week}</TableCell>
       <TableCell align="right">{row.hours} hrs</TableCell>
