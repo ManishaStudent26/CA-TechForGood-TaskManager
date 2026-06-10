@@ -17,7 +17,7 @@ class Availability:
             "hours":self.hours}
 
     @classmethod    
-    def getAvailability(cls,uid):
+    def getAvailabilitybyUID(cls,uid):
         connection=get_db_connection()
         cursor=connection.cursor(dictionary=True)
         try:
@@ -36,7 +36,7 @@ class Availability:
             connection.close()
 
     @classmethod
-    def setAvailability(cls,uid, week, year, hours):
+    def setAvailability(cls,uid):
         connection=get_db_connection()
         cursor=connection.cursor()
         try:
