@@ -14,6 +14,26 @@ class ResourceNotFoundError(Exception):
     def __init__(self, message="The requested resource was not found or access is denied."):
         super().__init__(message)
         self.message = message
+class NewsAPIException(Exception):
+    """Represents an ``error`` response status value from News API."""
+
+    def __init__(self, exception):
+        self.exception = exception
+
+    def get_exception(self):
+        return self.exception
+
+    def get_status(self):
+        if self.exception["status"]:
+            return self.exception["status"]
+
+    def get_code(self):
+        if self.exception["code"]:
+            return self.exception["code"]
+
+    def get_message(self):
+        if self.exception["message"]:
+            return self.exception["message"]
         
 def register_generic_error_handlers(app):
     @app.errorhandler(ValidationError)

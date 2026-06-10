@@ -1,13 +1,26 @@
-from config.settings import Config
+from controllers import external_auth
+from utils.errorHandling import NewsAPIException
+import requests
 
-class NewsApiAuth(Config):
+class NewsApiClient(object):
     def __init__(self, api_key):
-        self.api_key = api_key
+        self.api_key = external_auth(api_key=api_key)
+        self.request_method = requests
 
-    def __call__(self, request):
-        request.headers.update(get_auth_headers(self.api_key))
-        return request
+    def get_top_headlines(
+        self, page=5
+    ):
 
+        payload = {
+            "country" : "ie",
+            "category":"technology",
+            "page":5
+                   }
 
-def get_auth_headers(api_key):
-    return {"Content-Type": "Application/JSON", "Authorization": api_key}
+        r = self.request_method.get( "https://newsapi.org/v2/top-headlines", auth=self.api_key, timeout=30, params=payload)
+
+        # Check Status of Request
+        if r.status_code != requests.codes.ok:
+            raise NewsAPIException(r.json())
+
+        return r.json()
