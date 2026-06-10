@@ -3,8 +3,7 @@ from models.contributors_models import Contributor
 from utils.middleware import token_required
 from flask import Blueprint, jsonify, request
 from models.contributors_models import Contributor
-from utils.middleware import token_required
-from utils.errorHandling import ValidationError, ResourceNotFoundError, FailedToCreate
+from utils.errorHandling import ValidationError, ResourceNotFoundError
 
 contributors_bp = Blueprint('contributors', __name__)
 @contributors_bp.route('/api/contributors/<int:cid>', methods=['DELETE'])

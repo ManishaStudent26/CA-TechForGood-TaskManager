@@ -1,6 +1,6 @@
 from controllers import external_auth
 from utils.errorHandling import NewsAPIException
-import requests
+from flask import requests
 
 class NewsApiClient(object):
     def __init__(self, api_key):
