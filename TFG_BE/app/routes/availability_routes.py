@@ -14,9 +14,9 @@ from utils.errorHandling import ValidationError, ResourceNotFoundError, FailedTo
 availability_bp = Blueprint('availability', __name__)
 
 @availability_bp.route('/api/availability/<int:uid>', methods=['GET']) # Fixed: methods=
-def getAvailabilitybyUID(uid): # Fixed: Caught URL parameter 'uid'
+def getAvailability(uid): # Fixed: Caught URL parameter 'uid'
     # Fixed: No get_json() needed for GET. Grab from URL directly.
-    get_availability = Availability.getAvailability(uid)
+    get_availability = Availability.getAvailabilitybyUID(uid)
     
     if not get_availability:
         raise ResourceNotFoundError()
