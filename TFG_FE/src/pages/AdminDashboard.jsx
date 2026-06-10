@@ -40,8 +40,8 @@ export default function AdminView(){
 
   return(
     
-  <Box sx={{ p: 4, maxWidth: 1200, margin: '0 auto' }}>
-    <div><ButtonAppBar></ButtonAppBar></div>
+  <Box sx={{ p: 4, width: '100%', margin: '0 auto' }}>
+    <ButtonAppBar/>
         <Typography variant="h4" sx={{ mb: 2, fontWeight: 'bold' }}>
           AdminView
         </Typography>
