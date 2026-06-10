@@ -36,7 +36,7 @@ const handleSubmit = async(event)=> {
     cid:selectedPerson.cid,
     taskid:taskid}                
       const response = await fetch(`http://localhost:5000/api/setOwner`, { 
-        method: 'POST',
+        method: 'PUT',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(assigninfo)})
       if(response.ok){
