@@ -5,7 +5,7 @@ import { AddHours } from '../components/sethours';
 import { AvailabilityTable } from '../components/gethours';
 
 export default function AdminView(){
-     const [volunteer, setVolunteers] = useState([]); // Fixed: Tracks projects instead of tasks
+     const [volunteer, setVolunteers] = useState([]);
      const [loading, setLoading] = useState(true);
      const [errorMessage, setErrorMessage] = useState('');
     const getVolunteers= async () => {
@@ -31,7 +31,7 @@ export default function AdminView(){
       {field:'uid', header:'User ID'},
       {field:'email', header:'Email'},
         {field:'name', header:'Name'},
-      {field:'setAvailability',header:'Set Hours'},
+      {field:'setAvailability',header:'Set Hours', renderCell:params=>(<AddHours uid={params.row.uid}/>)},
       {field:'getAvailability',header:'View Hour', renderCell:params=>(<AvailabilityTable uid={params.row.uid}/>)}
     ];
     if (loading) return <Box sx={{ p: 4 }}><Typography>Loading workspace...</Typography></Box>;
