@@ -10,8 +10,10 @@ import { CreateTaskForm } from '../components/Createforms';
 import { TaskDeleteButton } from '../components/DeleteButtons';
 import { AddVolunteertoProject } from '../components/Contributorfunctions';
 import { AddVolunteertoTask } from '../components/AssignOwner';
+import { useAuth } from '../auth/AuthContext';
 
 export default function TaskView() {
+    const {user}=useAuth
     const { pid } = useParams();
 console.log("pid:", { pid });
     const navigate = useNavigate();
@@ -82,6 +84,7 @@ console.log("pid:", { pid });
     <Typography variant="h4" sx={{ mb: 2, fontWeight: 'bold' }}>
     Tasks and Project Contributors
     </Typography>
+    <Button onClick={() => navigate(`/dashboard/`)}>Back to Dashboard</Button>
     <TabContext value={activeTab}>
      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}> 
       <TabList onChange={handleTabChange}>
