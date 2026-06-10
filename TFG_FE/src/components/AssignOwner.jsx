@@ -34,7 +34,6 @@ const handleSubmit = async(event)=> {
     const assigninfo=
     {uid:selectedPerson.uid,
     cid:selectedPerson.cid,
-    pid:pid,
     taskid:taskid}                
       const response = await fetch(`/api/setOwner`, { 
         method: 'POST',
@@ -86,9 +85,9 @@ return(
           onChange={handleChange}
           label="Volunteer">
     
-    {items.map((item) => (
+    {items.map((item, index) => (
       
-      <MenuItem key={item.uid} value={index}>
+      <MenuItem key={item.cid} value={index}>
         {item.name}
         
       </MenuItem>))}

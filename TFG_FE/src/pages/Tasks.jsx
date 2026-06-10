@@ -9,6 +9,7 @@ import { api } from '../api/api'
 import { CreateTaskForm } from '../components/Createforms';
 import { TaskDeleteButton } from '../components/DeleteButtons';
 import { AddVolunteertoProject } from '../components/Contributorfunctions';
+import { AddVolunteertoTask } from '../components/AssignOwner';
 
 export default function TaskView() {
     const { pid } = useParams();
@@ -53,7 +54,7 @@ console.log("pid:", { pid });
       useEffect(()=>{getContributors()},[pid,]);
 
   const taskColumns=[
-    {field:"assignowner"},
+    {field:"assignowner",renderCell:params=>(<AddVolunteertoTask taskid={params.row.taskid} pid={pid} refreshTasks={getTasks}/>)},
     {field:"taskid"},
     {field:"taskname"},
     {field:"taskowner"},
