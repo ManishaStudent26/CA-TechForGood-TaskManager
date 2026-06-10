@@ -162,7 +162,7 @@ class Task:
       cursor = connection.cursor()
       try:
         query ="""UPDATE Tasks
-        SET task_name=%s, start_date=%s, target_date=%s, task_priority=%s, weight=%s, progress=%s, status=%s
+        SET task_name=%s, start_date=%s, target_date=%s, task_priority=%s, weight=%s, progress=%s, task_status=%s
         WHERE task_id=%s"""
         cursor.execute(query,(taskname,startdate, targetdate, taskpri, weight, progress, status, taskid,))
         connection.commit()
@@ -217,7 +217,7 @@ class Task:
               taskpri=row['task_priority'],
               weight=row['weight'],
               progress=row['progress'],
-              status=row['status'],
+              status=row['task_status'],
               overdue=None)
         finally:
           cursor.close()
