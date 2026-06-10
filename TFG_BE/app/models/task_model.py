@@ -131,7 +131,7 @@ class Task:
             a.progress,
             a.task_status
             FROM Tasks a
-            LEFT JOIN Contributors c on a.uid=c.uid
+            LEFT JOIN ProjectUsers c on a.uid=c.uid
             WHERE c.uid=%s"""
         cursor.execute(query,(uid,))
         rows =cursor.fetchall()

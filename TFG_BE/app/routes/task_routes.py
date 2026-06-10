@@ -121,7 +121,6 @@ def assignowner():
     taskid = data.get('taskid')
     cid = data.get('cid')
     uid = data.get('uid')
-    
     success = Task.assignTaskOwner(uid, taskid, cid)
     if success:
         return jsonify({"message": "Processed"}), 200 # Fixed: Corrected invalid double quote dictionary parsing syntax

@@ -17,6 +17,7 @@ export function AddVolunteertoTask({pid, taskid, refreshTasks}){
   const [volunteer, setVolunteer] = React.useState('');
   const [items, setItems] = React.useState([]);
   const selectedPerson = items[volunteer];;
+  console.log("What is really inside selectedPerson?", selectedPerson);
   const [open, setOpen] = React.useState(false);
   const handleChange = (event) => {
     setVolunteer(event.target.value);};
@@ -33,7 +34,7 @@ const handleSubmit = async(event)=> {
     try{
     const assigninfo=
     {uid:selectedPerson.uid,
-    cid:selectedPerson.cid,
+    cid:selectedPerson.contributor_id,
     taskid:taskid}                
       const response = await fetch(`http://localhost:5000/api/setOwner`, { 
         method: 'PUT',
