@@ -36,7 +36,7 @@ class Availability:
             connection.close()
 
     @classmethod
-    def setAvailability(cls,uid):
+    def setAvailability(cls,uid, week, year, hours):
         connection=get_db_connection()
         cursor=connection.cursor()
         try:
@@ -45,7 +45,7 @@ class Availability:
             ON DUPLICATE KEY UPDATE available_hours = VALUES(available_hours)"""
             cursor.execute(query, (uid, week, year,hours))
             connection.commit()
-            return cursor.rowcount > 0
+            return cursor.rowcount >= 0
         finally:
             cursor.close()
             connection.close()
