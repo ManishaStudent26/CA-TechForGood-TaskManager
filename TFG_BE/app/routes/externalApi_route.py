@@ -8,7 +8,6 @@ newsapi = NewsApiClient(api_key=os.getenv('api_key'))
 
 @news_bp.route('/api/getnews', methods=['GET'])
 def getNews():
-    get_news = newsapi.get_top_headlines(category='technology', country='ie')
+    get_news = newsapi.get_top_headlines(category='technology')
     if get_news['status'] == 'ok':
-        return jsonify(get_news)
-    return jsonify(get_news), 200
+        return jsonify(get_news['articles'[:5]]), 200

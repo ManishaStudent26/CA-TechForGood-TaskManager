@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import { NewsComponent } from './newsapi';
 
 export default function ButtonAppBar() {
   return (
@@ -22,7 +23,7 @@ export default function ButtonAppBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Tech For Good
           </Typography>
-          <Button color='inherit'>Tech News</Button>
+          <NewsComponent color='inherit'/>
           <Button color="inherit" onClick={() => navigate(`/login`)}>Logout</Button>
         </Toolbar>
       </AppBar>
